@@ -17,7 +17,7 @@ El proyecto sigue un enfoque **orientado a objetos**, con pruebas unitarias y UM
 
 - **Tests**
     - Cada clase cuenta con pruebas unitarias (`JUnit`) para validar comportamiento de movimiento, daño, dirección y más.
-    - Cobertura actual: ~83%.
+    - Cobertura actual: ~85%.
 
 - **UML**
     - Diagrama principal de clases y relaciones, incluyendo herencia y composición.
