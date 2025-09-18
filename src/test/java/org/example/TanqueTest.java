@@ -5,13 +5,7 @@ import org.junit.jupiter.api.Test;
 class TanqueTest {
 
 
-   @Test
-   public void noSePuedePonerEnStandBy(){
-       Tanque tanque = new Tanque(new Posicion(10,10));
-       Direccion standby = Direccion.STANDBY;
-       boolean cambioHecho = tanque.cambiarDireccion(standby);
-       assert (!cambioHecho);
-   }
+
    @Test
    public void sePuedeCambiarDireccion(){
        Tanque tanque = new Tanque(new Posicion(10,10));

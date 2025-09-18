@@ -10,4 +10,5 @@ public class Disparo {
     }
     /*revisar si esta estructura es necesaria o si es simplemente
     * anemica*/
+
 }

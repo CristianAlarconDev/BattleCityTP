@@ -1,18 +1,18 @@
 package org.example;
 
 public class Tanque {
-    private Posicion posicion;
-    private int vidasTotales;
-    private  Direccion direccion;
+    protected Posicion posicion;
+    protected int vidasTotales;
+    protected   Direccion direccion;
     Tanque(Posicion posicion){
         this.posicion = posicion;
         this.vidasTotales = 3;
-        this.direccion = Direccion.STANDBY;
+        this.direccion = Direccion.ARRIBA;
     }
     public boolean cambiarDireccion( Direccion direccion){
-        if(direccion.estaEnStandBy()||!estaVivo()){
+        if(!estaVivo()){
             /*revisar si direccion deberia validarse
-            a si misma en standby o lo debe hacer tanque*/
+            */
             return false;
         }
         this.direccion = direccion;
@@ -20,7 +20,7 @@ public class Tanque {
     }
 
     public boolean moverseSegunDireccion( int pasos){
-        if (direccion.estaEnStandBy()||!estaVivo()){
+        if (!estaVivo()){
             return false;
         }
         int ultimaPosicionX= posicion.obtenerCoordenadaX();
