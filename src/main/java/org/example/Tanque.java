@@ -4,6 +4,7 @@ public class Tanque {
     protected Posicion posicion;
     protected int vidasTotales;
     protected   Direccion direccion;
+
     Tanque(Posicion posicion){
         this.posicion = posicion;
         this.vidasTotales = 3;
@@ -34,6 +35,7 @@ public class Tanque {
         posicion.cambiarA(ultimaPosicionX,ultimaPosicionY);
         return true;
     }
+
     public boolean estaEnPosicion(int coordenadaX, int coordenadaY){
         return posicion.esIgualA(coordenadaX,coordenadaY);
     }
