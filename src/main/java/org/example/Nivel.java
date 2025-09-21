@@ -10,7 +10,6 @@ public class Nivel {
     Nivel(int cantJugadores, int dificultad){
 
         jugadores = new ArrayList<>();
-        this
         for (int i = 0; i < cantJugadores; i++){
             Tanque tanque = new Tanque(new Posicion(0,0));
             jugadores.add(tanque);
