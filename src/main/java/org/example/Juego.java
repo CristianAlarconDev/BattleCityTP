@@ -8,7 +8,6 @@ public class Juego {
    private List<Nivel> niveles;
    private int cantJugadores;
 
-
    Juego(int cantJugadores){
       this.niveles = new ArrayList<>();
       this.cantJugadores = cantJugadores;
@@ -17,6 +16,7 @@ public class Juego {
          niveles.add(new Nivel(cantJugadores, 1));
        }
     }
+
     public boolean jugar(){
         return cantJugadores > 0;
     }
