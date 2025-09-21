@@ -4,25 +4,37 @@ public class Bloque {
     private Posicion posicion;
     private int resitencia;
     String tipo;
+
     Bloque(Posicion posicion, String tipo){
         this.posicion = posicion;
         this.tipo = tipo;
 
     }
-    private void setResistencia(String tipo){
-        /*Por tipo setea resistencia*/
-        if (tipo.equals("facil")){
-            resitencia = 1;
-        }
-        else if (tipo.equals("normal")){
-            resitencia = 2;
-        }
-        else if (tipo.equals("dificil")){
-            resitencia = 3;
-        }
-
-
+    public Posicion obtenerPosicion(){
+        return posicion;
     }
+
+    public boolean bloqueaElMovimiento(){
+        if (tipo.equals("bosque")) {
+            return false;
+        }
+        return true;
+    }
+    public boolean bloqueDisparo(){
+        if (tipo.equals("agua")) {
+            return false;
+        }
+        return true;
+    }
+    public boolean recibirDanio(){
+        if (tipo.equals("ladrillo")) {
+            resitencia--;
+            return true;
+        }
+        return false;
+    }
+
+
 
 
 }
