@@ -8,7 +8,7 @@ public class Nivel {
     private List<Tanque> enemigos;
     private List<Bloque> bloques;
     private int dificultad;
-    Nivel(int cantJugadores, int dificultad){
+    Nivel(int cantJugadores, int dificultad, ){
         jugadores = new ArrayList<>();
         enemigos = new ArrayList<>();
         this.dificultad = dificultad;
