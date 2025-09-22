@@ -6,15 +6,17 @@ public class Jugador extends Tanque{
         super(posicion);
         this.nombre = nombre;
     }
-    public void atacar(Direccion direccion){
+    public Disparo atacar(Direccion direccion){
         /*logica de ataque, revisar la de enemigo para
         * polimorfismo*/
         this.cambiarDireccion(direccion);
         Disparo disparo= new Disparo(this.posicion,this.direccion);
+        return disparo;
 
     }
-    public void atacar(){
+    public Disparo atacar(){
         Disparo disparo= new Disparo(this.posicion,this.direccion);
+        return disparo;
     }
 
     public String obtenerNombre(){
