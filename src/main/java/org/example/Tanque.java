@@ -3,14 +3,14 @@ package org.example;
 public class Tanque {
     protected Posicion posicion;
     protected int vidasTotales;
-    protected   Direccion direccion;
+    protected  Direccion direccion;
 
     Tanque(Posicion posicion){
         this.posicion = posicion;
         this.vidasTotales = 3;
         this.direccion = Direccion.ARRIBA;
     }
-    public boolean cambiarDireccion( Direccion direccion){
+    protected boolean cambiarDireccion( Direccion direccion){
         if(!estaVivo()){
             /*revisar si direccion deberia validarse
             */
@@ -20,7 +20,7 @@ public class Tanque {
         return true;
     }
 
-    public boolean moverseSegunDireccion( int pasos){
+    protected boolean moverseSegunDireccion( int pasos){
         if (!estaVivo()){
             return false;
         }
