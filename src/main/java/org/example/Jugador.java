@@ -11,7 +11,6 @@ public class Jugador extends Tanque{
         return new Disparo(obtenerPosicion(), obtenerDireccionActual(), obtenerVelocidadBase());
     }
 
-
     public String getNombre() {
         return nombre;
     }
