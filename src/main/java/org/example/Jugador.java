@@ -2,24 +2,17 @@ package org.example;
 
 public class Jugador extends Tanque{
     private String nombre;
-    Jugador(Posicion posicion, String nombre){
-        super(posicion);
+    public Jugador(String nombre, double x, double y, double velocidadBase) {
+        super(x, y, velocidadBase);
         this.nombre = nombre;
     }
-    public Disparo atacar(Direccion direccion){
-        /*logica de ataque, revisar la de enemigo para
-        * polimorfismo*/
-        this.cambiarDireccion(direccion);
-        Disparo disparo= new Disparo(this.posicion,this.direccion);
-        return disparo;
 
-    }
-    public Disparo atacar(){
-        Disparo disparo= new Disparo(this.posicion,this.direccion);
-        return disparo;
+    public Disparo disparar() {
+        return new Disparo(obtenerPosicion(), obtenerDireccionActual(), obtenerVelocidadBase());
     }
 
-    public String obtenerNombre(){
+
+    public String getNombre() {
         return nombre;
     }
 }
