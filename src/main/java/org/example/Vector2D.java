@@ -33,6 +33,10 @@ public class Vector2D {
     public double obtenerCoordenadaX(){
         return coordenadaX;
     }
+    public boolean esIgualA(Vector2D vector2D){
+        return coordenadaX == vector2D.obtenerCoordenadaX()&&
+        coordenadaY == vector2D.obtenerCoordenadaY();
+    }
     public double obtenerCoordenadaY(){
         return coordenadaY;
     }
