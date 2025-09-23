@@ -1,43 +1,24 @@
 package org.example;
 
 public class Tanque {
-    protected Posicion posicion;
-    protected int vidasTotales;
-    protected  Direccion direccion;
+    protected Vector2D posicion;
+    protected  int vidasTotales;
+    protected double velocidadBase;
 
-    Tanque(Posicion posicion){
-        this.posicion = posicion;
+
+    Tanque(double coordenadaX, double coordenadaY, double velocidadBase){
+        this.posicion = new Vector2D(coordenadaX,coordenadaY);
         this.vidasTotales = 3;
-        this.direccion = Direccion.ARRIBA;
-    }
-    protected boolean cambiarDireccion( Direccion direccion){
-        if(!estaVivo()){
-            /*revisar si direccion deberia validarse
-            */
-            return false;
-        }
-        this.direccion = direccion;
-        return true;
-    }
+        this.velocidadBase = velocidadBase;
 
-    protected boolean moverseSegunDireccion( int pasos){
-        if (!estaVivo()){
-            return false;
-        }
-        int ultimaPosicionX= posicion.obtenerCoordenadaX();
-        int ultimaPosicionY = posicion.obtenerCoordenadaY();
-        switch (direccion){
-            case ARRIBA ->ultimaPosicionY+= pasos;
-            case ABAJO -> ultimaPosicionY-= pasos;
-            case IZQUIERDA -> ultimaPosicionX-= pasos;
-            case DERECHA -> ultimaPosicionX+= pasos;
-        }
-        posicion.cambiarA(ultimaPosicionX,ultimaPosicionY);
-        return true;
     }
-
-    public boolean estaEnPosicion(int coordenadaX, int coordenadaY){
-        return posicion.esIgualA(coordenadaX,coordenadaY);
+    public void mover(Direccion direccion){
+        Vector2D desplazamiento =direccion.comoVector();
+        desplazamiento.multiplicarPor(velocidadBase);
+        this.moverA(desplazamiento);
+    }
+    protected void moverA(Vector2D desplazamiento){
+        posicion.desplazar(desplazamiento);
     }
 
     public boolean estaVivo(){
@@ -51,4 +32,16 @@ public class Tanque {
         vidasTotales--;
         return estaVivo();
     }
+    public Vector2D obtenerPosicion(){
+        return new Vector2D(posicion.obtenerCoordenadaX(),
+                posicion.obtenerCoordenadaY());
+    }
+    /*Esto pensado para powerups*/
+    public void cambiarVelocidadBase(double velocidadBase){
+        this.velocidadBase = velocidadBase;
+    }
+    public double obtenerVelocidadBase(){
+        return velocidadBase;
+    }
+
 }
