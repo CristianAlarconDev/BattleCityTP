@@ -14,7 +14,7 @@ class Vector2DTest {
     @Test
     public void unVector2DSeAgregaUnaCoordenada(){
         Vector2D vector2D = new Vector2D(10,10);
-        vector2D.agregar(10,10);
+        vector2D.desplazar(new Vector2D(10,10));
         assertEquals(20,vector2D.obtenerCoordenadaX());
         assertEquals(20,vector2D.obtenerCoordenadaY());
     }
