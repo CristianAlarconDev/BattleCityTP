@@ -1,56 +1,49 @@
 package org.example;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class TanqueTest {
+    private double xInicial;
+    private double yInicial;
+    private double velocidadBase;
+    private double velocidadBoost;
 
-
-
-   @Test
-   public void sePuedeCambiarDireccion(){
-       Tanque tanque = new Tanque(new Posicion(10,10));
-       Direccion arriba = Direccion.ARRIBA;
-       boolean cambioExitoso = tanque.cambiarDireccion(arriba);
-       assert (cambioExitoso);
-
+    @BeforeEach
+    public void setUp(){
+        xInicial = 0;
+        yInicial = 0;
+        velocidadBase = 2;
+        velocidadBoost = 5;
+    }
+    @Test
+    public void tanqueTieneEstadoInicial(){
+       Tanque tanque = new Tanque(xInicial, yInicial, velocidadBase);
+       assert(tanque.estaEnPosicion(0, 0));
+       assert(tanque.estaVivo());
    }
    @Test
-   public void sePuedeMoverTanqueSegunDireccion(){
-        Tanque tanque = new Tanque(new Posicion(10,10));
-
-        tanque.cambiarDireccion(Direccion.ARRIBA);
-
-        boolean movimientoExitoso=tanque.moverseSegunDireccion(1);
-
-        assert (movimientoExitoso);
+   public void moverTanqueALaDerechaConVelocidadBase2() {
+       Tanque tanque = new Tanque(xInicial, yInicial, velocidadBase);
+       tanque.mover(Direccion.DERECHA);
+       assert(tanque.estaEnPosicion(2,0));
    }
-   @Test
-   public void luegoDeMoverseTieneOtraPosicion(){
-       Tanque tanque = new Tanque(new Posicion(10,10));
-       tanque.cambiarDireccion(Direccion.ARRIBA);
-       tanque.moverseSegunDireccion(1);
+    @Test
+    public void testMoverDerechaConVelocidadBase5() {
 
-       assert (tanque.estaEnPosicion(10,11));
-   }
-   @Test
-   public void unTanqueTieneVidasTotales(){
-       Tanque tanque = new Tanque(new Posicion(10,10));
-       assert (tanque.estaVivo());
-   }
-   @Test
-   public void unTanquePuedeRecibirDanio(){
-       Tanque tanque = new Tanque(new Posicion(10,10));
-       boolean recibioDanio=tanque.recibirDanio();
-       assert (recibioDanio);
+        Tanque tanque = new Tanque(xInicial, yInicial, velocidadBoost);
+        tanque.mover(Direccion.DERECHA);
+        assert(tanque.estaEnPosicion(5, 0));
+    }
+    @Test
+    void testMovimientoCompuesto() {
+        Tanque tanque = new Tanque(xInicial, yInicial, velocidadBase);
+        double velocidad = 3;
+        tanque.mover(Direccion.ARRIBA);
+        tanque.cambiarVelocidadBase(velocidad);
+        tanque.mover(Direccion.DERECHA);
 
-   }
+        assert(tanque.estaEnPosicion(3, -2));
+    }
 
-   @Test
-    public void unTanqueYaNoTieneVidas(){
-       Tanque tanque = new Tanque(new Posicion(10,10));
-       tanque.recibirDanio();
-       tanque.recibirDanio();
-       tanque.recibirDanio();
-       assert (!tanque.estaVivo());
-   }
 }
