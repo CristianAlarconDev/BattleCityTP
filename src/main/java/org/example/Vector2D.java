@@ -9,14 +9,15 @@ public class Vector2D {
         this.coordenadaX = coordenadaX;
         this.coordenadaY = coordenadaY;
     }
-    public void agregar(double coordenadaX, double coordenadaY){
-        this.coordenadaX += coordenadaX;
-        this.coordenadaY += coordenadaY;
+    public void desplazar(Vector2D vector2D){
+        this.coordenadaX += vector2D.obtenerCoordenadaX();
+        this.coordenadaY += vector2D.obtenerCoordenadaY();
     }
     public void multiplicarPor(double factor){
         this.coordenadaX *= factor;
         this.coordenadaY *= factor;
     }
+
     /*prueba para invertir coordenadas
      cuando llegue al limites del tablero*/
     public void invertirCoordenadaX(){
