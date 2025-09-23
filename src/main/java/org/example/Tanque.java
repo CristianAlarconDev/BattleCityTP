@@ -36,6 +36,9 @@ public class Tanque {
         return new Vector2D(posicion.obtenerCoordenadaX(),
                 posicion.obtenerCoordenadaY());
     }
+    public boolean estaEnPosicion(double coordenadaX, double coordenadaY){
+        return this.posicion.esIgualA(new Vector2D(coordenadaX,coordenadaY));
+    }
     /*Esto pensado para powerups*/
     public void cambiarVelocidadBase(double velocidadBase){
         this.velocidadBase = velocidadBase;
