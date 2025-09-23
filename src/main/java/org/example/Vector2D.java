@@ -19,7 +19,7 @@ public class Vector2D {
     }
 
     /*prueba para invertir coordenadas
-     cuando llegue al limites del tablero*/
+     cuando llegue al limite del tablero*/
     public void invertirCoordenadaX(){
         this.coordenadaX = -this.coordenadaX;
     }
