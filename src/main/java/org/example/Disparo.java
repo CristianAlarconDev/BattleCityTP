@@ -30,11 +30,4 @@ public class Disparo {
         this.activo = false;
         return estaActivo();
     }
-
-    public void verificarFueraDeLimite(double ancho, double alto) {
-        if (posicion.obtenerCoordenadaX() < 0 || posicion.obtenerCoordenadaX() > ancho ||
-                posicion.obtenerCoordenadaY() < 0 || posicion.obtenerCoordenadaY() > alto) {
-            this.activo = false;
-        }
-    }
 }
