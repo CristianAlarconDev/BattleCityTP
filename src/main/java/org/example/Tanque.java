@@ -4,18 +4,24 @@ public class Tanque {
     protected Vector2D posicion;
     protected  int vidasTotales;
     protected double velocidadBase;
+    protected Direccion direccionActual;
 
 
     Tanque(double coordenadaX, double coordenadaY, double velocidadBase){
         this.posicion = new Vector2D(coordenadaX,coordenadaY);
         this.vidasTotales = 3;
         this.velocidadBase = velocidadBase;
+        this.direccionActual = Direccion.ARRIBA;
 
+    }
+    protected Direccion obtenerDireccionActual(){
+        return direccionActual;
     }
     public void mover(Direccion direccion){
         Vector2D desplazamiento =direccion.comoVector();
         desplazamiento.multiplicarPor(velocidadBase);
         this.moverA(desplazamiento);
+        this.direccionActual = direccion;
     }
     protected void moverA(Vector2D desplazamiento){
         posicion.desplazar(desplazamiento);
@@ -43,6 +49,7 @@ public class Tanque {
     public void cambiarVelocidadBase(double velocidadBase){
         this.velocidadBase = velocidadBase;
     }
+
     public double obtenerVelocidadBase(){
         return velocidadBase;
     }
