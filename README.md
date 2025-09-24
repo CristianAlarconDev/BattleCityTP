@@ -1,39 +1,53 @@
-# BattleCity - Java
+# 🎮 TP1: YABC - Yet Another Battle City
 
-¡Bienvenido a BattleCity, un proyecto de simulación de tanques en Java!  
-Este proyecto se centra en la lógica del juego y el modelado de clases siguiendo todos los principios
-POO/Diseño antes de incorporar la interfaz gráfica.
-
----
-
-## Descripción
-
-El objetivo es crear un juego estilo "Battle City", donde jugadores y enemigos se mueven por un tablero, disparan y reciben daño.  
-El proyecto sigue un enfoque **orientado a objetos**, con pruebas unitarias y UML para planificar las relaciones entre entidades.
+Trabajo Práctico 1 de **Paradigmas de Programación - FIUBA**  
+Aplicación de conceptos de **POO, Principios de Programación e Interfaces Gráficas (JavaFX).**
 
 ---
 
-## Estructura del Proyecto
+## 👥 Integrantes
 
-- **Tests**
-    - Cada clase cuenta con pruebas unitarias (`JUnit`) para validar comportamiento de movimiento, daño, dirección y más.
-    - Cobertura actual: ~85%.
-
-- **UML**
-    - Diagrama principal de clases y relaciones, incluyendo herencia y composición.
-    - Documentado en PlantUML (`.puml`).
-![Diagrama UML](src/UML/UMLTP1.png)
-
-## Requisitos
-
-- Java 17+
-- IDE recomendado: IntelliJ IDEA
-- Maven para gestión de dependencias y compilación
+- Juan Ignacio Martinez
+- Cristian Alarcon
 
 ---
 
-## Ejecución
+## 🎯 Objetivo
 
-1. Clonar el repositorio(por ahora, luego se definira mejor):
-   ```bash
-   git clone https://github.com/tuusuario/tank-game.git
+El jugador controla un tanque cuyo objetivo es **defender la base (águila)** ubicada en el mapa, mientras destruye todos los tanques enemigos.
+
+- El nivel se completa al derrotar a todos los enemigos (incluyendo los que aparecen por *spawning*).
+- El juego termina en **victoria** si se completan los 3 niveles.
+- El juego termina en **derrota** si:
+    - La base es destruida (un solo disparo).
+    - Todos los jugadores pierden todas sus vidas.
+
+---
+
+## 👥 Jugabilidad
+
+- Modo **individual** o **cooperativo** (2 jugadores).
+- Movimiento en cuatro direcciones: arriba, abajo, izquierda, derecha.
+- Cada tanque puede tener **un disparo activo** a la vez.
+- Cada jugador inicia cada nivel con **3 vidas**.
+- Si un disparo colisiona con otro, ambos se destruyen.
+- Si un jugador muere, el otro puede continuar.
+
+**Controles:**
+- Jugador 1 → `WASD` para moverse, `ESPACIO` para disparar.
+- Jugador 2 → Flechas del teclado para moverse, `ENTER` para disparar.
+
+---
+
+
+
+## 🔄 Flujo del juego
+
+1. Pantalla de inicio → selección de partida.
+2. Se inicia el **primer nivel**.
+3. El juego continúa mientras al menos un jugador esté vivo.
+    - Si ambos jugadores mueren → cartel de derrota + vuelta al inicio.
+4. Al derrotar todos los enemigos → se pasa al siguiente nivel.
+5. Tras completar el **tercer nivel** → cartel de victoria + regreso al inicio.
+
+---
