@@ -1,32 +1,52 @@
+
 package org.example;
+
 public class Enemigo {
     private Tanque tanque;
     private long ultimoMovimiento;
     private long ultimoDisparo;
-    private final long INTERVALO_MOVIMIENTO = 1000; // 1 segundo
-    private final long INTERVALO_DISPARO = 2000;    // 2 segundos
+    private  long INTERVALO_MOVIMIENTO = 1000;
+    private  long INTERVALO_DISPARO = 2000;
     private Direccion direccionActual;
-    private double velocidad;
+    //private double velocidad;
+    private int pasosMaximos;
 
-    public Enemigo(double x, double y, double velocidadBase) {
-        tanque = new Tanque(x, y, velocidadBase);
+    public Enemigo(double coordenadaX, double coordenadaY, double velocidadBase) {
+        tanque = new Tanque(coordenadaX, coordenadaY, velocidadBase);
         ultimoMovimiento = System.currentTimeMillis();
         ultimoDisparo = System.currentTimeMillis();
+        //velocidad=tanque.obtenerVelocidadBase();
         direccionActual = Direccion.ABAJO;
-        velocidad=tanque.obtenerVelocidadBase();
 
     }
+    public Enemigo(double coordenadaX, double coordenadaY,
+                   double velocidadBase, long intervaloMovimiento) {
+        this(coordenadaX, coordenadaY, velocidadBase);
+        INTERVALO_MOVIMIENTO = intervaloMovimiento;
 
-    public void mover() {
+
+    }
+    public Enemigo(double coordenadaX, double coordenadaY, double velocidadBase,
+                   long intervaloMovimiento, int pasosMaximos) {
+        this(coordenadaX, coordenadaY, velocidadBase, intervaloMovimiento);
+        this.pasosMaximos = pasosMaximos;
+    }
+    public boolean mover() {
         long tiempoActual = System.currentTimeMillis();
-
         if (tiempoActual - ultimoMovimiento >= INTERVALO_MOVIMIENTO) {
             direccionActual = elegirDireccionAleatoria();
-            tanque.mover(direccionActual);
+            actualizarPosicion(direccionActual);
             ultimoMovimiento = tiempoActual;
+            return true;
+        }
+        return false;
+    }
+    private void actualizarPosicion(Direccion direccion) {
+        int pasos = 1 + (int)(Math.random() * pasosMaximos);
+        for (int i = 0; i < pasos; i++) {
+            tanque.mover(direccion);
         }
     }
-
     public Disparo disparar() {
         long tiempoActual = System.currentTimeMillis();
 
@@ -38,13 +58,8 @@ public class Enemigo {
         return null;
     }
 
-
     public Vector2D obtenerPosicion() {
         return tanque.obtenerPosicion();
-    }
-
-    public boolean estaVivo() {
-        return tanque.estaVivo();
     }
 
     public boolean recibirDanio() {
