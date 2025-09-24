@@ -23,7 +23,7 @@ public class Tanque {
         this.moverA(desplazamiento);
         this.direccionActual = direccion;
     }
-    protected void moverA(Vector2D desplazamiento){
+    private void moverA(Vector2D desplazamiento){
         posicion.desplazar(desplazamiento);
     }
 

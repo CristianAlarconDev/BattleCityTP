@@ -18,6 +18,7 @@ public class Enemigo extends Tanque{
     public Disparo disparar(){
         return new Disparo(obtenerPosicion(), obtenerDireccionActual(), obtenerVelocidadBase());
     }
-
-
+/*un comentario*/
+/*otro comentario*/
+    /*tercer comentario*/
 }
