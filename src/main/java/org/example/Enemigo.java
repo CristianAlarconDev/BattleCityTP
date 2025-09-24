@@ -23,8 +23,6 @@ public class Enemigo {
                    double velocidadBase, long intervaloMovimiento) {
         this(coordenadaX, coordenadaY, velocidadBase);
         INTERVALO_MOVIMIENTO = intervaloMovimiento;
-
-
     }
     public Enemigo(double coordenadaX, double coordenadaY, double velocidadBase,
                    long intervaloMovimiento, int pasosMaximos) {
