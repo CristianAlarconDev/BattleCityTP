@@ -22,9 +22,5 @@ class NivelTest {
         nivel.agregarJugador(jugador);
         assertFalse(nivel.moverJugador(1, Direccion.ARRIBA));
     }
-    @Test
-    public void nivelAgregaYMueveUnEnemigo(){
-
-    }
 
 }
