@@ -22,7 +22,7 @@ class JugadorTest {
     @Test
     public void disparoSeGeneraEnPosicionJugador(){
         Jugador jugador = new Jugador("Jugador", xInicial, yInicial, velocidadBase);
-        Disparo disparo = jugador.disparar();
+        Disparo disparo = jugador.intentarDisparar();
 
         assert(disparo.estaEnPosicion(jugador.obtenerPosicion()));
     }
@@ -30,7 +30,7 @@ class JugadorTest {
     public void disparoSeMueveEnDireccionDelJugador(){
         Jugador jugador = new Jugador("Jugador", xInicial, yInicial, velocidadBase);
         jugador.mover(derecha);
-        Disparo disparo = jugador.disparar();
+        Disparo disparo = jugador.intentarDisparar();
 
         assert (disparo.estaEnDireccion(derecha));
 
@@ -41,7 +41,7 @@ class JugadorTest {
         Jugador jugador = new Jugador("Jugador", xInicial, yInicial, velocidadBase);
 
         jugador.mover(arriba);
-        Disparo disparo = jugador.disparar();
+        Disparo disparo = jugador.intentarDisparar();
         jugador.mover(derecha);
 
         assert(disparo.estaEnDireccion(arriba));
