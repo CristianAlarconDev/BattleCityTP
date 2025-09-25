@@ -9,13 +9,24 @@ public class Vector2D {
         this.coordenadaX = coordenadaX;
         this.coordenadaY = coordenadaY;
     }
+
+    //metodos nuevos de vector2d basado en la forma de uso o para mejor legibilidad
+    public Vector2D copiar(){
+        return new Vector2D(coordenadaX,coordenadaY);
+    }
+    public Vector2D escalado(double factor){
+        return new Vector2D(coordenadaX*factor,
+                coordenadaY*factor);
+    }
+    public Vector2D sumadoA(Vector2D vector2D){
+        return new Vector2D(coordenadaX+vector2D.obtenerCoordenadaX(),
+                coordenadaY+vector2D.obtenerCoordenadaY());
+    }
+    //fin metodos
+
     public void desplazar(Vector2D vector2D){
         this.coordenadaX += vector2D.obtenerCoordenadaX();
         this.coordenadaY += vector2D.obtenerCoordenadaY();
-    }
-    public void multiplicarPor(double factor){
-        this.coordenadaX *= factor;
-        this.coordenadaY *= factor;
     }
 
     /*prueba para invertir coordenadas
