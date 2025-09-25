@@ -7,17 +7,25 @@ public class Disparo {
     private Direccion direccion;
 
     public Disparo(Vector2D posicion, Direccion direccion, double velocidadBase) {
-        this.posicion = posicion;
-        this.velocidad = direccion.comoVector();
-        this.velocidad.multiplicarPor(velocidadBase);
+        this.posicion = posicion.copiar();
         this.direccion = direccion;
         this.activo = true;
-    }
+        this.velocidad = direccion.comoVector().escalado(velocidadBase);
 
+    }
+    public void mover(double tiempo){
+        if (!activo) return;
+        Vector2D delta = velocidad.escalado(tiempo);
+        this.posicion = posicion.sumadoA(delta);
+    }
     public void mover() {
         if (!activo) return;
-        posicion.desplazar(velocidad);
+        mover(1);
     }
+    public void desactivar(){
+        this.activo=false;
+    }
+
     /*no se usa pero puede servir para visualizar en capas superiores*/
     public Vector2D obtenerPosicion() {
         return new Vector2D(posicion.obtenerCoordenadaX(),
@@ -25,20 +33,15 @@ public class Disparo {
     }
     /*fin comentario*/
 
-    public boolean estaEnPosicion(Vector2D vector2D){
+    public boolean estaEnPosicion(Vector2D vector2D) {
         return this.posicion.esIgualA(vector2D);
     }
-    public boolean estaEnDireccion(Direccion direccion){
+
+    public boolean estaEnDireccion(Direccion direccion) {
         return this.direccion == direccion;
     }
 
     public boolean estaActivo() {
         return activo;
     }
-    /*no se usa pero puede servir para desactivar al disparo en capas superiores*/
-    public boolean desactivar() {
-        this.activo = false;
-        return estaActivo();
-    }
-    /*fin comentario*/
 }
