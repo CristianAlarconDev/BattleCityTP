@@ -28,8 +28,7 @@ public class Disparo {
 
     /*no se usa pero puede servir para visualizar en capas superiores*/
     public Vector2D obtenerPosicion() {
-        return new Vector2D(posicion.obtenerCoordenadaX(),
-                posicion.obtenerCoordenadaY());
+        return posicion.copiar();
     }
     /*fin comentario*/
 
