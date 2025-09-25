@@ -21,7 +21,20 @@ class DisparoTest {
         assert(disparo.estaEnPosicion(new Vector2D(4, 0)));
 
     }
+    @Test
+    public void unDisparoEstaActivoAlCrearse(){
+        Disparo disparo = new Disparo(new Vector2D(0,0),
+                Direccion.ARRIBA, 2);
+        assertTrue(disparo.estaActivo());
 
+    }
+    @Test
+    public void unDisparoSePuedeDesactivar(){
+        Disparo disparo = new Disparo(new Vector2D(0,0),
+                Direccion.ARRIBA, 2);
+        disparo.desactivar();
+        assertFalse(disparo.estaActivo());
+    }
 
 
 }
