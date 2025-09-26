@@ -1,28 +1,30 @@
 package org.example;
 
 public class Posicion {
-    private int coordenadaX;
-    private int coordenadaY;
-    Posicion(int coordenadaX, int coordenadaY){
-        this.coordenadaX = coordenadaX;
-        this.coordenadaY = coordenadaY;
-    }
-    public void cambiarA(int coordenadaX, int coordenadaY){
-        /*validar que las coordenadas esten dentro del tablero*/
-        /*validar que la nueva posicion no sea la misma*/
-        this.coordenadaX = coordenadaX;
-        this.coordenadaY = coordenadaY;
+    private int fila;
+    private int columna;
+
+    Posicion(int coordenadaX, int coordenadaY) {
+        this.fila = coordenadaX;
+        this.columna = coordenadaY;
     }
 
-    public boolean esIgualA(int coordenadaX, int coordenadaY){
-        return this.coordenadaX == coordenadaX
-                && this.coordenadaY == coordenadaY;
+    public int getCoordenadaX() {
+        return fila;
+    }
 
+    public int getCoordenadaY() {
+        return columna;
     }
-    public int obtenerCoordenadaX(){
-        return coordenadaX;
+
+    public void cambiarA(int coordenadaX, int coordenadaY) {
+        this.fila = coordenadaX;
+        this.columna = coordenadaY;
     }
-    public int obtenerCoordenadaY(){
-        return coordenadaY;
+
+    public boolean esIgualA(int coordenadaX, int coordenadaY) {
+        return this.fila == coordenadaX
+                && this.columna == coordenadaY;
+
     }
 }
