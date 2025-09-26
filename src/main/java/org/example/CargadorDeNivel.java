@@ -75,10 +75,12 @@ public class CargadorDeNivel {
 
             double fila = coordenaday / altoCelda;
             double columna = coordenadax / anchoCelda;
-
-
-            Tanque jugador = new Tanque(columna, fila, 0);
+            /*otra forma de sumar jugador*/
+            Jugador jugador = new Jugador("Jugador1", columna, fila, 2);
             nivel.agregarJugador(jugador);
+            /*
+            Tanque jugador = new Tanque(columna, fila, 0);
+            nivel.agregarJugador(jugador);*/
         }
 
         // 6. Cargar enemigos
@@ -91,9 +93,12 @@ public class CargadorDeNivel {
 
             double fila = coordenaday / altoCelda;
             double columna = coordenadax / anchoCelda;
-            Tanque enemigo = new Tanque(columna, fila, 0);
-
+            /*otra forma de sumar enemigo*/
+            Enemigo enemigo = new Enemigo(columna, fila, 2, 2000);
             nivel.agregarEnemigo(enemigo);
+            /*
+            Tanque enemigo = new Tanque(columna, fila, 0);
+            nivel.agregarEnemigo(enemigo);*/
         }
         return nivel;
     }
