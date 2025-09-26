@@ -1,40 +1,22 @@
 package org.example;
 
-public class Bloque {
-    private Posicion posicion;
-    private int resitencia;
-    String tipo;
+public abstract class Bloque {
+    protected Vector2D posicion;
 
-    Bloque(Posicion posicion, String tipo){
-        this.posicion = posicion;
-        this.tipo = tipo;
-
-    }
-    public Posicion obtenerPosicion(){
-        return posicion;
-    }
-
-    public boolean bloqueaElMovimiento(){
-        if (tipo.equals("bosque")) {
-            return false;
-        }
-        return true;
-    }
-    public boolean bloqueDisparo(){
-        if (tipo.equals("agua")) {
-            return false;
-        }
-        return true;
-    }
-    public boolean recibirDanio(){
-        if (tipo.equals("ladrillo")) {
-            resitencia--;
-            return true;
-        }
-        return false;
+    public Bloque(double coordenadaX, double coordenadaY){
+        this.posicion = new Vector2D(coordenadaX,coordenadaY);
     }
 
 
+    public Vector2D obtenerPosicion(){
+        return new Vector2D(posicion.obtenerCoordenadaX(),
+                posicion.obtenerCoordenadaY());
+    }
+
+    public abstract boolean bloqueaPasoTanque();
+    public abstract boolean bloqueaDisparo();
+    public abstract boolean esDestructible();
+    public abstract void recibeimpacto();
 
 
 }
