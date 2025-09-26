@@ -1,4 +1,4 @@
-package org.example;
+package org.modelo;
 
 public abstract class Bloque {
     protected Vector2D posicion;

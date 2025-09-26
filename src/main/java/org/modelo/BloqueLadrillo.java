@@ -1,4 +1,4 @@
-package org.example;
+package org.modelo;
 
 public class BloqueLadrillo extends Bloque{
     private int resistencia;

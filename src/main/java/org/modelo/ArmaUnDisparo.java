@@ -1,4 +1,4 @@
-package org.example;
+package org.modelo;
 
 public class ArmaUnDisparo {
     private Disparo disparoEnCurso;

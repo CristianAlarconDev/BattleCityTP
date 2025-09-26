@@ -1,4 +1,4 @@
-package org.example;
+package org.modelo;
 
 import org.w3c.dom.*;
 import javax.xml.parsers.*;

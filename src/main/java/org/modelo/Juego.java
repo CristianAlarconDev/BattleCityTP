@@ -1,10 +1,9 @@
-package org.example;
+package org.modelo;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 public class Juego {
     private List<Nivel> niveles;
     private int nivelActual;

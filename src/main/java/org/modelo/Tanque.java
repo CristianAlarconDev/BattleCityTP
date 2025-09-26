@@ -1,4 +1,4 @@
-package org.example;
+package org.modelo;
 
 public class Tanque {
     protected Vector2D posicion;

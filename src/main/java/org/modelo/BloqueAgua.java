@@ -1,8 +1,7 @@
-package org.example;
+package org.modelo;
 
-public class BloqueAcero extends Bloque {
-
-    public BloqueAcero(Vector2D posicion) {
+public class BloqueAgua extends Bloque{
+    public BloqueAgua(Vector2D posicion) {
         super(posicion.obtenerCoordenadaX(), posicion.obtenerCoordenadaY());
     }
 
@@ -13,7 +12,7 @@ public class BloqueAcero extends Bloque {
 
     @Override
     public boolean bloqueaDisparo() {
-        return true;
+        return false;
     }
 
     @Override

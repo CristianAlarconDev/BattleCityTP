@@ -1,18 +1,19 @@
-package org.example;
+package org.modelo;
 
-public class BloqueBosque extends Bloque {
-    public BloqueBosque(Vector2D posicion) {
+public class BloqueAcero extends Bloque {
+
+    public BloqueAcero(Vector2D posicion) {
         super(posicion.obtenerCoordenadaX(), posicion.obtenerCoordenadaY());
     }
 
     @Override
     public boolean bloqueaPasoTanque() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean bloqueaDisparo() {
-        return false;
+        return true;
     }
 
     @Override
@@ -24,9 +25,4 @@ public class BloqueBosque extends Bloque {
     public void recibeimpacto() {
         // No hace nada
     }
-
-    public boolean ocultaTanque() {
-        return true; // la vista puede usar esto para dibujar tanques ocultos
-    }
-
 }
