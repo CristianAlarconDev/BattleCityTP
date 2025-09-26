@@ -10,7 +10,7 @@ import javafx.scene.text.Font;
 
 public class MenuView {
 
-    public Scene create(Runnable onPlay){
+    public static Scene create(Runnable onPlay){
         Label titulo = new Label("Yet Another Battle City");
         titulo.setFont(Font.font("System", 28));
         titulo.setStyle("-fx-text-fill: #ff0000");
