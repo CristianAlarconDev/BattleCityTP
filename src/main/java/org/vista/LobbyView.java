@@ -15,7 +15,7 @@ import java.util.function.IntConsumer;
 
 
 public class LobbyView {
-    public Scene create(IntConsumer onStart, Runnable onBack){
+    public static Scene create(IntConsumer onStart, Runnable onBack){
         Label titulo= new Label("Configuracion de partida");
         titulo.setFont(Font.font("System", 24));
         titulo.setStyle("-fx-text-fill: white");
