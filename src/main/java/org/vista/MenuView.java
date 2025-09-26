@@ -13,7 +13,7 @@ public class MenuView {
     public static Scene create(Runnable onPlay){
         Label titulo = new Label("Yet Another Battle City");
         titulo.setFont(Font.font("System", 28));
-        titulo.setStyle("-fx-text-fill: #ff0000");
+        titulo.setStyle("-fx-text-fill: #e2e8f0");
 
         Button jugarBtn = new Button("Jugar");
         Button salirBtn = new Button("Salir");
@@ -30,6 +30,8 @@ public class MenuView {
 
         VBox root = new VBox(titulo, jugarBtn, salirBtn);
         root.setAlignment(Pos.CENTER);
+
+        root.setStyle("-fx-padding: 40; -fx-background-color: #000000");
 
         jugarBtn.setStyle("-fx-background-radius: 12");
         salirBtn.setStyle("-fx-background-radius: 12");
