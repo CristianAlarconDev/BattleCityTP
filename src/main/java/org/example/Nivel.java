@@ -6,15 +6,30 @@ import java.util.List;
 public class Nivel {
     private static final int FILAS = 30;
     private static final int COLUMNAS = 40;
+    private long inicioNivelMs;
+    private long duracionNivelMs;
+    private EstadoNivel estadoNivel;
 
     private final List<Tanque> jugadores;
     private final List<Enemigo> enemigos;
     private final Bloque[][] grilla;
 
-    public Nivel(int cantJugadores){
+    public Nivel(int cantJugadores, long duracionNivelMs){
         jugadores = new ArrayList<>();
         enemigos = new ArrayList<>();
         this.grilla = new Bloque[FILAS][COLUMNAS];
+        inicioNivelMs = System.currentTimeMillis();
+        estadoNivel=EstadoNivel.EN_CURSO;
+
+    }
+    public boolean enCurso(){
+        return estadoNivel==EstadoNivel.EN_CURSO;
+    }
+    public boolean terminoEnVictoria(){
+        return estadoNivel==EstadoNivel.VICTORIA;
+    }
+    public boolean terminoEnDerrota(){
+        return estadoNivel==EstadoNivel.DERROTA;
     }
 
     public void agregarJugador(Tanque jugador){
