@@ -32,7 +32,7 @@ public class CargadorDeNivel {
         document.getDocumentElement().normalize();
 
 
-        Nivel nivel = new Nivel(2);
+        Nivel nivel = new Nivel(2, 60_000);
 
         // 1. Leer dimensiones del nivel
         Element root = document.getDocumentElement(); // <levelConfig>
