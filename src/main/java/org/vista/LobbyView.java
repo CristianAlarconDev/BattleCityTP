@@ -3,9 +3,9 @@ package org.vista;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+
 import javafx.scene.text.Font;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -33,13 +33,9 @@ public class LobbyView {
         Button regresarBtn = new Button("Regresar");
         Button comenzarBtn = new Button("Comenzar");
 
-        regresarBtn.setOnAction(e -> {
-            onBack.run();
-        });
+        regresarBtn.setOnAction(e -> onBack.run());
 
-        comenzarBtn.setOnAction(e -> {
-            onStart.accept(jugadores.getValue());
-        });
+        comenzarBtn.setOnAction(e -> onStart.accept(jugadores.getValue()));
 
         HBox botonesBox = new HBox(10,regresarBtn,comenzarBtn);
         botonesBox.setAlignment(Pos.CENTER);
@@ -52,7 +48,5 @@ public class LobbyView {
         return new Scene(root, 800, 600);
 
     }
-
-
 
 }
