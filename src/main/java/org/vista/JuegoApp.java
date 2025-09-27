@@ -1,17 +1,9 @@
 package org.vista;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Menu;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class JuegoApp extends Application {
-    private final int FILAS = 30;
-    private final int COLUMNAS = 40;
-    private final int CELDA = 20;
     private Stage stage;
 
     @Override
