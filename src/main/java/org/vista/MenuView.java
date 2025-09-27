@@ -21,12 +21,8 @@ public class MenuView {
         jugarBtn.setPrefWidth(220);
         salirBtn.setPrefWidth(220);
 
-        jugarBtn.setOnAction(e -> {
-            onPlay.run();
-        });
-        salirBtn.setOnAction(e -> {
-            Platform.exit();
-        });
+        jugarBtn.setOnAction(e -> onPlay.run());
+        salirBtn.setOnAction(e -> Platform.exit());
 
         VBox root = new VBox(titulo, jugarBtn, salirBtn);
         root.setAlignment(Pos.CENTER);
