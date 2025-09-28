@@ -13,20 +13,6 @@ public class JuegoApp extends Application {
         stage.setTitle("Yet Another Battle City");
         mostrarMenu();
         stage.show();
-
-
-        //prueba de inputs
-        /*
-        scene.setOnKeyPressed(e -> {
-            switch (e.getCode()) {
-                case W ->System.out.println("W");
-                case A -> System.out.println("A");
-                case S -> System.out.println("S");
-                case D -> System.out.println("D");
-                default -> System.out.println("No se ha pulsado ninguna tecla");
-            }
-        });
-        */
     }
     private void mostrarMenu()
     {
@@ -38,14 +24,12 @@ public class JuegoApp extends Application {
         Scene lobby = LobbyView.create(this::inciarPartida,
             this::mostrarMenu);
         stage.setScene(lobby);
-
-
     }
 
     private void inciarPartida(int cantidadJugadores){
-
         JuegoController controller = new JuegoController(cantidadJugadores);
-        Scene tablero = TableroView.crearTableroView(controller);
+        Scene tablero = new TableroView(controller).crearTableroView();
+
         stage.setScene(tablero);
     }
 
