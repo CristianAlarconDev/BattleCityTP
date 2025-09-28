@@ -2,6 +2,7 @@ package org.vista;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.controlador.JuegoController;
 
 public class JuegoApp extends Application {
     private Stage stage;
@@ -12,16 +13,8 @@ public class JuegoApp extends Application {
         stage.setTitle("Yet Another Battle City");
         mostrarMenu();
         stage.show();
-        /*
-        Canvas canvas = new Canvas(COLUMNAS * CELDA, FILAS * CELDA);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        dibujarTablero(gc);
 
-       StackPane root = new StackPane(canvas);
-        Scene scene = new Scene(root);
-        stage.setTitle("Yet Another Battle City");
-       stage.setScene(scene);
-        stage.show();*/
+
         //prueba de inputs
         /*
         scene.setOnKeyPressed(e -> {
@@ -50,19 +43,12 @@ public class JuegoApp extends Application {
     }
 
     private void inciarPartida(int cantidadJugadores){
-        System.out.println("Iniciando partida con " + cantidadJugadores + " jugadores");
-        mostrarMenu();
+
+        JuegoController controller = new JuegoController(cantidadJugadores);
+        Scene tablero = TableroView.crearTableroView(controller);
+        stage.setScene(tablero);
     }
-    /*
-    private void dibujarTablero(GraphicsContext gc) {
-        gc.setFill(Color.LIGHTGRAY);
-        for (int fila = 0; fila < FILAS; fila++) {
-            for (int columna = 0; columna < COLUMNAS; columna++) {
-                gc.fillRect(columna * CELDA, fila * CELDA, CELDA, CELDA);
-            }
-        }
-    }
-*/
+
     public static void main(String[] args) {
         launch(args);
     }
