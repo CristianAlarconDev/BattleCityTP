@@ -56,8 +56,8 @@ public class TableroView {
         int i=0;
         for (Jugador jugador: controller.obtenerJugadores()){
             graphicsContext.setFill(i == 0? Color.BLUE:Color.RED);
-            graphicsContext.fillRect(jugador.obtenerPosicion().obtenerCoordenadaX(),
-                    jugador.obtenerPosicion().obtenerCoordenadaY(), CELDA, CELDA);
+            graphicsContext.fillRect(jugador.obtenerCoordenadaX(),
+                    jugador.obtenerCoordenadaY(), CELDA, CELDA);
             i++;
         }
     }
