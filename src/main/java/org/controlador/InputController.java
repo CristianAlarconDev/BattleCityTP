@@ -16,6 +16,7 @@ public class InputController {
     }
     public void presionarTecla(KeyCode tecla){
         teclasActivas.add(tecla);
+        procesarTecla();
     }
     public void  soltarTecla(KeyCode tecla){
         teclasActivas.remove(tecla);
