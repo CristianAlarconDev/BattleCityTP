@@ -1,9 +1,6 @@
 package org.controlador;
 
-import javafx.scene.Scene;
-
 import org.modelo.Direccion;
-import org.modelo.JuegoBattle;
 import org.modelo.Jugador;
 
 import java.util.ArrayList;
@@ -13,7 +10,7 @@ public class JuegoController {
 
     private final List<Jugador> jugadores;
     public JuegoController(int  cantJugadores) {
-        //this.juego = new JuegoBattle(cantJugadores);
+
         jugadores = new ArrayList<>();
         Jugador jugador1=new Jugador("jugador 1", 100, 100, 5);
         jugadores.add(jugador1);
