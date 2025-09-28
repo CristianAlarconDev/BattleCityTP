@@ -59,5 +59,11 @@ public class Tanque {
 
         return velocidadBase;
     }
+    public double obtenerCoordenadaX(){
+        return posicion.obtenerCoordenadaX();
+    }
+    public double obtenerCoordenadaY(){
+        return posicion.obtenerCoordenadaY();
+    }
 
 }
