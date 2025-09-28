@@ -1,5 +1,6 @@
 package org.vista;
 
+import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -14,34 +15,42 @@ public class TableroView {
     private static final int ALTO = 600;
     private static final int CELDA = 20;
 
-    private final JuegoController controller;
+    private final JuegoController juegoController;
     private final InputController inputController;
 
-    public TableroView(JuegoController controller) {
-        this.controller = controller;
-        this.inputController = new InputController(controller);
+    public TableroView(JuegoController juegoController) {
+        this.juegoController = juegoController;
+        this.inputController = new InputController(juegoController);
     }
     public Scene crearTableroView(){
         Canvas canvas = new Canvas(ANCHO, ALTO);
         GraphicsContext graphics = canvas.getGraphicsContext2D();
 
-        actualizarPantalla(graphics);
+        //actualizarPantalla(graphics);
 
         Scene scene = new Scene(new StackPane(canvas), ANCHO, ALTO, Color.GRAY);
 
         scene.setOnKeyPressed(evento->{
           inputController.presionarTecla(evento.getCode());
-          actualizarPantalla(graphics);
+          //actualizarPantalla(graphics);
         });
         scene.setOnKeyReleased(evento->{
             inputController.soltarTecla(evento.getCode());
-            actualizarPantalla(graphics);
+            //actualizarPantalla(graphics);
         });
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                inputController.procesarTeclasActivas();
+                actualizarPantalla(graphics);
+            }
+        };
+        timer.start();
         return scene;
     }
     private void dibujarJugadores(GraphicsContext graphicsContext){
         int i=0;
-        for (Jugador jugador: controller.obtenerJugadores()){
+        for (Jugador jugador: juegoController.obtenerJugadores()){
             graphicsContext.setFill(i == 0? Color.BLUE:Color.RED);
             graphicsContext.fillRect(jugador.obtenerCoordenadaX(),
                     jugador.obtenerCoordenadaY(), CELDA, CELDA);
