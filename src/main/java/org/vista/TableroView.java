@@ -41,6 +41,8 @@ public class TableroView {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
+                /*probar si se puede disminuir la velocidad con long now
+                * se procesa muy rapido y puede variar en otro SO*/
                 inputController.procesarTeclasActivas();
                 actualizarPantalla(graphics);
             }
