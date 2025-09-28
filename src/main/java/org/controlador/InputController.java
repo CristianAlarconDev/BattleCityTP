@@ -1,6 +1,7 @@
 package org.controlador;
 
 import javafx.scene.input.KeyCode;
+import org.modelo.Direccion;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,4 +21,21 @@ public class InputController {
         teclasActivas.remove(tecla);
     }
 
+    private void procesarTecla(){
+        for (KeyCode tecla: teclasActivas) {
+            switch (tecla){
+                case W -> juegoController.moverJugador(0, Direccion.ARRIBA);
+                case A ->  juegoController.moverJugador(0,Direccion.IZQUIERDA);
+                case S -> juegoController.moverJugador(0,Direccion.ABAJO);
+                case D-> juegoController.moverJugador(0,Direccion.DERECHA);
+
+                case UP -> juegoController.moverJugador(1, Direccion.ARRIBA);
+                case LEFT ->  juegoController.moverJugador(1,Direccion.IZQUIERDA);
+                case DOWN -> juegoController.moverJugador(1,Direccion.ABAJO);
+                case RIGHT-> juegoController.moverJugador(1,Direccion.DERECHA);
+                case SPACE -> juegoController.jugadorNroDispara(0);
+                case ENTER -> juegoController.jugadorNroDispara(1);
+            }
+        }
+    }
 }
