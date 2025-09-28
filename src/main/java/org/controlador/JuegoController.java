@@ -1,32 +1,34 @@
 package org.controlador;
 
-import org.modelo.Direccion;
-import org.modelo.Jugador;
+import org.modelo.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class JuegoController {
+    private final JuegoModel juego;
 
-    private final List<Jugador> jugadores;
     public JuegoController(int  cantJugadores) {
+        juego = new JuegoModel(cantJugadores);
 
-        jugadores = new ArrayList<>();
-        Jugador jugador1=new Jugador("jugador 1", 100, 100, 5);
-        jugadores.add(jugador1);
-        if (cantJugadores == 2){
-            Jugador jugador2=new Jugador("jugador 2", 200, 100, 5);
-            jugadores.add(jugador2);
-        }
-
+    }
+    public void moverJugador(int jugador ,Direccion direccion){
+        juego.moverJugador(jugador, direccion);
+    }
+    public void jugadorNroDispara(int jugador){
+        juego.jugadorNroDispara(jugador);
     }
     public List<Jugador> obtenerJugadores(){
-        return this.jugadores;
+        return juego.obtenerJugadores();
     }
-
-    public void moverJugador(int jugador ,Direccion direccion){
-        jugadores.get(jugador).mover(direccion);
-
+    public List<Enemigo> obtenerEnemigos(){
+        return juego.obtenerEnemigos();
+    }
+    public List<Bloque> obtenerBloques(){
+        return juego.obtenerBloques();
+    }
+    public void actualizar(){
+        juego.actualizar();
     }
 
 }
