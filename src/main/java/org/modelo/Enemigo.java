@@ -11,13 +11,26 @@ public class Enemigo {
     //private double velocidad;
     private int pasosMaximos;
 
+
+
+    private Disparo disparoActivo; // null si no hay disparo en curso
+    private long inicioTiempoConducta;   // inicio del comportamiento actual
+    private long duracionConducta;       // duración aleatoria 1-5 s
+    private Vector2D ultimaPosicion;     // última posición para detectar si está bloqueado
+    private long ultimoPosicionCambio;   // tiempo en que la posición cambió
+
+
+
+
+
     public Enemigo(double coordenadaX, double coordenadaY, double velocidadBase) {
         tanque = new Tanque(coordenadaX, coordenadaY, velocidadBase);
-        ultimoMovimiento = System.currentTimeMillis();
-        ultimoDisparo = System.currentTimeMillis();
-        //velocidad=tanque.obtenerVelocidadBase();
-        direccionActual = Direccion.ABAJO;
 
+        direccionActual = Direccion.ABAJO;
+        inicioTiempoConducta= System.currentTimeMillis();
+        duracionConducta= 1000 + (long)(Math.random() * 4000); // 1-5s
+        ultimaPosicion= tanque.obtenerPosicion();
+        ultimoPosicionCambio= System.currentTimeMillis();
     }
     public Enemigo(double coordenadaX, double coordenadaY,
                    double velocidadBase, long intervaloMovimiento) {
@@ -29,6 +42,8 @@ public class Enemigo {
         this(coordenadaX, coordenadaY, velocidadBase, intervaloMovimiento);
         this.pasosMaximos = pasosMaximos;
     }
+
+
     public boolean mover() {
         long tiempoActual = System.currentTimeMillis();
         if (tiempoActual - ultimoMovimiento >= INTERVALO_MOVIMIENTO) {
@@ -45,16 +60,7 @@ public class Enemigo {
             tanque.mover(direccion);
         }
     }
-    public Disparo disparar() {
-        long tiempoActual = System.currentTimeMillis();
 
-        if (tiempoActual - ultimoDisparo >= INTERVALO_DISPARO) {
-            ultimoDisparo = tiempoActual;
-            return new Disparo(obtenerPosicion(),
-                    direccionActual, tanque.obtenerVelocidadBase());
-        }
-        return null;
-    }
 
     public Vector2D obtenerPosicion() {
         return tanque.obtenerPosicion();
@@ -68,4 +74,48 @@ public class Enemigo {
         Direccion[] direcciones = Direccion.values();
         return direcciones[(int)(Math.random() * direcciones.length)];
     }
+
+    //lo siguiente no hace falta:
+    public boolean estaVivo() {
+        return tanque.estaVivo();
+    }
+
+    public Disparo disparar() {
+        if (disparoActivo == null) {
+            // Crear un nuevo disparo
+            disparoActivo = new Disparo(obtenerPosicion(), direccionActual, tanque.obtenerVelocidadBase());
+            return disparoActivo;
+        }
+        return null; // Ya hay un disparo activo
+    }
+
+
+    public void moverSegunIA() {
+        long tiempoActual = System.currentTimeMillis();
+
+        // Cambio dirección si se acabó el tiempo de conducta
+        if (tiempoActual - inicioTiempoConducta >= duracionConducta) {
+            direccionActual = elegirDireccionAleatoria();
+            inicioTiempoConducta = tiempoActual;
+            duracionConducta = 1000 + (long)(Math.random() * 4000); // 1-5s
+        }
+
+        // Cambio dirección si está bloqueado más de 2 segundos
+        Vector2D posActual = tanque.obtenerPosicion();
+        if (posActual.esIgualA(ultimaPosicion)) {
+            if (tiempoActual - ultimoPosicionCambio >= 2000) {
+                direccionActual = elegirDireccionAleatoria();
+                inicioTiempoConducta = tiempoActual;
+                duracionConducta = 1000 + (long)(Math.random() * 4000);
+                ultimoPosicionCambio = tiempoActual;
+            }
+        } else {
+            ultimaPosicion = posActual;
+            ultimoPosicionCambio = tiempoActual;
+        }
+
+        // Mover tanque en la dirección actual
+        tanque.mover(direccionActual);
+    }
+
 }

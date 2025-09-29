@@ -6,6 +6,7 @@ public class Disparo {
     private boolean activo;
     private Direccion direccion;
 
+
     public Disparo(Vector2D posicion, Direccion direccion, double velocidadBase) {
         this.posicion = posicion.copiar();
         this.direccion = direccion;
@@ -43,4 +44,6 @@ public class Disparo {
     public boolean estaActivo() {
         return activo;
     }
+
+
 }

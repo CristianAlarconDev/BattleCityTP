@@ -10,18 +10,22 @@ public class Nivel {
     private long duracionNivelMs;
     private EstadoNivel estadoNivel;
 
-    private final List<Tanque> jugadores;
+    private final List<Jugador> jugadores;
     private final List<Enemigo> enemigos;
+    private final List<Disparo> disparos;
     private final Bloque[][] grilla;
+
 
     public Nivel(int cantJugadores, long duracionNivelMs){
         jugadores = new ArrayList<>();
         enemigos = new ArrayList<>();
+        disparos = new ArrayList<>();
         this.grilla = new Bloque[FILAS][COLUMNAS];
         inicioNivelMs = System.currentTimeMillis();
         estadoNivel=EstadoNivel.EN_CURSO;
-
     }
+
+
     public boolean enCurso(){
         return estadoNivel==EstadoNivel.EN_CURSO;
     }
@@ -32,7 +36,7 @@ public class Nivel {
         return estadoNivel==EstadoNivel.DERROTA;
     }
 
-    public void agregarJugador(Tanque jugador){
+    public void agregarJugador(Jugador jugador){
         if (jugadores.size() < 2) {
             jugadores.add(jugador);
         }
@@ -60,7 +64,7 @@ public class Nivel {
         return null;
     }
 
-    public List<Tanque> getJugadores() {
+    public List<Jugador> getJugadores() {
         return jugadores;
     }
 
@@ -75,4 +79,49 @@ public class Nivel {
     public int getColumnas(){
         return COLUMNAS;
     }
+
+
+    public void jugadorDispara(int jugadorId) {
+        Tanque tanque = jugadores.get(jugadorId);
+        Disparo d = tanque.disparar();
+        disparos.add(d);
+    }
+
+    public void activarJugadores(int cantidad) {
+        for (int i = 0; i < cantidad && i < jugadores.size(); i++) {
+            jugadores.get(i).activarJugador(true);
+        }
+    }
+
+
+
+
+    public void actualizarNivel() {
+
+
+        // muevo enemigos
+        for (Enemigo enemigo : enemigos) {
+            if (enemigo.estaVivo()) {
+                enemigo.moverSegunIA();
+                Disparo d = enemigo.disparar();
+                if (d != null) {
+                    disparos.add(d); // se agrega a la lista de disparos del nivel
+                }
+            }
+        }
+
+
+        // resolver colisiones
+        resolverColisiones();
+
+        // actualizar estado del nivel
+        if (enemigos.isEmpty()) {
+            estadoNivel = EstadoNivel.VICTORIA;
+        } else if (jugadores.stream().allMatch(t -> !t.estaVivo())) {
+            estadoNivel = EstadoNivel.DERROTA;
+        }
+    }
+
+
+
 }
