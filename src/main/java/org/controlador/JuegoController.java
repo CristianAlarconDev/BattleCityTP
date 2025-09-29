@@ -22,7 +22,7 @@ public class JuegoController {
         return juego.obtenerJugadores();
     }
     public List<Disparo> obtenerDisparos(){
-        return juego.obtenerDisparos()
+        return juego.obtenerDisparos();
     }
     public List<Enemigo> obtenerEnemigos(){
         return juego.obtenerEnemigos();
@@ -30,7 +30,7 @@ public class JuegoController {
     public List<Bloque> obtenerBloques(){
         return juego.obtenerBloques();
     }
-    public void actualizar(){
+    public void actualizarJuego(){
         juego.actualizar();
     }
 
