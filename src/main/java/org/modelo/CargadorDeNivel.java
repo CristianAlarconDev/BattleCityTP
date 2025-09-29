@@ -5,39 +5,40 @@ import javax.xml.parsers.*;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.*;
 import javax.xml.XMLConstants;
-import java.io.InputStream;
-import java.io.ByteArrayInputStream;
+import java.io.File;
 
 
 public class CargadorDeNivel {
 
-    public Nivel cargarNivel(InputStream archivoxml, InputStream archivoxsd) throws Exception{
+    public Nivel cargarNivel(String archivoxml, String archivoxsd) throws Exception{
         System.out.println("Cargando nivel: " + archivoxml);
 
-        if (archivoxml == null) {
+        var resourcexml = getClass().getResource("/" + archivoxml);
+        var resourcexsd = getClass().getResource("/" + archivoxsd);
+
+        if (resourcexml == null) {
             throw new IllegalArgumentException("No se pudo encontrar el archivo XML " );
         }
-        if (archivoxsd == null) {
+        if (resourcexsd == null) {
             throw new IllegalArgumentException("No se pudo encontrar el archivo XSD ");
         }
-        byte[] xmlBytes = archivoxml.readAllBytes();
 
-        // Validar usando un ByteArrayInputStream independiente
-        validarXMLconXSD(new ByteArrayInputStream(xmlBytes), archivoxsd);
+        File xmlFile = new File(resourcexml.getPath());
+        File xsdFile = new File(resourcexsd.getPath());
 
-        // Parsear usando otro ByteArrayInputStream
+        validarXMLconXSD(xmlFile, xsdFile);
+
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse(new ByteArrayInputStream(xmlBytes));
+        Document document = builder.parse(xmlFile);
         document.getDocumentElement().normalize();
 
 
         Nivel nivel = new Nivel(2, 60_000);
 
-        // 1. Leer dimensiones del nivel
+
         Element root = document.getDocumentElement(); // <levelConfig>
-        NodeList levels = root.getElementsByTagName("level");
-        Element nivelElem = (Element) levels.item(0); // Primer <level>
+        Element nivelElem = (Element) root.getElementsByTagName("level").item(0);
 
         double anchoNivelPx = Integer.parseInt(nivelElem.getAttribute("width"));   // ej: 800
         double altoNivelPx  = Integer.parseInt(nivelElem.getAttribute("height"));    // ej: 600
@@ -47,70 +48,64 @@ public class CargadorDeNivel {
         double anchoCelda = anchoNivelPx / numColumnas;  // ej: 800 / 40 = 20
         double altoCelda  = altoNivelPx / numFilas;      // ej: 600 / 30 = 20
 
-        // 4. Cargar bloques
-        NodeList bloques = document.getElementsByTagName("staticObject");
-        for (int i = 0; i < bloques.getLength(); i++) {
-            Element elem = (Element) bloques.item(i);
 
-            String tipo = elem.getAttribute("type");
-            int coordenadax = Integer.parseInt(elem.getAttribute("x"));
-            int coordenaday = Integer.parseInt(elem.getAttribute("y"));
+        NodeList nodos = nivelElem.getChildNodes();
 
-            double fila = coordenaday / altoCelda;
-            double columna = coordenadax / anchoCelda;
+        Element playersContainer = (Element) nivelElem.getElementsByTagName("players").item(0);
+        Element enemiesContainer = (Element) nivelElem.getElementsByTagName("enemies").item(0);
+        Element staticObjectsContainer = (Element) nivelElem.getElementsByTagName("staticObjects").item(0);
 
-
-            Bloque bloque = CreadorDeBloque.crearBloque(tipo, columna, fila);
-
-            nivel.agregarBloque(bloque);
-        }
-
-        // 5. Cargar jugadores
-        NodeList jugadores = document.getElementsByTagName("player");
-        for (int i = 0; i < jugadores.getLength(); i++) {
-            Element elem = (Element) jugadores.item(i);
-
-            double coordenadax = Integer.parseInt(elem.getAttribute("x"));
-            double coordenaday = Integer.parseInt(elem.getAttribute("y"));
-
-            double fila = coordenaday / altoCelda;
-            double columna = coordenadax / anchoCelda;
-            /*otra forma de sumar jugador*/
-            Jugador jugador = new Jugador("Jugador1", columna, fila, 2);
+        // Jugadores
+        NodeList playerNodes = playersContainer.getChildNodes();
+        for (int i = 0; i < playerNodes.getLength(); i++) {
+            Node nodo = playerNodes.item(i);
+            if (nodo.getNodeType() != Node.ELEMENT_NODE) continue;
+            Element elem = (Element) nodo;
+            int xPx = Integer.parseInt(elem.getAttribute("x"));
+            int yPx = Integer.parseInt(elem.getAttribute("y"));
+            double fila = Math.floor(yPx / altoCelda);
+            double columna = Math.floor(xPx / anchoCelda);
+            Jugador jugador = new Jugador(elem.getAttribute("id"), columna, fila, 2);
             nivel.agregarJugador(jugador);
-            /*
-            Tanque jugador = new Tanque(columna, fila, 0);
-            nivel.agregarJugador(jugador);*/
         }
 
-        // 6. Cargar enemigos
-        NodeList enemigos = document.getElementsByTagName("enemy");
-        for (int i = 0; i < enemigos.getLength(); i++) {
-            Element elem = (Element) enemigos.item(i);
-
-            int coordenadax = Integer.parseInt(elem.getAttribute("x"));
-            int coordenaday = Integer.parseInt(elem.getAttribute("y"));
-
-            double fila = coordenaday / altoCelda;
-            double columna = coordenadax / anchoCelda;
-            /*otra forma de sumar enemigo*/
+        // Enemigos
+        NodeList enemyNodes = enemiesContainer.getChildNodes();
+        for (int i = 0; i < enemyNodes.getLength(); i++) {
+            Node nodo = enemyNodes.item(i);
+            if (nodo.getNodeType() != Node.ELEMENT_NODE) continue;
+            Element elem = (Element) nodo;
+            int xPx = Integer.parseInt(elem.getAttribute("x"));
+            int yPx = Integer.parseInt(elem.getAttribute("y"));
+            double fila = Math.floor(yPx / altoCelda);
+            double columna = Math.floor(xPx / anchoCelda);
             Enemigo enemigo = new Enemigo(columna, fila, 2, 2000);
             nivel.agregarEnemigo(enemigo);
-            /*
-            Tanque enemigo = new Tanque(columna, fila, 0);
-            nivel.agregarEnemigo(enemigo);*/
+        }
+
+        // Bloques
+        NodeList blockNodes = staticObjectsContainer.getChildNodes();
+        for (int i = 0; i < blockNodes.getLength(); i++) {
+            Node nodo = blockNodes.item(i);
+            if (nodo.getNodeType() != Node.ELEMENT_NODE) continue;
+            Element elem = (Element) nodo;
+            String tipo = elem.getAttribute("type");
+            int xPx = Integer.parseInt(elem.getAttribute("x"));
+            int yPx = Integer.parseInt(elem.getAttribute("y"));
+            double fila = yPx / altoCelda;
+            double columna = xPx / anchoCelda;
+            Bloque bloque = CreadorDeBloque.crearBloque(tipo, columna, fila);
+            nivel.agregarBloque(bloque);
         }
         return nivel;
     }
 
-        private void validarXMLconXSD(InputStream xml, InputStream xsd) throws Exception {
-            SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            Schema schema= factory.newSchema(new StreamSource(xsd));
-            Validator validator = schema.newValidator();
-            validator.validate(new StreamSource(xml));
+    private void validarXMLconXSD(File xml, File xsd) throws Exception {
+        SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        Schema schema= factory.newSchema(xsd);
+        Validator validator = schema.newValidator();
+        validator.validate(new StreamSource(xml));
 
     }
-
-
 
 }

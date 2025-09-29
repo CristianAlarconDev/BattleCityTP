@@ -15,9 +15,13 @@ public class Tanque {
     protected Direccion obtenerDireccionActual(){
         return direccionActual;
     }
+
+
     public void cambiarDireccion(Direccion direccion){
         this.direccionActual = direccion;
     }
+
+
     public void mover(Direccion direccion){
         Vector2D dir =direccion.comoVector();
         Vector2D desplazamiento = dir.escalado(velocidadBase);
@@ -27,9 +31,11 @@ public class Tanque {
     private void moverA(Vector2D desplazamiento){
         posicion=posicion.sumadoA(desplazamiento);
     }
+
     public void moverSegunDireccionActual(){
         mover(this.obtenerDireccionActual());
     }
+
     public boolean estaVivo(){
 
         return vidasTotales > 0;
@@ -58,6 +64,24 @@ public class Tanque {
     public double obtenerVelocidadBase(){
 
         return velocidadBase;
+    }
+    public Disparo disparar() {
+        Vector2D posDisparo = this.obtenerPosicion();
+        return new Disparo(posDisparo, this.obtenerDireccionActual(), this.obtenerVelocidadBase());
+    }
+
+
+    public void moverArriba(){
+        mover(Direccion.ARRIBA);
+    }
+    public void moverAbajo() {
+        mover(Direccion.ABAJO);
+    }
+    public void moverIzquierda() {
+        mover(Direccion.IZQUIERDA);
+    }
+    public void moverDerecha() {
+        mover(Direccion.DERECHA);
     }
     public double obtenerCoordenadaX(){
         return posicion.obtenerCoordenadaX();
