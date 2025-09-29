@@ -61,7 +61,7 @@ public class Juego {
 
     public void actualizarJuego() {
         Nivel nivel = niveles.get(nivelActual);
-        nivel.actualizar();
+        //nivel.actualizar();
     }
 
 

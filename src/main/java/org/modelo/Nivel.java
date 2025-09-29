@@ -112,7 +112,7 @@ public class Nivel {
 
 
         // resolver colisiones
-        resolverColisiones();
+        //resolverColisiones();
 
         // actualizar estado del nivel
         if (enemigos.isEmpty()) {
