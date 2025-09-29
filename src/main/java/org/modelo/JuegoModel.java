@@ -32,6 +32,15 @@ public class JuegoModel {
     public List<Enemigo> obtenerEnemigos(){
         return obtenerNivelActual().obtenerEnemigos();
     }
+    public List<Disparo> obtenerDisparos(){
+        return obtenerNivelActual().obtenerDisparos();
+    }
+    public void siguienteNivel(){
+        nivelActual++;
+    }
+    public void reiniciarNivel(){
+        nivelActual=0;
+    }
 
     /*acciones*/
     public void moverJugador(int nroJugador,Direccion direccion){
