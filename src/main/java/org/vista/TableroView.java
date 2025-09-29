@@ -9,6 +9,7 @@ import org.controlador.JuegoController;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import org.modelo.Jugador;
+import org.modelo.Disparo;
 
 public class TableroView {
     private static final int ANCHO = 800;
@@ -44,6 +45,7 @@ public class TableroView {
                 /*probar si se puede disminuir la velocidad con long now
                 * se procesa muy rapido y puede variar en otro SO*/
                 inputController.procesarInputs();
+                juegoController.actualizarJuego();
                 actualizarPantalla(graphics);
             }
         };
@@ -59,9 +61,18 @@ public class TableroView {
             i++;
         }
     }
+    private void dibujarDisparos(GraphicsContext graphicsContext){
+        graphicsContext.setFill(Color.YELLOW);
+        for(Disparo disparo: juegoController.obtenerDisparos()){
+            double x = disparo.obtenerCoordenadaX();
+            double y = disparo.obtenerCoordenadaY();
+            graphicsContext.fillRect(x,y, 6, 6);
+        }
+    }
     private void actualizarPantalla(GraphicsContext graphics){
         graphics.setFill(Color.BLACK);
         graphics.fillRect(0, 0, ANCHO, ALTO);
         dibujarJugadores(graphics);
+        dibujarDisparos(graphics);
     }
 }
