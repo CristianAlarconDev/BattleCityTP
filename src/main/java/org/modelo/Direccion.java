@@ -14,5 +14,19 @@ public enum Direccion {
             case DERECHA -> new Vector2D(1, 0);
         };
     }
+    public double dX(){
+        return switch (this) {
+            case ARRIBA, ABAJO -> 0;
+            case IZQUIERDA -> -1;
+            case DERECHA -> 1;
+        };
+    }
+    public double dY(){
+        return switch(this){
+            case ARRIBA -> -1;
+            case ABAJO -> 1;
+            case IZQUIERDA, DERECHA -> 0;
+        };
+    }
 }
 
