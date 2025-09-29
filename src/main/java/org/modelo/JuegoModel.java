@@ -9,8 +9,16 @@ public class JuegoModel {
     public JuegoModel(int cantJugadores){
         niveles= new ArrayList<>();
         nivelActual=0;
-        NivelModel nivelInicial = new NivelModel("jugador 1", "jugador 2");
+        NivelModel nivelInicial;
+        if (cantJugadores == 1) {
+            nivelInicial = new NivelModel("jugador 1");
+        } else if (cantJugadores == 2) {
+            nivelInicial = new NivelModel("jugador 1", "jugador 2");
+        } else {
+            throw new IllegalArgumentException("Cantidad de jugadores no soportada: " + cantJugadores);
+        }
         niveles.add(nivelInicial);
+
     }
     private NivelModel obtenerNivelActual(){
         return niveles.get(nivelActual);
