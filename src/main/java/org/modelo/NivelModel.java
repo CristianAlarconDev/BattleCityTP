@@ -62,7 +62,8 @@ public class NivelModel {
     }
     private boolean disparoDentroDeLimites(double coordenadaX, double coordenadaY){
         return (coordenadaX>=0 && coordenadaY>=0)&&
-                (coordenadaX<=ancho&&coordenadaY<=alto);
+                (coordenadaX+tamanioDisparo<=ancho
+                        &&coordenadaY+tamanioDisparo<=alto);
 
     }
 
