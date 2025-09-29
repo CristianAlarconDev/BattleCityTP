@@ -11,6 +11,7 @@ public class NivelModel {
     private final double ancho;
     private final double alto;
     private final double celda;
+    private final double tamanioDisparo;
 
     public NivelModel(String nombreJugador1, String nombreJugador2){
         this(nombreJugador1,nombreJugador2,800,600);
@@ -27,6 +28,7 @@ public class NivelModel {
         this.ancho=ancho;
         this.alto=alto;
         this.celda=20;
+        this.tamanioDisparo=6;
         jugadores.add(new Jugador(nombreJugador1, 100,100,5));
         if (nombreJugador2!=null){
             jugadores.add(new Jugador(nombreJugador2, 200,100,5));
