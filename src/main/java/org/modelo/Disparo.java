@@ -43,4 +43,11 @@ public class Disparo {
     public boolean estaActivo() {
         return activo;
     }
+
+    public double obtenerCoordenadaX(){
+        return posicion.obtenerCoordenadaX();
+    }
+    public double obtenerCoordenadaY(){
+        return posicion.obtenerCoordenadaY();
+    }
 }
