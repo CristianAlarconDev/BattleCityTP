@@ -50,7 +50,7 @@ public class JuegoModel {
         obtenerNivelActual().jugadorDisparar(nroJugador);
     }
     public void actualizar(){
-
+        this.obtenerNivelActual().actualizar();
     }
 
 }
