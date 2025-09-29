@@ -7,7 +7,7 @@ public class NivelModel {
     private final List<Jugador> jugadores;
     private final List<Enemigo> Enemigos;
     private final List<Bloque> bloques;
-
+    private List<Disparo> disparos;
     private final double ancho;
     private final double alto;
     private final double celda;
@@ -23,6 +23,7 @@ public class NivelModel {
         this.jugadores=new ArrayList<>();
         this.Enemigos=new ArrayList<>();
         this.bloques=new ArrayList<>();
+        this.disparos=new ArrayList<>();
         this.ancho=ancho;
         this.alto=alto;
         this.celda=20;
@@ -44,11 +45,36 @@ public class NivelModel {
             jugador.mover(direccion);
         }
     }
-    public boolean jugadorDentroDeLimites(double x, double y){
+    private boolean jugadorDentroDeLimites(double x, double y){
         return (x>=0&&x<=(ancho-celda))&&(y>=0&&y<=(alto-celda));
     }
-    public void jugadorDisparar(int jugador){
-        jugadores.get(jugador).intentarDisparar();
+    public void actualizar(){
+        for (Disparo disparo: new ArrayList<>(disparos)){
+            disparo.mover();
+            if (!disparoDentroDeLimites(disparo.obtenerCoordenadaX(), disparo.obtenerCoordenadaY())){
+                disparo.desactivar();
+                disparos.remove(disparo);
+            }
+        }
+
+    }
+    private boolean disparoDentroDeLimites(double coordenadaX, double coordenadaY){
+        return (coordenadaX>=0 && coordenadaY>=0)&&
+                (coordenadaX<=ancho&&coordenadaY<=alto);
+
+    }
+
+    public void jugadorDisparar(int nroJugador){
+        Jugador jugador=jugadores.get(nroJugador);
+        try {
+           Disparo disparo=jugador.intentarDisparar();
+           disparos.add(disparo);
+        }catch (Exception e){
+            /*agregar algun cartel en consola o alerta*/
+        }
+    }
+    public List<Disparo> obtenerDisparos(){
+        return disparos;
     }
     public List<Jugador> obtenerJugadores(){
         return this.jugadores;
