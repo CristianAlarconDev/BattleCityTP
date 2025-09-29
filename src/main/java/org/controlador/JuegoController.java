@@ -21,6 +21,9 @@ public class JuegoController {
     public List<Jugador> obtenerJugadores(){
         return juego.obtenerJugadores();
     }
+    public List<Disparo> obtenerDisparos(){
+        return juego.obtenerDisparos()
+    }
     public List<Enemigo> obtenerEnemigos(){
         return juego.obtenerEnemigos();
     }
