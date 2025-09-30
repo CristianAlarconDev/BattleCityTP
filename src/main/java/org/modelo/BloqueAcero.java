@@ -22,7 +22,8 @@ public class BloqueAcero extends Bloque {
     }
 
     @Override
-    public void recibeimpacto() {
-        // No hace nada
+    public boolean esColisionable() {
+        return false;
     }
+
 }
