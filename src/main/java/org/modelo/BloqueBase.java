@@ -1,11 +1,21 @@
 package org.modelo;
 
-public class BloqueBase extends Bloque {
+public class BloqueBase extends Bloque implements Colisionable {
     private int resistencia;
 
         public BloqueBase(Vector2D posicion) {
         super(posicion.obtenerCoordenadaX(), posicion.obtenerCoordenadaY());
         this.resistencia = 1;
+    }
+
+    public boolean recibirImpacto(Disparo disparo){
+            return true;
+    }
+    public double obtenerCoordenadaX(){
+        return posicion.obtenerCoordenadaX();
+    }
+    public double obtenerCoordenadaY(){
+        return posicion.obtenerCoordenadaY();
     }
 
     @Override
@@ -24,14 +34,8 @@ public class BloqueBase extends Bloque {
     }
 
     @Override
-    public void recibeimpacto() {
-        resistencia--;
-        if (resistencia <= 0) {
-            System.out.println("La base ha sido destruida!");
-            // Aquí podrías agregar lógica adicional para manejar la destrucción de la base
-        } else {
-            System.out.println("La base ha recibido un impacto! Vida restante: " + resistencia);
-        }
+    public boolean esColisionable() {
+        return true;
     }
 
 

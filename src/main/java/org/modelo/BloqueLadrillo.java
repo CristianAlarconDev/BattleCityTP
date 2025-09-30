@@ -1,12 +1,35 @@
 package org.modelo;
 
-public class BloqueLadrillo extends Bloque{
+public class BloqueLadrillo extends Bloque implements Colisionable{
     private int resistencia;
 
     public BloqueLadrillo(Vector2D posicion){
         super(posicion.obtenerCoordenadaX(), posicion.obtenerCoordenadaY());
         this.resistencia = 3;
     }
+
+    @Override
+    public double obtenerCoordenadaX() {
+        return posicion.obtenerCoordenadaX();
+    }
+
+    @Override
+    public double obtenerCoordenadaY() {
+        return posicion.obtenerCoordenadaY();
+    }
+
+    @Override
+    public boolean recibirImpacto(Disparo disparo) {
+        resistencia-=1;
+        return true;
+    }
+
+    public boolean destruido(){
+        return resistencia == 0;
+    }
+
+
+
 
     @Override
     public boolean bloqueaPasoTanque() {
@@ -24,14 +47,8 @@ public class BloqueLadrillo extends Bloque{
     }
 
     @Override
-    public void recibeimpacto() {
-        resistencia--;
-        if (resistencia <= 0) {
-            // destruir bloque: actualizar grilla o estado
-            // El bloque es destruido, se puede implementar la lógica para eliminarlo del juego
-            System.out.println("Bloque de ladrillo destruido en la posición: " + posicion);
-        } else {
-            System.out.println("Bloque de ladrillo impactado, resistencia restante: " + resistencia);
-        }
+    public boolean esColisionable() {
+        return true;
     }
+
 }

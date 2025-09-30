@@ -1,6 +1,6 @@
 package org.modelo;
 
-public class Jugador extends Tanque{
+public class Jugador extends Tanque implements Colisionable {
     private String nombre;
     private ArmaUnDisparo arma;
     private boolean activo;
@@ -16,6 +16,17 @@ public class Jugador extends Tanque{
         activo= false;
     }
 
+
+    public boolean recibirImpacto(Disparo disparo) {
+        if (disparo.esDeJugador()) {
+            //se congela el jugador que recibe el disparo
+            return false;
+        }
+        this.recibirDanio();
+        return true;
+    }
+
+
     public boolean estaActivo() {
         return activo;
     }
@@ -24,6 +35,8 @@ public class Jugador extends Tanque{
         return id;
     }
 
+
+
     public void cambiarVelocidadDeDisparo(double velocidadDeDisparo){
         arma.cambiarVelocidadDisparo(velocidadDeDisparo);
     }
@@ -31,7 +44,7 @@ public class Jugador extends Tanque{
         return arma.obtenerVelocidadDisparo();
     }
     public Disparo intentarDisparar() {
-        return arma.disparar(obtenerPosicion(), obtenerDireccionActual());
+        return arma.disparar(obtenerPosicion(), obtenerDireccionActual(), OrigenDisparo .JUGADOR);
     }
 
     public String obtenerNombre() {

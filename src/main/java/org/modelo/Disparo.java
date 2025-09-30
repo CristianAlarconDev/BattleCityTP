@@ -5,6 +5,7 @@ public class Disparo {
     private Vector2D velocidad;
     private boolean activo;
     private Direccion direccion;
+    private OrigenDisparo origenDisparo;
 
 
     public Disparo(Vector2D posicion, Direccion direccion, double velocidadBase) {
@@ -14,6 +15,20 @@ public class Disparo {
         this.velocidad = direccion.comoVector().escalado(velocidadBase);
 
     }
+
+    public Disparo(Vector2D posicion, Direccion direccion, double velocidadBase, OrigenDisparo origenDisparo) {
+        this.posicion = posicion.copiar();
+        this.direccion = direccion;
+        this.activo = true;
+        this.velocidad = direccion.comoVector().escalado(velocidadBase);
+        this.origenDisparo = origenDisparo;
+    }
+
+    public boolean esDeJugador(){
+        return origenDisparo == OrigenDisparo.JUGADOR;
+    }
+
+
     public void mover(double tiempo){
         if (!activo) return;
         Vector2D delta = velocidad.escalado(tiempo);

@@ -20,8 +20,10 @@ public class BloqueAgua extends Bloque{
         return false;
     }
 
+
     @Override
-    public void recibeimpacto() {
-        // No hace nada
+    public boolean esColisionable() {
+        return false;
     }
+
 }

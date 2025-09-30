@@ -1,7 +1,7 @@
 
 package org.modelo;
 
-public class Enemigo {
+public class Enemigo implements Colisionable {
     private Tanque tanque;
     private long ultimoMovimiento;
     private long ultimoDisparo;
@@ -21,7 +21,22 @@ public class Enemigo {
 
 
 
+    @Override
+    public double obtenerCoordenadaX() {
+        return tanque.obtenerPosicion().obtenerCoordenadaX();
+    }
 
+    @Override
+    public double obtenerCoordenadaY() {
+        return tanque.obtenerPosicion().obtenerCoordenadaY();
+    }
+
+    public boolean recibirImpacto(Disparo disparo) {
+        if (disparo.esDeJugador()) {
+            return recibirDanio();
+        }
+        return false;
+    }
 
     public Enemigo(double coordenadaX, double coordenadaY, double velocidadBase) {
         tanque = new Tanque(coordenadaX, coordenadaY, velocidadBase);

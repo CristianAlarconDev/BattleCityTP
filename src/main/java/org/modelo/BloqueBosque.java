@@ -20,10 +20,12 @@ public class BloqueBosque extends Bloque {
         return false;
     }
 
+
     @Override
-    public void recibeimpacto() {
-        // No hace nada
+    public boolean esColisionable() {
+        return true;
     }
+
 
     public boolean ocultaTanque() {
         return true; // la vista puede usar esto para dibujar tanques ocultos
