@@ -8,10 +8,9 @@ public class NivelModel {
     private final List<Enemigo> Enemigos;
     private final List<Bloque> bloques;
     private List<Disparo> disparos;
-    private final double ancho;
-    private final double alto;
-    private final double celda;
+    private int tamanioJugador;
     private final double tamanioDisparo;
+    private int anchoNivel, altoNivel;
     private final List<Colisionable> colisionables;
 
     public NivelModel(String nombreJugador1, String nombreJugador2){
@@ -27,10 +26,10 @@ public class NivelModel {
         this.bloques=new ArrayList<>();
         this.disparos=new ArrayList<>();
         this.colisionables=new ArrayList<>();
-        this.ancho=ancho;
-        this.alto=alto;
-        this.celda=20;
         this.tamanioDisparo=6;
+        this.tamanioJugador=20;
+        this.anchoNivel=ancho;
+        this.altoNivel=alto;
         /*
         jugadores.add(new Jugador(nombreJugador1, 100,100,5));
         if (nombreJugador2!=null){
@@ -60,8 +59,13 @@ public class NivelModel {
             jugador.mover(direccion);
         }
     }
-    private boolean jugadorDentroDeLimites(double x, double y){
-        return (x>=0&&x<=(ancho-celda))&&(y>=0&&y<=(alto-celda));
+    private boolean jugadorDentroDeLimites(double xCentro, double yCentro){
+        int radioJugador = tamanioJugador / 2;
+
+        boolean dentroHorizontal = (xCentro - radioJugador >= 0) && (xCentro + radioJugador <= anchoNivel);
+        boolean dentroVertical   = (yCentro - radioJugador >= 0) && (yCentro + radioJugador <= altoNivel);
+
+        return dentroHorizontal && dentroVertical;
     }
 
     private boolean compararPosiciones(Disparo disparo, Colisionable colisionable){
@@ -108,9 +112,10 @@ public class NivelModel {
     }
 
     private boolean disparoDentroDeLimites(double coordenadaX, double coordenadaY){
-        return (coordenadaX>=0 && coordenadaY>=0)&&
-                (coordenadaX+tamanioDisparo<=ancho
-                        &&coordenadaY+tamanioDisparo<=alto);
+        //return (coordenadaX>=0 && coordenadaY>=0)&&
+          //      (coordenadaX+tamanioDisparo<=ancho
+             //           &&coordenadaY+tamanioDisparo<=alto);
+        return true;
 
     }
 
