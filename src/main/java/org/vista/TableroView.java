@@ -8,8 +8,7 @@ import org.controlador.InputController;
 import org.controlador.JuegoController;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import org.modelo.Jugador;
-import org.modelo.Disparo;
+import org.modelo.*;
 
 public class TableroView {
     private static final int ANCHO = 800;
@@ -71,10 +70,27 @@ public class TableroView {
             graphicsContext.fillRect(xEsquina,yEsquina, TAMANIO_DISPARO, TAMANIO_DISPARO);
         }
     }
+    private void dibujarBloques(GraphicsContext graphicsContext){
+        for (Bloque bloque : juegoController.obtenerBloques()) {
+            if (bloque instanceof BloqueLadrillo) {
+                graphicsContext.setFill(Color.ORANGE);
+            } else if (bloque instanceof BloqueAcero) {
+                graphicsContext.setFill(Color.GRAY);
+            } else {
+                graphicsContext.setFill(Color.DARKGREEN);
+            }
+            graphicsContext.fillRect(
+                    bloque.obtenerCoordenadaX(),
+                    bloque.obtenerCoordenadaY(),
+                    20, 20
+            );
+        }
+    }
     private void actualizarPantalla(GraphicsContext graphics){
         graphics.setFill(Color.BLACK);
         graphics.fillRect(0, 0, ANCHO, ALTO);
         dibujarJugadores(graphics);
         dibujarDisparos(graphics);
+        dibujarBloques(graphics);
     }
 }
