@@ -15,14 +15,14 @@ public class Juego {
         nivelActual = 0;
         /*aca cargar los niveles con cargador de niveles*/
         cargadordenivel = new CargadorDeNivel();
-
+/*
         Nivel nivel1 = cargadordenivel.cargarNivel("nivel1.xml","levelConfig.xsd");
         Nivel nivel2 = cargadordenivel.cargarNivel("nivel2.xml","levelConfig.xsd");
         Nivel nivel3 = cargadordenivel.cargarNivel("nivel3.xml","levelConfig.xsd");
 
         niveles.add(nivel1);
         niveles.add(nivel2);
-        niveles.add(nivel3);
+        niveles.add(nivel3);*/
     }
 
     public void iniciarJuego() {
