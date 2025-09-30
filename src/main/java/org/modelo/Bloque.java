@@ -11,6 +11,12 @@ public abstract class Bloque  {
         return new Vector2D(posicion.obtenerCoordenadaX(),
                 posicion.obtenerCoordenadaY());
     }
+    public double obtenerCoordenadaX(){
+        return posicion.obtenerCoordenadaX();
+    }
+    public double obtenerCoordenadaY(){
+        return posicion.obtenerCoordenadaY();
+    }
     public abstract boolean bloqueaPasoTanque();
     public abstract boolean bloqueaDisparo();
     public abstract boolean esDestructible();
