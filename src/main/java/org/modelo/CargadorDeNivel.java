@@ -86,7 +86,7 @@ public class CargadorDeNivel {
         }*/
 
         // Bloques
-        /*
+
         NodeList blockNodes = staticObjectsContainer.getChildNodes();
         for (int i = 0; i < blockNodes.getLength(); i++) {
             Node nodo = blockNodes.item(i);
@@ -95,11 +95,11 @@ public class CargadorDeNivel {
             String tipo = elem.getAttribute("type");
             int xPx = Integer.parseInt(elem.getAttribute("x"));
             int yPx = Integer.parseInt(elem.getAttribute("y"));
-            double fila = yPx / altoCelda;
-            double columna = xPx / anchoCelda;
-            Bloque bloque = CreadorDeBloque.crearBloque(tipo, columna, fila);
+            //double fila = yPx / altoCelda;
+            //double columna = xPx / anchoCelda;
+            Bloque bloque = CreadorDeBloque.crearBloque(tipo, xPx, yPx);
             nivel.agregarBloque(bloque);
-        }*/
+        }
         return nivel;
     }
 
