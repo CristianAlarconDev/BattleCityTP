@@ -25,6 +25,15 @@ public class ArmaUnDisparo {
         disparoEnCurso = disparo;
         return disparo;
     }
+
+    public Disparo disparar(Vector2D origen, Direccion direccion, OrigenDisparo origenDisparo){
+        if(!puedeDisparar()){
+            throw new IllegalStateException("No se puede disparar aun");
+        }
+        Disparo disparo = new Disparo(origen, direccion, velocidadDisparo, origenDisparo);
+        disparoEnCurso = disparo;
+        return disparo;
+    }
     public void cambiarVelocidadDisparo(double velocidadDisparo){
         this.velocidadDisparo=velocidadDisparo;
     }
