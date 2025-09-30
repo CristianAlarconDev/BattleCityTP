@@ -9,16 +9,22 @@ public class JuegoModel {
     public JuegoModel(int cantJugadores){
         niveles= new ArrayList<>();
         nivelActual=0;
-        NivelModel nivelInicial;
+        CargadorDeNivel cargador = new CargadorDeNivel();
+        try {
+            NivelModel nivel = cargador.cargarNivel("nivel_de_prueba.xml", "levelConfig.xsd");
+        /*
         if (cantJugadores == 1) {
             nivelInicial = new NivelModel("jugador 1");
         } else if (cantJugadores == 2) {
             nivelInicial = new NivelModel("jugador 1", "jugador 2");
         } else {
             throw new IllegalArgumentException("Cantidad de jugadores no soportada: " + cantJugadores);
+        }*/
+            niveles.add(nivel);
         }
-        niveles.add(nivelInicial);
-
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     private NivelModel obtenerNivelActual(){
         return niveles.get(nivelActual);
