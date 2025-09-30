@@ -2,8 +2,8 @@
 <levelConfig gameName="BattleCity" version="1.0" levelIndex="1" name="Level 1">
     <level width="800" height="600" cols="40" rows="30">
         <players>
-            <player id="player1" x="30" y="590"/>
-            <player id="player2" x="770" y="590"/>
+            <player id="player1" x="30" y="560"/>
+            <player id="player2" x="770" y="560"/>
         </players>
         <enemies>
             <enemy id="enemy3_8" type="regularEnemy" x="170" y="70"/>
