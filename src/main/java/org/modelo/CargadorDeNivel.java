@@ -63,13 +63,15 @@ public class CargadorDeNivel {
             Element elem = (Element) nodo;
             int xPx = Integer.parseInt(elem.getAttribute("x"));
             int yPx = Integer.parseInt(elem.getAttribute("y"));
-            double fila = Math.floor(yPx / altoCelda);
-            double columna = Math.floor(xPx / anchoCelda);
-            Jugador jugador = new Jugador(elem.getAttribute("id"), columna, fila, 2);
+            //double fila = Math.floor(yPx / altoCelda);
+            //double columna = Math.floor(xPx / anchoCelda);
+            Jugador jugador = new Jugador(elem.getAttribute("id"), xPx, yPx, 2);
+            //Jugador jugador = new Jugador(elem.getAttribute("id"), columna, fila, 2);
             nivel.agregarJugador(jugador);
         }
 
         // Enemigos
+        /*
         NodeList enemyNodes = enemiesContainer.getChildNodes();
         for (int i = 0; i < enemyNodes.getLength(); i++) {
             Node nodo = enemyNodes.item(i);
@@ -81,9 +83,10 @@ public class CargadorDeNivel {
             double columna = Math.floor(xPx / anchoCelda);
             Enemigo enemigo = new Enemigo(columna, fila, 2, 2000);
             nivel.agregarEnemigo(enemigo);
-        }
+        }*/
 
         // Bloques
+        /*
         NodeList blockNodes = staticObjectsContainer.getChildNodes();
         for (int i = 0; i < blockNodes.getLength(); i++) {
             Node nodo = blockNodes.item(i);
@@ -96,7 +99,7 @@ public class CargadorDeNivel {
             double columna = xPx / anchoCelda;
             Bloque bloque = CreadorDeBloque.crearBloque(tipo, columna, fila);
             nivel.agregarBloque(bloque);
-        }
+        }*/
         return nivel;
     }
 
