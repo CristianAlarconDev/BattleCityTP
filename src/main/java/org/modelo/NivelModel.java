@@ -8,10 +8,10 @@ public class NivelModel {
     private final List<Enemigo> Enemigos;
     private final List<Bloque> bloques;
     private List<Disparo> disparos;
-    private int tamanioJugador;
-    private final double tamanioDisparo;
-    private int anchoNivel, altoNivel;
-    private final List<Colisionable> colisionables;
+    private final int tamanioJugador;
+    private final int tamanioDisparo;
+    private final int anchoNivel, altoNivel;
+
 
     public NivelModel(String nombreJugador1, String nombreJugador2){
         this(nombreJugador1,nombreJugador2,800,600);
@@ -25,7 +25,7 @@ public class NivelModel {
         this.Enemigos=new ArrayList<>();
         this.bloques=new ArrayList<>();
         this.disparos=new ArrayList<>();
-        this.colisionables=new ArrayList<>();
+
         this.tamanioDisparo=6;
         this.tamanioJugador=20;
         this.anchoNivel=ancho;
@@ -111,11 +111,13 @@ public class NivelModel {
         }
     }
 
-    private boolean disparoDentroDeLimites(double coordenadaX, double coordenadaY){
-        //return (coordenadaX>=0 && coordenadaY>=0)&&
-          //      (coordenadaX+tamanioDisparo<=ancho
-             //           &&coordenadaY+tamanioDisparo<=alto);
-        return true;
+    private boolean disparoDentroDeLimites(double xCentro, double yCentro){
+        int radioDisparo = tamanioDisparo / 2;
+
+        boolean dentroHorizontal = (xCentro - radioDisparo >= 0) && (xCentro + radioDisparo <= anchoNivel);
+        boolean dentroVertical   = (yCentro - radioDisparo >= 0) && (yCentro + radioDisparo <= altoNivel);
+
+        return dentroHorizontal && dentroVertical;
 
     }
 
