@@ -59,6 +59,7 @@ public class NivelModel {
     }
 
     public void actualizarColisionesConDisparos(){
+        List<Colisionable>colisionables= new ArrayList<>();
         colisionables.addAll(jugadores);
         colisionables.addAll(Enemigos);
         for (Bloque bloque : bloques) {
@@ -67,36 +68,34 @@ public class NivelModel {
             }
         }
 
-        for (Disparo disparo: disparos) {
-            for (Colisionable colisiones : colisionables){
-                if (compararPosiciones(disparo, colisiones)){
-                    colisiones.recibirImpacto(disparo);
+        for (Disparo disparo: new ArrayList<>(disparos)) {
+            for (Colisionable colisionable : colisionables){
+                if (compararPosiciones(disparo, colisionable)){
+                    colisionable.recibirImpacto(disparo);
                     disparo.desactivar();
                     disparos.remove(disparo);
                     break;
                 }
             }
         }
-
-
-
-
-
-
     }
 
     public void actualizar(){
-        actualizarColisionesConDisparos();
 
         for (Disparo disparo: new ArrayList<>(disparos)){
             disparo.mover();
+        }
+
+        actualizarColisionesConDisparos();
+
+        for(Disparo disparo: new ArrayList<>(disparos)){
             if (!disparoDentroDeLimites(disparo.obtenerCoordenadaX(), disparo.obtenerCoordenadaY())){
                 disparo.desactivar();
                 disparos.remove(disparo);
             }
         }
-
     }
+
     private boolean disparoDentroDeLimites(double coordenadaX, double coordenadaY){
         return (coordenadaX>=0 && coordenadaY>=0)&&
                 (coordenadaX+tamanioDisparo<=ancho
@@ -113,6 +112,7 @@ public class NivelModel {
             /*agregar algun cartel en consola o alerta*/
         }
     }
+
     public List<Disparo> obtenerDisparos(){
         return disparos;
     }
