@@ -14,7 +14,8 @@ import org.modelo.Disparo;
 public class TableroView {
     private static final int ANCHO = 800;
     private static final int ALTO = 600;
-    private static final int CELDA = 20;
+    private static final int TAMANIO_JUGADOR = 20;
+    private static final int TAMANIO_DISPARO = 6;
 
     private final JuegoController juegoController;
     private final InputController inputController;
@@ -56,17 +57,18 @@ public class TableroView {
         int i=0;
         for (Jugador jugador: juegoController.obtenerJugadores()){
             graphicsContext.setFill(i == 0? Color.BLUE:Color.RED);
-            graphicsContext.fillRect(jugador.obtenerCoordenadaX(),
-                    jugador.obtenerCoordenadaY(), CELDA, CELDA);
+            double xEsquina = jugador.obtenerCoordenadaX() - (TAMANIO_JUGADOR  / 2.0);
+            double yEsquina = jugador.obtenerCoordenadaY() - (TAMANIO_JUGADOR  / 2.0);
+            graphicsContext.fillRect(xEsquina,yEsquina, TAMANIO_JUGADOR , TAMANIO_JUGADOR );
             i++;
         }
     }
     private void dibujarDisparos(GraphicsContext graphicsContext){
         graphicsContext.setFill(Color.YELLOW);
         for(Disparo disparo: juegoController.obtenerDisparos()){
-            double x = disparo.obtenerCoordenadaX();
-            double y = disparo.obtenerCoordenadaY();
-            graphicsContext.fillRect(x,y, 6, 6);
+            double xEsquina = disparo.obtenerCoordenadaX()-TAMANIO_DISPARO/2.0;
+            double yEsquina = disparo.obtenerCoordenadaY()-TAMANIO_DISPARO/2.0;
+            graphicsContext.fillRect(xEsquina,yEsquina, TAMANIO_DISPARO, TAMANIO_DISPARO);
         }
     }
     private void actualizarPantalla(GraphicsContext graphics){
