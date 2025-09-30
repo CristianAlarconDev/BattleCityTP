@@ -31,11 +31,22 @@ public class NivelModel {
         this.alto=alto;
         this.celda=20;
         this.tamanioDisparo=6;
+        /*
         jugadores.add(new Jugador(nombreJugador1, 100,100,5));
         if (nombreJugador2!=null){
             jugadores.add(new Jugador(nombreJugador2, 200,100,5));
-        }
+        }*/
     }
+    public void agregarBloque(Bloque bloque){
+        this.bloques.add(bloque);
+    }
+    public void agregarEnemigo(Enemigo enemigo){
+        this.Enemigos.add(enemigo);
+    }
+    public void agregarJugador(Jugador jugador){
+        this.jugadores.add(jugador);
+    }
+
     public void moverJugador(int nroJugador,Direccion direccion){
         Jugador jugador=jugadores.get(nroJugador);
         /*chequeo con coord parciales si pasa el limite;
