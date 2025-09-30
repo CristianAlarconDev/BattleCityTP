@@ -10,7 +10,7 @@ import java.io.File;
 
 public class CargadorDeNivel {
 
-    public Nivel cargarNivel(String archivoxml, String archivoxsd) throws Exception{
+    public NivelModel cargarNivel(String archivoxml, String archivoxsd) throws Exception{
         System.out.println("Cargando nivel: " + archivoxml);
 
         var resourcexml = getClass().getResource("/" + archivoxml);
@@ -33,8 +33,8 @@ public class CargadorDeNivel {
         Document document = builder.parse(xmlFile);
         document.getDocumentElement().normalize();
 
-
-        Nivel nivel = new Nivel(2, 60_000);
+        NivelModel nivel = new NivelModel("Cristian", "Juan", 800, 600);
+        //Nivel nivel = new Nivel(2, 60_000);
 
 
         Element root = document.getDocumentElement(); // <levelConfig>
