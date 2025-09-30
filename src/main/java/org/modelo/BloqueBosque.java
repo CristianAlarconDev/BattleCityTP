@@ -23,7 +23,7 @@ public class BloqueBosque extends Bloque {
 
     @Override
     public boolean esColisionable() {
-        return true;
+        return false;
     }
 
 
