@@ -52,7 +52,7 @@ public class TableroView {
         } else if (bloque.bloqueaPasoTanque()) {
             return spriteAgua;
         }
-        else if (bloque.esColisionable()){
+        else if (!bloque.esColisionable()){
             return spriteBosque;
         }
         return spriteBlanco;
