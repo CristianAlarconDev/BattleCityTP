@@ -19,9 +19,12 @@ public class BloqueLadrillo extends Bloque implements Colisionable{
     }
 
     @Override
-    public boolean recibirImpacto(Disparo disparo) {
+    public ResultadoImpacto recibirImpacto(Disparo disparo) {
         resistencia-=1;
-        return true;
+        if (resistencia==0){
+            return ResultadoImpacto.DESTRUIDO;
+        }
+        return ResultadoImpacto.NADA;
     }
     public boolean impideElPaso(){
         return true;
