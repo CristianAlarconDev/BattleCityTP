@@ -10,9 +10,9 @@ public class BloqueBase extends Bloque implements Colisionable {
     public TipoBloque obtenerTipo(){
         return TipoBloque.BASE;
     }
-    public boolean recibirImpacto(Disparo disparo){
+    public ResultadoImpacto recibirImpacto(Disparo disparo){
             resistencia--;
-            return true;
+            return ResultadoImpacto.DESTRUIDO;
     }
     public boolean estaDestruida(){
         return resistencia <= 0;
