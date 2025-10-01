@@ -46,17 +46,35 @@ public class NivelModel {
     public void agregarJugador(Jugador jugador){
         this.jugadores.add(jugador);
     }
+    private boolean seSuperponen(double x1, double y1, int r1,
+                                 double x2, double y2, int r2) {
+        boolean colisionX = Math.abs(x1 - x2) < (r1 + r2);
+        boolean colisionY = Math.abs(y1 - y2) < (r1 + r2);
+        return colisionX && colisionY;
+    }
+    private boolean hayColisionConObstaculo(double xCentro, double yCentro) {
+        for (Bloque bloque : bloques) {
+            if(bloque.impideElPaso()){
+                double xCentroBloque = bloque.obtenerCoordenadaX();
+                double yCentroBloque = bloque.obtenerCoordenadaY();
 
+                if (seSuperponen(xCentro, yCentro, 20 / 2,
+                        xCentroBloque, yCentroBloque, 20 / 2)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     public void moverJugador(int nroJugador,Direccion direccion){
         Jugador jugador=jugadores.get(nroJugador);
-        /*chequeo con coord parciales si pasa el limite;
-        mover a alguna clase o delegar esto, refactorizar*/
         double coordXNueva=(jugador.obtenerCoordenadaX())+
                 (direccion.dX()*jugador.obtenerVelocidadBase());
         double coordYNueva=(jugador.obtenerCoordenadaY())+
                 (direccion.dY()*jugador.obtenerVelocidadBase());
 
-        if (jugadorDentroDeLimites(coordXNueva,coordYNueva)){
+        if (jugadorDentroDeLimites(coordXNueva,coordYNueva)&&
+                !hayColisionConObstaculo(coordXNueva, coordYNueva)){
             jugador.mover(direccion);
         }
     }
