@@ -26,7 +26,7 @@ public class JuegoModel {
     }
     public void actualizar(){
         if(nivelEnJuego.enCurso()) {
-            this.obtenerNivelActual().actualizar();
+            this.obtenerNivelActual().actualizarMovimientos();
         } else {
             if (this.obtenerNivelActual().terminoEnVictoria()) {
                 this.siguienteNivel();

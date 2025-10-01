@@ -25,7 +25,7 @@ public class BloqueAcero extends Bloque {
 
     @Override
     public boolean esColisionable() {
-        return false;
+        return true;
     }
 
 }

@@ -114,8 +114,8 @@ public class NivelModel {
         return colisionaEnX && colisionaEnY;
     }
 
-    public void actualizarColisionesConDisparos(){
-        List<Colisionable>colisionables= new ArrayList<>();
+    private List<Colisionable> obtenerColisionables(){
+        List<Colisionable> colisionables = new ArrayList<>();
         colisionables.addAll(jugadores);
         colisionables.addAll(Enemigos);
         for (Bloque bloque : bloques) {
@@ -123,37 +123,66 @@ public class NivelModel {
                 colisionables.add((Colisionable) bloque);
             }
         }
+        return colisionables;
+    }
+
+    public void actualizarColisionesConDisparos(){
+        List<Colisionable>colisionables= obtenerColisionables();
+
 
         for (Disparo disparo: new ArrayList<>(disparos)) {
             for (Colisionable colisionable : colisionables){
                 if (compararPosiciones(disparo, colisionable)){
                     colisionable.recibirImpacto(disparo);
+                    // modificar recibir impacto de enemigo para que cuando enemigo muera agregue un power up
                     disparo.desactivar();
                     disparos.remove(disparo);
                     break;
                 }
             }
         }
+        /*
+        for (Enemigos enemigo: new ArrayList<>(Enemigos)){
+
+            if (!enemigo.estaActivo()){
+                //Enemigos.remove(enemigo);
+                // crear power up, agregar a lista de power ups
+            }
+        }
+        */
+
+        //recorrer bloques y agarrar bloque base para ver si esta destruido y cambiar estado de nivel a derrota
+
+
     }
 
-    public void actualizar(){
+    public void actualizarMovimientos(){
 
+        moverDisparos();
+        actualizarColisionesConDisparos();
+        disparoFueraDeLimites();
+
+
+        moverEnemigos();
+
+    }
+
+    private void moverDisparos(){
         for (Disparo disparo: new ArrayList<>(disparos)){
             disparo.mover();
         }
+    }
 
-        actualizarColisionesConDisparos();
-
+    private void disparoFueraDeLimites(){
         for(Disparo disparo: new ArrayList<>(disparos)){
             if (!disparoDentroDeLimites(disparo.obtenerCoordenadaX(), disparo.obtenerCoordenadaY())){
                 disparo.desactivar();
                 disparos.remove(disparo);
             }
         }
-
-        moverEnemigos();
-
     }
+
+
 
     private boolean disparoDentroDeLimites(double xCentro, double yCentro){
         int radioDisparo = tamanioDisparo / 2;
