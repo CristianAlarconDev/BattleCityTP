@@ -1,5 +1,6 @@
 package org.modelo;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,16 +12,19 @@ public class NivelModel {
     private final int tamanioJugador;
     private final int tamanioDisparo;
     private final int anchoNivel, altoNivel;
+    private int cantidadDeJugadores;
+    private EstadoNivel estadoNivel;
 
 
     public NivelModel(String nombreJugador1, String nombreJugador2){
-        this(nombreJugador1,nombreJugador2,800,600);
+        this(nombreJugador1,nombreJugador2,800,600,2);
     }
+
     public NivelModel(String nombreJugador1){
-        this(nombreJugador1,null,800,600);
+        this(nombreJugador1,null,800,600,2);
 
     }
-    public NivelModel(String nombreJugador1, String nombreJugador2, int ancho, int alto){
+    public NivelModel(String nombreJugador1, String nombreJugador2, int ancho, int alto, int cantidadDeJugadores){
         this.jugadores=new ArrayList<>();
         this.Enemigos=new ArrayList<>();
         this.bloques=new ArrayList<>();
@@ -30,11 +34,9 @@ public class NivelModel {
         this.tamanioJugador=20;
         this.anchoNivel=ancho;
         this.altoNivel=alto;
-        /*
-        jugadores.add(new Jugador(nombreJugador1, 100,100,5));
-        if (nombreJugador2!=null){
-            jugadores.add(new Jugador(nombreJugador2, 200,100,5));
-        }*/
+        this.cantidadDeJugadores=cantidadDeJugadores;
+        this.estadoNivel=EstadoNivel.EN_CURSO;
+
     }
     public void agregarBloque(Bloque bloque){
         this.bloques.add(bloque);
@@ -77,6 +79,19 @@ public class NivelModel {
             jugador.mover(direccion);
         }
     }
+
+    public void moverEnemigos(){
+        for (Enemigo enemigo: Enemigos){
+            double coordXNueva=(enemigo.obtenerCoordenadaX());
+            double coordYNueva=(enemigo.obtenerCoordenadaY());
+
+            //cambiar nombre de metodo jugadorDentroDeLimites
+            if (jugadorDentroDeLimites(coordXNueva,coordYNueva)&&
+                    !hayColisionConObstaculo(coordXNueva, coordYNueva)){
+                enemigo.mover();
+            }
+        }
+    }
     private boolean jugadorDentroDeLimites(double xCentro, double yCentro){
         int radioJugador = tamanioJugador / 2;
 
@@ -99,8 +114,8 @@ public class NivelModel {
         return colisionaEnX && colisionaEnY;
     }
 
-    public void actualizarColisionesConDisparos(){
-        List<Colisionable>colisionables= new ArrayList<>();
+    private List<Colisionable> obtenerColisionables(){
+        List<Colisionable> colisionables = new ArrayList<>();
         colisionables.addAll(jugadores);
         colisionables.addAll(Enemigos);
         for (Bloque bloque : bloques) {
@@ -108,27 +123,57 @@ public class NivelModel {
                 colisionables.add((Colisionable) bloque);
             }
         }
+        return colisionables;
+    }
+
+    public void actualizarColisionesConDisparos(){
+        List<Colisionable>colisionables= obtenerColisionables();
+
 
         for (Disparo disparo: new ArrayList<>(disparos)) {
             for (Colisionable colisionable : colisionables){
                 if (compararPosiciones(disparo, colisionable)){
                     colisionable.recibirImpacto(disparo);
+                    // modificar recibir impacto de enemigo para que cuando enemigo muera agregue un power up
                     disparo.desactivar();
                     disparos.remove(disparo);
                     break;
                 }
             }
         }
+        /*
+        for (Enemigos enemigo: new ArrayList<>(Enemigos)){
+
+            if (!enemigo.estaActivo()){
+                //Enemigos.remove(enemigo);
+                // crear power up, agregar a lista de power ups
+            }
+        }
+        */
+
+        //recorrer bloques y agarrar bloque base para ver si esta destruido y cambiar estado de nivel a derrota
+
+
     }
 
-    public void actualizar(){
+    public void actualizarMovimientos(){
 
+        moverDisparos();
+        actualizarColisionesConDisparos();
+        disparoFueraDeLimites();
+
+
+        moverEnemigos();
+
+    }
+
+    private void moverDisparos(){
         for (Disparo disparo: new ArrayList<>(disparos)){
             disparo.mover();
         }
+    }
 
-        actualizarColisionesConDisparos();
-
+    private void disparoFueraDeLimites(){
         for(Disparo disparo: new ArrayList<>(disparos)){
             if (!disparoDentroDeLimites(disparo.obtenerCoordenadaX(), disparo.obtenerCoordenadaY())){
                 disparo.desactivar();
@@ -136,6 +181,8 @@ public class NivelModel {
             }
         }
     }
+
+
 
     private boolean disparoDentroDeLimites(double xCentro, double yCentro){
         int radioDisparo = tamanioDisparo / 2;
@@ -169,5 +216,16 @@ public class NivelModel {
     }
     public List<Bloque> obtenerBloques(){
         return bloques;
+    }
+
+    public boolean enCurso(){
+        return estadoNivel==EstadoNivel.EN_CURSO;
+    }
+
+    public boolean terminoEnVictoria(){
+        return estadoNivel==EstadoNivel.VICTORIA;
+    }
+    public boolean terminoEnDerrota(){
+        return estadoNivel==EstadoNivel.DERROTA;
     }
 }

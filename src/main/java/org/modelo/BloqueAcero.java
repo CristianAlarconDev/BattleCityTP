@@ -1,6 +1,6 @@
 package org.modelo;
 
-public class BloqueAcero extends Bloque {
+public class BloqueAcero extends Bloque implements Colisionable {
 
     public BloqueAcero(Vector2D posicion) {
         super(posicion.obtenerCoordenadaX(), posicion.obtenerCoordenadaY());
@@ -25,7 +25,12 @@ public class BloqueAcero extends Bloque {
 
     @Override
     public boolean esColisionable() {
-        return false;
+        return true;
+    }
+
+    @Override
+    public boolean recibirImpacto(Disparo disparo) {
+        return true;
     }
 
 }

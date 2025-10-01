@@ -11,8 +11,13 @@ public class BloqueBase extends Bloque implements Colisionable {
         return TipoBloque.BASE;
     }
     public boolean recibirImpacto(Disparo disparo){
+            resistencia--;
             return true;
     }
+    public boolean estaDestruida(){
+        return resistencia <= 0;
+    }
+
     public double obtenerCoordenadaX(){
         return posicion.obtenerCoordenadaX();
     }

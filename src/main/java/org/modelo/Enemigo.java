@@ -35,6 +35,7 @@ public class Enemigo implements Colisionable {
         if (disparo.esDeJugador()) {
             return recibirDanio();
         }
+
         return false;
     }
 
@@ -46,6 +47,7 @@ public class Enemigo implements Colisionable {
         duracionConducta= 1000 + (long)(Math.random() * 4000); // 1-5s
         ultimaPosicion= tanque.obtenerPosicion();
         ultimoPosicionCambio= System.currentTimeMillis();
+        ultimoMovimiento= System.currentTimeMillis();
     }
     public Enemigo(double coordenadaX, double coordenadaY,
                    double velocidadBase, long intervaloMovimiento) {
@@ -58,13 +60,19 @@ public class Enemigo implements Colisionable {
         this.pasosMaximos = pasosMaximos;
     }
 
+    private boolean noSeMovioRecientemente() {
+        Vector2D posicionActual = tanque.obtenerPosicion();
+        return posicionActual.esIgualA(ultimaPosicion) || (System.currentTimeMillis() - ultimoPosicionCambio > 2000);
+    }
 
     public boolean mover() {
         long tiempoActual = System.currentTimeMillis();
-        if (tiempoActual - ultimoMovimiento >= INTERVALO_MOVIMIENTO) {
+        if ((tiempoActual - ultimoMovimiento >= INTERVALO_MOVIMIENTO) && noSeMovioRecientemente()) {
+            Vector2D ultimaPosicion = tanque.obtenerPosicion();
             direccionActual = elegirDireccionAleatoria();
             actualizarPosicion(direccionActual);
             ultimoMovimiento = tiempoActual;
+            ultimoPosicionCambio = System.currentTimeMillis();
             return true;
         }
         return false;
@@ -104,33 +112,5 @@ public class Enemigo implements Colisionable {
         return null; // Ya hay un disparo activo
     }
 
-
-    public void moverSegunIA() {
-        long tiempoActual = System.currentTimeMillis();
-
-        // Cambio dirección si se acabó el tiempo de conducta
-        if (tiempoActual - inicioTiempoConducta >= duracionConducta) {
-            direccionActual = elegirDireccionAleatoria();
-            inicioTiempoConducta = tiempoActual;
-            duracionConducta = 1000 + (long)(Math.random() * 4000); // 1-5s
-        }
-
-        // Cambio dirección si está bloqueado más de 2 segundos
-        Vector2D posActual = tanque.obtenerPosicion();
-        if (posActual.esIgualA(ultimaPosicion)) {
-            if (tiempoActual - ultimoPosicionCambio >= 2000) {
-                direccionActual = elegirDireccionAleatoria();
-                inicioTiempoConducta = tiempoActual;
-                duracionConducta = 1000 + (long)(Math.random() * 4000);
-                ultimoPosicionCambio = tiempoActual;
-            }
-        } else {
-            ultimaPosicion = posActual;
-            ultimoPosicionCambio = tiempoActual;
-        }
-
-        // Mover tanque en la dirección actual
-        tanque.mover(direccionActual);
-    }
 
 }

@@ -6,7 +6,7 @@ public class CargadorDeNivelTest {
     public static void main(String[] args) {
         try {
             CargadorDeNivel cargador = new CargadorDeNivel();
-            NivelModel nivel = cargador.cargarNivel("nivel_de_prueba.xml", "levelConfig.xsd");
+            NivelModel nivel = cargador.cargarNivel("nivel_de_prueba.xml", "levelConfig.xsd",2,"cristian","juan");
 
             System.out.println("Jugadores:");
             for (Tanque j : nivel.obtenerJugadores()) {
