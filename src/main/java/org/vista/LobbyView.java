@@ -15,7 +15,7 @@ import java.util.function.IntConsumer;
 
 
 public class LobbyView {
-    public static Scene create(IntConsumer onStart, Runnable onBack){
+    public static Scene create(IntConsumer iniciarPartida, Runnable volverAlMenu){
         Label titulo= new Label("Configuracion de partida");
         titulo.setFont(Font.font("System", 24));
         titulo.setStyle("-fx-text-fill: #e2e8f0");
@@ -33,9 +33,9 @@ public class LobbyView {
         Button regresarBtn = new Button("Regresar");
         Button comenzarBtn = new Button("Comenzar");
 
-        regresarBtn.setOnAction(e -> onBack.run());
+        regresarBtn.setOnAction(e -> volverAlMenu.run());
 
-        comenzarBtn.setOnAction(e -> onStart.accept(jugadores.getValue()));
+        comenzarBtn.setOnAction(e -> iniciarPartida.accept(jugadores.getValue()));
 
         HBox botonesBox = new HBox(10,regresarBtn,comenzarBtn);
         botonesBox.setAlignment(Pos.CENTER);
