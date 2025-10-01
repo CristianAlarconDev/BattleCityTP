@@ -12,15 +12,21 @@ public class JuegoController {
         juego = new JuegoModel(cantJugadores);
 
     }
-    public void moverJugador(int jugador ,Direccion direccion){
-        juego.moverJugador(jugador, direccion);
+    public void moverJugador(int nroJugador ,Direccion direccion){
+        juego.moverJugador(nroJugador, direccion);
     }
-    public void moverEnemigos(){
-        juego.moverEnemigos();
+    public boolean terminoEnVictoria() {
+        return juego.terminoEnVictoria();
     }
 
-    public void jugadorNroDispara(int jugador){
-        juego.jugadorNroDispara(jugador);
+    public boolean terminoEnDerrota() {
+        return juego.terminoEnDerrota();
+    }
+    public void siguienteNivel(){
+        juego.siguienteNivel();
+    }
+    public void jugadorDispara(int jugador){
+        juego.jugadorDispara(jugador);
     }
     public List<Jugador> obtenerJugadores(){
         return juego.obtenerJugadores();
