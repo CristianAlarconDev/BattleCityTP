@@ -1,7 +1,7 @@
 package org.modelo;
 
 public interface Colisionable {
-    boolean recibirImpacto(Disparo disparo);
+    ResultadoImpacto recibirImpacto(Disparo disparo);
     double obtenerCoordenadaX();
     double obtenerCoordenadaY();
 
