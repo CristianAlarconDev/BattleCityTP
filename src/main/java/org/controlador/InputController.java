@@ -26,8 +26,8 @@ public class InputController {
             case LEFT ->  direccionesActivas.put(1,Direccion.IZQUIERDA);
             case DOWN -> direccionesActivas.put(1,Direccion.ABAJO);
             case RIGHT-> direccionesActivas.put(1,Direccion.DERECHA);
-            case SPACE -> juegoController.jugadorNroDispara(0);
-            case ENTER -> juegoController.jugadorNroDispara(1);
+            case SPACE -> juegoController.jugadorDispara(0);
+            case ENTER -> juegoController.jugadorDispara(1);
         }
     }
     public void  soltarTecla(KeyCode tecla){
