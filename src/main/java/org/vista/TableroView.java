@@ -80,14 +80,29 @@ public class TableroView {
         timer.start();
         return scene;
     }
+    private void dibujarJugador(GraphicsContext graphicsContext,Jugador jugador, Image sprite){
+        double x = jugador.obtenerCoordenadaX();
+        double y = jugador.obtenerCoordenadaY();
+        int ancho =TAMANIO_JUGADOR;
+        int alto =TAMANIO_JUGADOR;
+        double angulo=switch(jugador.obtenerDireccionActual()){
+            case DERECHA -> 90;
+            case IZQUIERDA -> 270;
+            case ARRIBA -> 0;
+            case ABAJO -> 180;
+        };
+        graphicsContext.save();
+        graphicsContext.translate(x,y);
+        graphicsContext.rotate(angulo);
+        graphicsContext.drawImage(sprite,-ancho/2.0,-alto/2.0,ancho,alto);
+        graphicsContext.restore();
+    }
     private void dibujarJugadores(GraphicsContext graphicsContext){
         var jugadores = juegoController.obtenerJugadores();
         for(int nroJugador=0;nroJugador<jugadores.size();nroJugador++){
             Jugador jugador = jugadores.get(nroJugador);
             Image sprite = (nroJugador==0)? spritePrimerJugador:spriteSegundoJugador;
-            double xEsquina = jugador.obtenerCoordenadaX() - (TAMANIO_JUGADOR  / 2.0);
-            double yEsquina = jugador.obtenerCoordenadaY() - (TAMANIO_JUGADOR  / 2.0);
-            graphicsContext.drawImage(sprite,xEsquina,yEsquina,TAMANIO_JUGADOR,TAMANIO_JUGADOR);
+            dibujarJugador(graphicsContext,jugador,sprite);
         }
     }
     private void dibujarDisparos(GraphicsContext graphics){
