@@ -12,7 +12,7 @@ public class Tanque {
         this.velocidadBase = velocidadBase;
         this.direccionActual = Direccion.ARRIBA;
     }
-    protected Direccion obtenerDireccionActual(){
+    public Direccion obtenerDireccionActual(){
         return direccionActual;
     }
 
