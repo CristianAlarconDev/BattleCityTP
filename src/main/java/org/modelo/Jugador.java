@@ -18,13 +18,17 @@ public class Jugador extends Tanque implements Colisionable {
     }
 
 
-    public boolean recibirImpacto(Disparo disparo) {
+    public ResultadoImpacto recibirImpacto(Disparo disparo) {
+        this.vidasTotales--;
+
         if (disparo.esDeJugador()) {
             //se congela el jugador que recibe el disparo
-            return false;
+            return ResultadoImpacto.CONGELADO;
         }
-        this.recibirDanio();
-        return true;
+        if (vidasTotales<=0){
+            return ResultadoImpacto.JUGADOR_ELIMINADO;
+        }
+        return ResultadoImpacto.NADA;
     }
 
 
