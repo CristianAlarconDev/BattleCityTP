@@ -21,14 +21,14 @@ public class JuegoApp extends Application {
     }
     private void mostrarLobby()
     {
-        Scene lobby = LobbyView.create(this::inciarPartida,
+        Scene lobby = LobbyView.create(this::iniciarPartida,
             this::mostrarMenu);
         stage.setScene(lobby);
     }
 
-    private void inciarPartida(int cantidadJugadores){
+    private void iniciarPartida(int cantidadJugadores){
         JuegoController controller = new JuegoController(cantidadJugadores);
-        Scene tablero = new TableroView(controller).crearTableroView();
+        Scene tablero = new TableroView(controller, this::mostrarMenu, stage::setScene).crearTableroView();
 
         stage.setScene(tablero);
     }
