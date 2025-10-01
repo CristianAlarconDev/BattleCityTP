@@ -29,8 +29,8 @@ public class BloqueAcero extends Bloque implements Colisionable {
     }
 
     @Override
-    public boolean recibirImpacto(Disparo disparo) {
-        return true;
+    public ResultadoImpacto recibirImpacto(Disparo disparo) {
+        return ResultadoImpacto.NADA;
     }
 
 }
