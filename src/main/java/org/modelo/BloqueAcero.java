@@ -9,7 +9,7 @@ public class BloqueAcero extends Bloque {
         return TipoBloque.ACERO;
     }
     @Override
-    public boolean bloqueaPasoTanque() {
+    public boolean impideElPaso() {
         return true;
     }
 

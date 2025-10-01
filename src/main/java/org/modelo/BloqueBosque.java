@@ -6,12 +6,12 @@ public class BloqueBosque extends Bloque {
     }
 
 
-    public TipoBloque obtenerTipo(){
+    public TipoBloque obtenerTipo() {
         return TipoBloque.BOSQUE;
     }
 
     @Override
-    public boolean bloqueaPasoTanque() {
+    public boolean impideElPaso() {
         return false;
     }
 
@@ -29,11 +29,6 @@ public class BloqueBosque extends Bloque {
     @Override
     public boolean esColisionable() {
         return false;
-    }
-
-
-    public boolean ocultaTanque() {
-        return true; // la vista puede usar esto para dibujar tanques ocultos
     }
 
 }

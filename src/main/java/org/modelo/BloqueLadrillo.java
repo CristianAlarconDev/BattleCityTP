@@ -23,20 +23,14 @@ public class BloqueLadrillo extends Bloque implements Colisionable{
         resistencia-=1;
         return true;
     }
-
+    public boolean impideElPaso(){
+        return true;
+    }
     public TipoBloque obtenerTipo(){
         return TipoBloque.LADRILLO;
     }
     public boolean destruido(){
         return resistencia == 0;
-    }
-
-
-
-
-    @Override
-    public boolean bloqueaPasoTanque() {
-        return true;
     }
 
     @Override
