@@ -69,8 +69,16 @@ public class NivelModel {
     }
 
     private boolean compararPosiciones(Disparo disparo, Colisionable colisionable){
-        return disparo.obtenerCoordenadaX() == colisionable.obtenerCoordenadaX() &&
-                disparo.obtenerCoordenadaY() == colisionable.obtenerCoordenadaY();
+        double xColisionable = colisionable.obtenerCoordenadaX();
+        double yColisionable = colisionable.obtenerCoordenadaY();
+        double xDisparo = disparo.obtenerCoordenadaX();
+        double yDisparo = disparo.obtenerCoordenadaY();
+        int radioDisparo = tamanioDisparo / 2;
+        int radioColisionable = tamanioJugador / 2;
+        boolean colisionaEnX = Math.abs(xDisparo - xColisionable) <= (radioDisparo + radioColisionable);
+        boolean colisionaEnY = Math.abs(yDisparo - yColisionable) <= (radioDisparo + radioColisionable);
+
+        return colisionaEnX && colisionaEnY;
     }
 
     public void actualizarColisionesConDisparos(){
