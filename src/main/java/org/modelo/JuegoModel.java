@@ -10,29 +10,26 @@ public class JuegoModel {
     public JuegoModel(int cantJugadores){
         niveles= new ArrayList<>();
         nivelActual=0;
-
         CargadorDeNivel cargador = new CargadorDeNivel();
         try {
             NivelModel nivel = cargador.cargarNivel("nivel1.xml", "levelConfig.xsd",cantJugadores,"cristian","juan");
-            nivelEnJuego = nivel;
             NivelModel nivel2 = cargador.cargarNivel("nivel_de_prueba.xml", "levelConfig.xsd",cantJugadores,"cristian","juan");
-
             niveles.add(nivel);
             niveles.add(nivel2);
+            nivelEnJuego = nivel;
         }
         catch (Exception e) {
             e.printStackTrace();
         }
     }
     public void actualizar(){
-        if(nivelEnJuego.enCurso()) {
-            this.obtenerNivelActual().actualizarMovimientos();
-        } else {
-            if (this.obtenerNivelActual().terminoEnVictoria()) {
-                this.siguienteNivel();
-            } else if (this.obtenerNivelActual().terminoEnDerrota()) {
-                //vuelve al menu
-            }
+        if (nivelEnJuego.enCurso()) {
+            nivelEnJuego.actualizarMovimientos();
+        } else if (nivelEnJuego.terminoEnVictoria()) {
+            System.out.println("Victoria detectada en JuegoModel");
+            siguienteNivel();
+        } else if (nivelEnJuego.terminoEnDerrota()) {
+            return;
         }
     }
 
@@ -54,31 +51,39 @@ public class JuegoModel {
     }
     public void siguienteNivel(){
         nivelActual++;
-        if(nivelActual<=niveles.size()){
+        if(nivelActual<niveles.size()){
             nivelEnJuego=niveles.get(nivelActual);
         }
+        else{
+            System.out.println("Juego terminado");
+        }
+    }
+    public boolean terminoEnVictoria() {
+        return nivelEnJuego.terminoEnVictoria();
     }
 
+    public boolean terminoEnDerrota() {
+        return nivelEnJuego.terminoEnDerrota();
+    }
     public boolean juegoTerminado(){
+
         return nivelActual>=niveles.size();
     }
 
     public void reiniciarNivel(){
-        nivelActual=0;
+        nivelActual = 0;
+        if (!niveles.isEmpty()) {
+            nivelEnJuego = niveles.get(nivelActual);
+        }
     }
 
-    /*acciones*/
     public void moverJugador(int nroJugador,Direccion direccion){
-        obtenerNivelActual().moverJugador(nroJugador, direccion);
+        nivelEnJuego.moverJugador(nroJugador, direccion);
     }
 
-    public void moverEnemigos(){
+    public void jugadorDispara(int nroJugador){
 
-        obtenerNivelActual().moverEnemigos();
-    }
-
-    public void jugadorNroDispara(int nroJugador){
-        obtenerNivelActual().jugadorDisparar(nroJugador);
+        nivelEnJuego.jugadorDisparar(nroJugador);
     }
 
 
