@@ -6,7 +6,7 @@ import java.util.List;
 
 public class NivelModel {
     private final List<Jugador> jugadores;
-    private final List<Enemigo> Enemigos;
+    private final List<Enemigo> enemigos;
     private final List<Bloque> bloques;
     private List<Disparo> disparos;
     private final int tamanioJugador;
@@ -26,7 +26,7 @@ public class NivelModel {
     }
     public NivelModel(String nombreJugador1, String nombreJugador2, int ancho, int alto, int cantidadDeJugadores){
         this.jugadores=new ArrayList<>();
-        this.Enemigos=new ArrayList<>();
+        this.enemigos=new ArrayList<>();
         this.bloques=new ArrayList<>();
         this.disparos=new ArrayList<>();
 
@@ -42,7 +42,7 @@ public class NivelModel {
         this.bloques.add(bloque);
     }
     public void agregarEnemigo(Enemigo enemigo){
-        this.Enemigos.add(enemigo);
+        this.enemigos.add(enemigo);
     }
     public void agregarJugador(Jugador jugador){
         this.jugadores.add(jugador);
@@ -81,7 +81,7 @@ public class NivelModel {
     }
 
     public void moverEnemigos(){
-        for (Enemigo enemigo: Enemigos){
+        for (Enemigo enemigo: enemigos){
             double coordXNueva=(enemigo.obtenerCoordenadaX());
             double coordYNueva=(enemigo.obtenerCoordenadaY());
 
@@ -117,7 +117,7 @@ public class NivelModel {
     private List<Colisionable> obtenerColisionables(){
         List<Colisionable> colisionables = new ArrayList<>();
         colisionables.addAll(jugadores);
-        colisionables.addAll(Enemigos);
+        colisionables.addAll(enemigos);
         for (Bloque bloque : bloques) {
             if (bloque.esColisionable()) {
                 colisionables.add((Colisionable) bloque);
@@ -129,30 +129,34 @@ public class NivelModel {
     public void actualizarColisionesConDisparos(){
         List<Colisionable>colisionables= obtenerColisionables();
 
-
         for (Disparo disparo: new ArrayList<>(disparos)) {
             for (Colisionable colisionable : colisionables){
                 if (compararPosiciones(disparo, colisionable)){
-                    colisionable.recibirImpacto(disparo);
-                    // modificar recibir impacto de enemigo para que cuando enemigo muera agregue un power up
+                    ResultadoImpacto resultado =colisionable.recibirImpacto(disparo);
+
+                    if (resultado == ResultadoImpacto.ENEMIGO_ELIMINADO) {
+                        this.enemigos.remove(colisionable);
+                        System.out.println("Enemigo eliminado, quedan: " + this.enemigos.size());
+                    }
+
+                    if (resultado == ResultadoImpacto.DESTRUIDO) {
+                        bloques.remove(colisionable);
+                    }
+
+                    if (resultado == ResultadoImpacto.JUGADOR_ELIMINADO) {
+                        jugadores.remove(colisionable);
+                    }
+                    if (resultado == ResultadoImpacto.BASE_DESTRUIDA) {
+                        estadoNivel=EstadoNivel.DERROTA;
+                        return;
+                    }
+
                     disparo.desactivar();
                     disparos.remove(disparo);
                     break;
                 }
             }
         }
-        /*
-        for (Enemigos enemigo: new ArrayList<>(Enemigos)){
-
-            if (!enemigo.estaActivo()){
-                //Enemigos.remove(enemigo);
-                // crear power up, agregar a lista de power ups
-            }
-        }
-        */
-
-        //recorrer bloques y agarrar bloque base para ver si esta destruido y cambiar estado de nivel a derrota
-
 
     }
 
@@ -162,6 +166,7 @@ public class NivelModel {
         actualizarColisionesConDisparos();
         disparoFueraDeLimites();
         moverEnemigos();
+        verificarEstadoNivel();
 
     }
 
@@ -180,8 +185,18 @@ public class NivelModel {
         }
     }
 
+    private void verificarEstadoNivel(){
+        System.out.println("Verificar estado: enemigos=" + enemigos.size());
+        if(this.enemigos.isEmpty()){
+            System.out.println("ganaste el nivel");
+            this.estadoNivel=EstadoNivel.VICTORIA;
+        }
+        if (jugadores.isEmpty()){
+            this.estadoNivel=EstadoNivel.DERROTA;
+        }
 
 
+    }
     private boolean disparoDentroDeLimites(double xCentro, double yCentro){
         int radioDisparo = tamanioDisparo / 2;
 
@@ -210,7 +225,7 @@ public class NivelModel {
     }
 
     public List<Enemigo> obtenerEnemigos() {
-        return Enemigos;
+        return enemigos;
     }
     public List<Bloque> obtenerBloques(){
         return bloques;
