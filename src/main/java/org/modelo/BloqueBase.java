@@ -21,7 +21,7 @@ public class BloqueBase extends Bloque implements Colisionable {
     }
 
     @Override
-    public boolean bloqueaPasoTanque() {
+    public boolean impideElPaso() {
         return true;
     }
 

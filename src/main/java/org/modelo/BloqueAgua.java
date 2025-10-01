@@ -8,7 +8,7 @@ public class BloqueAgua extends Bloque{
         return TipoBloque.AGUA;
     }
     @Override
-    public boolean bloqueaPasoTanque() {
+    public boolean impideElPaso() {
         return true;
     }
 

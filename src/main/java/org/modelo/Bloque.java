@@ -18,7 +18,7 @@ public abstract class Bloque  {
         return posicion.obtenerCoordenadaY();
     }
     public abstract TipoBloque obtenerTipo();
-    public abstract boolean bloqueaPasoTanque();
+    public abstract boolean impideElPaso();
     public abstract boolean bloqueaDisparo();
     public abstract boolean esDestructible();
     public abstract boolean esColisionable();
