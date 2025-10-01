@@ -6,26 +6,37 @@ import java.util.List;
 public class JuegoModel {
     private List<NivelModel> niveles;
     private int nivelActual;
+    private NivelModel nivelEnJuego;
     public JuegoModel(int cantJugadores){
         niveles= new ArrayList<>();
         nivelActual=0;
+
         CargadorDeNivel cargador = new CargadorDeNivel();
         try {
-            NivelModel nivel = cargador.cargarNivel("nivel_de_prueba.xml", "levelConfig.xsd",cantJugadores,"cristian","juan");
-        /*
-        if (cantJugadores == 1) {
-            nivelInicial = new NivelModel("jugador 1");
-        } else if (cantJugadores == 2) {
-            nivelInicial = new NivelModel("jugador 1", "jugador 2");
-        } else {
-            throw new IllegalArgumentException("Cantidad de jugadores no soportada: " + cantJugadores);
-        }*/
+            NivelModel nivel = cargador.cargarNivel("nivel1.xml", "levelConfig.xsd",cantJugadores,"cristian","juan");
+            nivelEnJuego = nivel;
+            NivelModel nivel2 = cargador.cargarNivel("nivel_de_prueba.xml", "levelConfig.xsd",cantJugadores,"cristian","juan");
+
             niveles.add(nivel);
+            niveles.add(nivel2);
         }
         catch (Exception e) {
             e.printStackTrace();
         }
     }
+    public void actualizar(){
+        if(nivelEnJuego.enCurso()) {
+            this.obtenerNivelActual().actualizar();
+        } else {
+            if (this.obtenerNivelActual().terminoEnVictoria()) {
+                this.siguienteNivel();
+            } else if (this.obtenerNivelActual().terminoEnDerrota()) {
+                //vuelve al menu
+            }
+        }
+    }
+
+
     private NivelModel obtenerNivelActual(){
         return niveles.get(nivelActual);
     }
@@ -43,7 +54,15 @@ public class JuegoModel {
     }
     public void siguienteNivel(){
         nivelActual++;
+        if(nivelActual<=niveles.size()){
+            nivelEnJuego=niveles.get(nivelActual);
+        }
     }
+
+    public boolean juegoTerminado(){
+        return nivelActual>=niveles.size();
+    }
+
     public void reiniciarNivel(){
         nivelActual=0;
     }
@@ -55,8 +74,6 @@ public class JuegoModel {
     public void jugadorNroDispara(int nroJugador){
         obtenerNivelActual().jugadorDisparar(nroJugador);
     }
-    public void actualizar(){
-        this.obtenerNivelActual().actualizar();
-    }
+
 
 }

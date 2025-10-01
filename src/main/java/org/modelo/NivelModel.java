@@ -12,6 +12,7 @@ public class NivelModel {
     private final int tamanioDisparo;
     private final int anchoNivel, altoNivel;
     private int cantidadDeJugadores;
+    private EstadoNivel estadoNivel;
 
 
     public NivelModel(String nombreJugador1, String nombreJugador2){
@@ -33,6 +34,7 @@ public class NivelModel {
         this.anchoNivel=ancho;
         this.altoNivel=alto;
         this.cantidadDeJugadores=cantidadDeJugadores;
+        this.estadoNivel=EstadoNivel.EN_CURSO;
 
     }
     public void agregarBloque(Bloque bloque){
@@ -150,5 +152,16 @@ public class NivelModel {
     }
     public List<Bloque> obtenerBloques(){
         return bloques;
+    }
+
+    public boolean enCurso(){
+        return estadoNivel==EstadoNivel.EN_CURSO;
+    }
+
+    public boolean terminoEnVictoria(){
+        return estadoNivel==EstadoNivel.VICTORIA;
+    }
+    public boolean terminoEnDerrota(){
+        return estadoNivel==EstadoNivel.DERROTA;
     }
 }
