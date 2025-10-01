@@ -10,6 +10,7 @@ import org.controlador.JuegoController;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import org.modelo.*;
+import java.util.function.Consumer;
 
 public class TableroView {
     private static final int ANCHO = 800;
@@ -22,11 +23,15 @@ public class TableroView {
     private Image spriteTanqueRegular;
     private final JuegoController juegoController;
     private final InputController inputController;
+    private final Runnable volverAlMenu;
+    private final Consumer<Scene> cambiarEscena;
 
 
-    public TableroView(JuegoController juegoController) {
+    public TableroView(JuegoController juegoController, Runnable volverAlMenu, Consumer<Scene> cambiarEscena) {
         this.juegoController = juegoController;
         this.inputController = new InputController(juegoController);
+        this.volverAlMenu = volverAlMenu;
+        this.cambiarEscena = cambiarEscena;
     }
     private Image cargarImagen(String ruta){
         var url = getClass().getResource(ruta);
@@ -75,6 +80,16 @@ public class TableroView {
                 inputController.procesarInputs();
                 juegoController.actualizarJuego();
                 actualizarPantalla(graphics);
+                if (juegoController.terminoEnDerrota()) {
+                    stop();
+                    volverAlMenu.run();
+                } else if (juegoController.terminoEnVictoria()) {
+                    stop();
+                    juegoController.siguienteNivel();
+
+                    Scene nuevoTablero = new TableroView(juegoController, volverAlMenu, cambiarEscena).crearTableroView();
+                    cambiarEscena.accept(nuevoTablero);
+                }
             }
         };
         timer.start();
@@ -153,9 +168,9 @@ public class TableroView {
     private void actualizarPantalla(GraphicsContext graphics){
         graphics.setFill(Color.BLACK);
         graphics.fillRect(0, 0, ANCHO, ALTO);
-        dibujarJugadores(graphics);
-        dibujarDisparos(graphics);
         dibujarBloques(graphics);
+        dibujarJugadores(graphics);
         dibujarEnemigos(graphics);
+        dibujarDisparos(graphics);
     }
 }
