@@ -97,6 +97,24 @@ public class TableroView {
         graphicsContext.drawImage(sprite,-ancho/2.0,-alto/2.0,ancho,alto);
         graphicsContext.restore();
     }
+    private void dibujarEnemigo(GraphicsContext graphicsContext,Enemigo enemigo, Image sprite){
+        double x = enemigo.obtenerCoordenadaX();
+        double y = enemigo.obtenerCoordenadaY();
+        int ancho =TAMANIO_JUGADOR;
+        int alto =TAMANIO_JUGADOR;
+        double angulo=switch(enemigo.obtenerDireccionActual()){
+            case DERECHA -> 90;
+            case IZQUIERDA -> 270;
+            case ARRIBA -> 0;
+            case ABAJO -> 180;
+        };
+        graphicsContext.save();
+        graphicsContext.translate(x,y);
+        graphicsContext.rotate(angulo);
+        graphicsContext.drawImage(sprite,-ancho/2.0,-alto/2.0,ancho,alto);
+        graphicsContext.restore();
+    }
+
     private void dibujarJugadores(GraphicsContext graphicsContext){
         var jugadores = juegoController.obtenerJugadores();
         for(int nroJugador=0;nroJugador<jugadores.size();nroJugador++){
@@ -125,9 +143,10 @@ public class TableroView {
     private void dibujarEnemigos(GraphicsContext graphicsContext){
         graphicsContext.setFill(Color.RED);
         for(Enemigo enemigo: juegoController.obtenerEnemigos()){
-            double xEsquina = enemigo.obtenerCoordenadaX()-TAMANIO_JUGADOR/2.0;
-            double yEsquina = enemigo.obtenerCoordenadaY()-TAMANIO_JUGADOR/2.0;
-            graphicsContext.drawImage(spriteTanqueRegular,xEsquina,yEsquina,TAMANIO_JUGADOR,TAMANIO_JUGADOR);
+            //double xEsquina = enemigo.obtenerCoordenadaX()-TAMANIO_JUGADOR/2.0;
+            //double yEsquina = enemigo.obtenerCoordenadaY()-TAMANIO_JUGADOR/2.0;
+            dibujarEnemigo(graphicsContext,enemigo,spriteTanqueRegular);
+            //graphicsContext.drawImage(spriteTanqueRegular,xEsquina,yEsquina,TAMANIO_JUGADOR,TAMANIO_JUGADOR);
 
         }
     }
