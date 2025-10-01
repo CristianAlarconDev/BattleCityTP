@@ -10,6 +10,7 @@ public class Enemigo implements Colisionable {
     private Direccion direccionActual;
     //private double velocidad;
     private int pasosMaximos;
+    private int vidas;
 
 
 
@@ -19,10 +20,10 @@ public class Enemigo implements Colisionable {
     private Vector2D ultimaPosicion;     // última posición para detectar si está bloqueado
     private long ultimoPosicionCambio;   // tiempo en que la posición cambió
 
+
     public Direccion obtenerDireccionActual() {
         return direccionActual;
     }
-
     @Override
     public double obtenerCoordenadaX() {
         return tanque.obtenerPosicion().obtenerCoordenadaX();
@@ -33,17 +34,20 @@ public class Enemigo implements Colisionable {
         return tanque.obtenerPosicion().obtenerCoordenadaY();
     }
 
-    public boolean recibirImpacto(Disparo disparo) {
-        if (disparo.esDeJugador()) {
-            return recibirDanio();
+    public ResultadoImpacto recibirImpacto(Disparo disparo) {
+        vidas--;
+        if (vidas <= 0) {
+            if (disparo.esDeJugador()) {
+                return ResultadoImpacto.ENEMIGO_ELIMINADO;
+            }
+            return ResultadoImpacto.DESTRUIDO;
         }
-
-        return false;
+        return ResultadoImpacto.NADA;
     }
 
     public Enemigo(double coordenadaX, double coordenadaY, double velocidadBase) {
         tanque = new Tanque(coordenadaX, coordenadaY, velocidadBase);
-
+        this.vidas=3;
         direccionActual = Direccion.ABAJO;
         inicioTiempoConducta= System.currentTimeMillis();
         duracionConducta= 1000 + (long)(Math.random() * 4000); // 1-5s
