@@ -17,7 +17,7 @@ public class TableroView {
     private static final int TAMANIO_JUGADOR = 20;
     private static final int TAMANIO_DISPARO = 6;
     private static final int TAMANIO_BLOQUE=20;
-    private Image spriteLadrillo, spriteAcero, spriteBosque, spriteAgua, spriteBlanco;
+    private Image spriteLadrillo, spriteAcero, spriteBosque, spriteAgua, spriteBlanco,spriteBase;
     private Image spriteDisparo, spritePrimerJugador, spriteSegundoJugador;
     private final JuegoController juegoController;
     private final InputController inputController;
@@ -40,22 +40,19 @@ public class TableroView {
         spriteBosque=this.cargarImagen("/sprites/Forest20x20.png");
         spriteAgua=this.cargarImagen("/sprites/Water20x20.png");
         spriteBlanco=this.cargarImagen("/sprites/WhiteBlock20x20.png");
+        spriteBase=this.cargarImagen("/sprites/Base20x20.png");
         spriteDisparo=this.cargarImagen("/sprites/Shot.png");
         spritePrimerJugador=this.cargarImagen("/sprites/Player1Tank0_20x20.png");
         spriteSegundoJugador=this.cargarImagen("/sprites/Player2Tank0_20x20.png");
     }
     private Image obtenerSprite(Bloque bloque){
-        if(bloque.esDestructible()){
-            return spriteLadrillo;
-        } else if (bloque.bloqueaDisparo()) {
-            return spriteAcero;
-        } else if (bloque.bloqueaPasoTanque()) {
-            return spriteAgua;
-        }
-        else if (!bloque.esColisionable()){
-            return spriteBosque;
-        }
-        return spriteBlanco;
+        return switch (bloque.obtenerTipo()) {
+            case LADRILLO -> spriteLadrillo;
+            case ACERO    -> spriteAcero;
+            case AGUA     -> spriteAgua;
+            case BOSQUE   -> spriteBosque;
+            case BASE     -> spriteBase;
+        };
     }
 
 
