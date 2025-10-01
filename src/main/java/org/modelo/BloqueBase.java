@@ -7,7 +7,9 @@ public class BloqueBase extends Bloque implements Colisionable {
         super(posicion.obtenerCoordenadaX(), posicion.obtenerCoordenadaY());
         this.resistencia = 1;
     }
-
+    public TipoBloque obtenerTipo(){
+        return TipoBloque.BASE;
+    }
     public boolean recibirImpacto(Disparo disparo){
             return true;
     }

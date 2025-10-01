@@ -5,6 +5,11 @@ public class BloqueBosque extends Bloque {
         super(posicion.obtenerCoordenadaX(), posicion.obtenerCoordenadaY());
     }
 
+
+    public TipoBloque obtenerTipo(){
+        return TipoBloque.BOSQUE;
+    }
+
     @Override
     public boolean bloqueaPasoTanque() {
         return false;

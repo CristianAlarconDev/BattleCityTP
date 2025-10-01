@@ -4,7 +4,9 @@ public class BloqueAgua extends Bloque{
     public BloqueAgua(Vector2D posicion) {
         super(posicion.obtenerCoordenadaX(), posicion.obtenerCoordenadaY());
     }
-
+    public TipoBloque obtenerTipo(){
+        return TipoBloque.AGUA;
+    }
     @Override
     public boolean bloqueaPasoTanque() {
         return true;

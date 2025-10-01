@@ -5,7 +5,9 @@ public class BloqueAcero extends Bloque {
     public BloqueAcero(Vector2D posicion) {
         super(posicion.obtenerCoordenadaX(), posicion.obtenerCoordenadaY());
     }
-
+    public TipoBloque obtenerTipo(){
+        return TipoBloque.ACERO;
+    }
     @Override
     public boolean bloqueaPasoTanque() {
         return true;
