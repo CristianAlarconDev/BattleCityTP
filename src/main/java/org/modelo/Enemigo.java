@@ -46,6 +46,7 @@ public class Enemigo implements Colisionable {
         duracionConducta= 1000 + (long)(Math.random() * 4000); // 1-5s
         ultimaPosicion= tanque.obtenerPosicion();
         ultimoPosicionCambio= System.currentTimeMillis();
+        ultimoMovimiento= System.currentTimeMillis();
     }
     public Enemigo(double coordenadaX, double coordenadaY,
                    double velocidadBase, long intervaloMovimiento) {

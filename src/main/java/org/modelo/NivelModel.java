@@ -1,5 +1,6 @@
 package org.modelo;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,6 +79,19 @@ public class NivelModel {
             jugador.mover(direccion);
         }
     }
+
+    public void moverEnemigos(){
+        for (Enemigo enemigo: Enemigos){
+            double coordXNueva=(enemigo.obtenerCoordenadaX());
+            double coordYNueva=(enemigo.obtenerCoordenadaY());
+
+            //cambiar nombre de metodo jugadorDentroDeLimites
+            if (jugadorDentroDeLimites(coordXNueva,coordYNueva)&&
+                    !hayColisionConObstaculo(coordXNueva, coordYNueva)){
+                enemigo.mover();
+            }
+        }
+    }
     private boolean jugadorDentroDeLimites(double xCentro, double yCentro){
         int radioJugador = tamanioJugador / 2;
 
@@ -136,6 +150,9 @@ public class NivelModel {
                 disparos.remove(disparo);
             }
         }
+
+        moverEnemigos();
+
     }
 
     private boolean disparoDentroDeLimites(double xCentro, double yCentro){

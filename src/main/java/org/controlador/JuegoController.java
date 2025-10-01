@@ -15,6 +15,10 @@ public class JuegoController {
     public void moverJugador(int jugador ,Direccion direccion){
         juego.moverJugador(jugador, direccion);
     }
+    public void moverEnemigos(){
+        juego.moverEnemigos();
+    }
+
     public void jugadorNroDispara(int jugador){
         juego.jugadorNroDispara(jugador);
     }

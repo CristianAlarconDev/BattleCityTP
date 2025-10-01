@@ -71,6 +71,12 @@ public class JuegoModel {
     public void moverJugador(int nroJugador,Direccion direccion){
         obtenerNivelActual().moverJugador(nroJugador, direccion);
     }
+
+    public void moverEnemigos(){
+
+        obtenerNivelActual().moverEnemigos();
+    }
+
     public void jugadorNroDispara(int nroJugador){
         obtenerNivelActual().jugadorDisparar(nroJugador);
     }

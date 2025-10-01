@@ -76,7 +76,7 @@ public class CargadorDeNivel {
         }
 
         // Enemigos
-        /*
+
         NodeList enemyNodes = enemiesContainer.getChildNodes();
         for (int i = 0; i < enemyNodes.getLength(); i++) {
             Node nodo = enemyNodes.item(i);
@@ -84,11 +84,9 @@ public class CargadorDeNivel {
             Element elem = (Element) nodo;
             int xPx = Integer.parseInt(elem.getAttribute("x"));
             int yPx = Integer.parseInt(elem.getAttribute("y"));
-            double fila = Math.floor(yPx / altoCelda);
-            double columna = Math.floor(xPx / anchoCelda);
-            Enemigo enemigo = new Enemigo(columna, fila, 2, 2000);
+            Enemigo enemigo = new Enemigo(xPx,yPx, 10, 2000);
             nivel.agregarEnemigo(enemigo);
-        }*/
+        }
 
         // Bloques
 
