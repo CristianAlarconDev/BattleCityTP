@@ -5,7 +5,7 @@ public class Jugador extends Tanque implements Colisionable {
     private ArmaUnDisparo arma;
     private boolean activo;
     private int id;
-
+    private int tamanio;
 
     public Jugador(String nombre, double x, double y, double velocidadMovBase) {
         super(x, y, velocidadMovBase);
@@ -13,6 +13,7 @@ public class Jugador extends Tanque implements Colisionable {
         //cambiar luego en constructor de hacer falta
         //this.velocidadDeDisparo = velocidadMovBase;
         arma = new ArmaUnDisparo(velocidadMovBase);
+        this.tamanio=20;
         activo= false;
     }
 
@@ -44,7 +45,10 @@ public class Jugador extends Tanque implements Colisionable {
         return arma.obtenerVelocidadDisparo();
     }
     public Disparo intentarDisparar() {
-        return arma.disparar(obtenerPosicion(), obtenerDireccionActual(), OrigenDisparo .JUGADOR);
+        Vector2D posicionCentro= this.posicion;
+        Vector2D direccionActual = obtenerDireccionActual().comoVector();
+        Vector2D posicionDisparo = posicionCentro.sumadoA(direccionActual.escalado(tamanio/2));
+        return arma.disparar(posicionDisparo, obtenerDireccionActual(), OrigenDisparo .JUGADOR);
     }
 
     public String obtenerNombre() {
