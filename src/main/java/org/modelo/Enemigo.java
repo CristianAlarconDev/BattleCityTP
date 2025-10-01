@@ -19,7 +19,9 @@ public class Enemigo implements Colisionable {
     private Vector2D ultimaPosicion;     // última posición para detectar si está bloqueado
     private long ultimoPosicionCambio;   // tiempo en que la posición cambió
 
-
+    public Direccion obtenerDireccionActual() {
+        return direccionActual;
+    }
 
     @Override
     public double obtenerCoordenadaX() {

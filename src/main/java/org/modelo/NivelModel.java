@@ -161,8 +161,6 @@ public class NivelModel {
         moverDisparos();
         actualizarColisionesConDisparos();
         disparoFueraDeLimites();
-
-
         moverEnemigos();
 
     }
