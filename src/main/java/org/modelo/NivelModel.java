@@ -11,16 +11,18 @@ public class NivelModel {
     private final int tamanioJugador;
     private final int tamanioDisparo;
     private final int anchoNivel, altoNivel;
+    private int cantidadDeJugadores;
 
 
     public NivelModel(String nombreJugador1, String nombreJugador2){
-        this(nombreJugador1,nombreJugador2,800,600);
+        this(nombreJugador1,nombreJugador2,800,600,2);
     }
+
     public NivelModel(String nombreJugador1){
-        this(nombreJugador1,null,800,600);
+        this(nombreJugador1,null,800,600,2);
 
     }
-    public NivelModel(String nombreJugador1, String nombreJugador2, int ancho, int alto){
+    public NivelModel(String nombreJugador1, String nombreJugador2, int ancho, int alto, int cantidadDeJugadores){
         this.jugadores=new ArrayList<>();
         this.Enemigos=new ArrayList<>();
         this.bloques=new ArrayList<>();
@@ -30,11 +32,8 @@ public class NivelModel {
         this.tamanioJugador=20;
         this.anchoNivel=ancho;
         this.altoNivel=alto;
-        /*
-        jugadores.add(new Jugador(nombreJugador1, 100,100,5));
-        if (nombreJugador2!=null){
-            jugadores.add(new Jugador(nombreJugador2, 200,100,5));
-        }*/
+        this.cantidadDeJugadores=cantidadDeJugadores;
+
     }
     public void agregarBloque(Bloque bloque){
         this.bloques.add(bloque);

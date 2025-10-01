@@ -11,7 +11,7 @@ public class JuegoModel {
         nivelActual=0;
         CargadorDeNivel cargador = new CargadorDeNivel();
         try {
-            NivelModel nivel = cargador.cargarNivel("nivel_de_prueba.xml", "levelConfig.xsd");
+            NivelModel nivel = cargador.cargarNivel("nivel_de_prueba.xml", "levelConfig.xsd",cantJugadores,"cristian","juan");
         /*
         if (cantJugadores == 1) {
             nivelInicial = new NivelModel("jugador 1");

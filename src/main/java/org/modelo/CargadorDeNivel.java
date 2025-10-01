@@ -10,7 +10,7 @@ import java.io.File;
 
 public class CargadorDeNivel {
 
-    public NivelModel cargarNivel(String archivoxml, String archivoxsd) throws Exception{
+    public NivelModel cargarNivel(String archivoxml, String archivoxsd, int cantidadDeJugadores, String nombre1, String nombre2) throws Exception{
         System.out.println("Cargando nivel: " + archivoxml);
 
         var resourcexml = getClass().getResource("/" + archivoxml);
@@ -33,7 +33,7 @@ public class CargadorDeNivel {
         Document document = builder.parse(xmlFile);
         document.getDocumentElement().normalize();
 
-        NivelModel nivel = new NivelModel("Cristian", "Juan", 800, 600);
+        NivelModel nivel = new NivelModel(nombre1, nombre2, 800, 600, cantidadDeJugadores);
         //Nivel nivel = new Nivel(2, 60_000);
 
 
@@ -56,8 +56,8 @@ public class CargadorDeNivel {
         Element staticObjectsContainer = (Element) nivelElem.getElementsByTagName("staticObjects").item(0);
 
         // Jugadores
-        NodeList playerNodes = playersContainer.getChildNodes();
-        for (int i = 0; i < playerNodes.getLength(); i++) {
+        NodeList playerNodes = playersContainer.getElementsByTagName("player");
+        for (int i = 0; i < cantidadDeJugadores; i++) {
             Node nodo = playerNodes.item(i);
             if (nodo.getNodeType() != Node.ELEMENT_NODE) continue;
             Element elem = (Element) nodo;
@@ -65,9 +65,14 @@ public class CargadorDeNivel {
             int yPx = Integer.parseInt(elem.getAttribute("y"));
             //double fila = Math.floor(yPx / altoCelda);
             //double columna = Math.floor(xPx / anchoCelda);
-            Jugador jugador = new Jugador(elem.getAttribute("id"), xPx, yPx, 2);
-            //Jugador jugador = new Jugador(elem.getAttribute("id"), columna, fila, 2);
-            nivel.agregarJugador(jugador);
+            if (i==0){
+                Jugador jugador = new Jugador(nombre1, xPx, yPx, 2);
+                nivel.agregarJugador(jugador);
+            }
+            else {
+                Jugador jugador = new Jugador(nombre2, xPx, yPx, 2);
+                nivel.agregarJugador(jugador);
+            }
         }
 
         // Enemigos
