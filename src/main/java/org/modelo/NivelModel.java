@@ -130,7 +130,7 @@ public class NivelModel {
         return colisionables;
     }
     private void intentarGenerarPowerUp(){
-        if (Math.random() < 0.20) {
+        if (Math.random() < 0.80) {
             TipoPowerUp tipoPowerUp = TipoPowerUp.random();
             double x = Math.random() * anchoNivel;
             double y = Math.random() * altoNivel;
