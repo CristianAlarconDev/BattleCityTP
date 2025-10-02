@@ -1,6 +1,5 @@
 package org.modelo;
 
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,8 +7,9 @@ public class NivelModel {
     private final List<Jugador> jugadores;
     private final List<Enemigo> enemigos;
     private final List<Bloque> bloques;
+    private final List<PowerUp>powerUps;
     private List<Disparo> disparos;
-    private final int tamanioJugador;
+    private final int tamanioCelda;
     private final int tamanioDisparo;
     private final int anchoNivel, altoNivel;
     private int cantidadDeJugadores;
@@ -29,9 +29,9 @@ public class NivelModel {
         this.enemigos=new ArrayList<>();
         this.bloques=new ArrayList<>();
         this.disparos=new ArrayList<>();
-
+        this.powerUps=new ArrayList<>();
         this.tamanioDisparo=6;
-        this.tamanioJugador=20;
+        this.tamanioCelda=20;
         this.anchoNivel=ancho;
         this.altoNivel=alto;
         this.cantidadDeJugadores=cantidadDeJugadores;
@@ -47,25 +47,42 @@ public class NivelModel {
     public void agregarJugador(Jugador jugador){
         this.jugadores.add(jugador);
     }
-    private boolean seSuperponen(double x1, double y1, int r1,
-                                 double x2, double y2, int r2) {
-        boolean colisionX = Math.abs(x1 - x2) < (r1 + r2);
-        boolean colisionY = Math.abs(y1 - y2) < (r1 + r2);
-        return colisionX && colisionY;
+    private boolean colisionan(double x1, double y1, int r1,
+                               double x2, double y2, int r2) {
+        return Math.abs(x1 - x2) < (r1 + r2) &&
+                Math.abs(y1 - y2) < (r1 + r2);
     }
-    private boolean hayColisionConObstaculo(double xCentro, double yCentro) {
+
+    private boolean estaDentroDeLimites(double xCentro, double yCentro, int radio) {
+        boolean dentroHorizontal = (xCentro - radio >= 0) && (xCentro + radio <= anchoNivel);
+        boolean dentroVertical   = (yCentro - radio >= 0) && (yCentro + radio <= altoNivel);
+        return dentroHorizontal && dentroVertical;
+    }
+    private boolean hayColisionConObstaculo(double xCentro, double yCentro, int radio) {
         for (Bloque bloque : bloques) {
             if(bloque.impideElPaso()){
-                double xCentroBloque = bloque.obtenerCoordenadaX();
-                double yCentroBloque = bloque.obtenerCoordenadaY();
-
-                if (seSuperponen(xCentro, yCentro, 20 / 2,
-                        xCentroBloque, yCentroBloque, 20 / 2)) {
+                if (colisionan(xCentro, yCentro, radio,
+                        bloque.obtenerCoordenadaX(), bloque.obtenerCoordenadaY(), tamanioCelda / 2)) {
                     return true;
                 }
             }
         }
         return false;
+    }
+    private boolean puedeMoverA(double x, double y, int radio) {
+        return estaDentroDeLimites(x, y, radio) && !hayColisionConObstaculo(x, y, radio);
+    }
+    private void verificarColisionConPowerUps(Jugador jugador) {
+        for (PowerUp powerUp : new ArrayList<>(powerUps)) {
+            if (colisionan(
+                    jugador.obtenerCoordenadaX(), jugador.obtenerCoordenadaY(), tamanioCelda/2,
+                    powerUp.obtenerCoordenadaX(), powerUp.obtenerCoordenadaY(), tamanioCelda/2
+            )) {
+                powerUp.aplicarEfecto(jugador);
+                powerUps.remove(powerUp);
+                System.out.println("PowerUp " + powerUp.obtenerTipoPowerUp() + " consumido por " + jugador.obtenerNombre());
+            }
+        }
     }
     public void moverJugador(int nroJugador,Direccion direccion){
         Jugador jugador=jugadores.get(nroJugador);
@@ -74,8 +91,8 @@ public class NivelModel {
         double coordYNueva=(jugador.obtenerCoordenadaY())+
                 (direccion.dY()*jugador.obtenerVelocidadBase());
 
-        if (jugadorDentroDeLimites(coordXNueva,coordYNueva)&&
-                !hayColisionConObstaculo(coordXNueva, coordYNueva)){
+        if (puedeMoverA(coordXNueva,coordYNueva,tamanioCelda/2)){
+            verificarColisionConPowerUps(jugador);
             jugador.mover(direccion);
         }
     }
@@ -85,34 +102,21 @@ public class NivelModel {
             double coordXNueva=(enemigo.obtenerCoordenadaX());
             double coordYNueva=(enemigo.obtenerCoordenadaY());
 
-            //cambiar nombre de metodo jugadorDentroDeLimites
-            if (jugadorDentroDeLimites(coordXNueva,coordYNueva)&&
-                    !hayColisionConObstaculo(coordXNueva, coordYNueva)){
+            if (puedeMoverA(coordXNueva,coordYNueva,tamanioCelda/2)){
                 enemigo.mover();
             }
         }
     }
-    private boolean jugadorDentroDeLimites(double xCentro, double yCentro){
-        int radioJugador = tamanioJugador / 2;
 
-        boolean dentroHorizontal = (xCentro - radioJugador >= 0) && (xCentro + radioJugador <= anchoNivel);
-        boolean dentroVertical   = (yCentro - radioJugador >= 0) && (yCentro + radioJugador <= altoNivel);
-
-        return dentroHorizontal && dentroVertical;
-    }
-
-    private boolean compararPosiciones(Disparo disparo, Colisionable colisionable){
-        double xColisionable = colisionable.obtenerCoordenadaX();
-        double yColisionable = colisionable.obtenerCoordenadaY();
-        double xDisparo = disparo.obtenerCoordenadaX();
-        double yDisparo = disparo.obtenerCoordenadaY();
+    private boolean compararPosiciones(Disparo disparo, Colisionable colisionable) {
         int radioDisparo = tamanioDisparo / 2;
-        int radioColisionable = tamanioJugador / 2;
-        boolean colisionaEnX = Math.abs(xDisparo - xColisionable) <= (radioDisparo + radioColisionable);
-        boolean colisionaEnY = Math.abs(yDisparo - yColisionable) <= (radioDisparo + radioColisionable);
-
-        return colisionaEnX && colisionaEnY;
+        int radioColisionable = tamanioCelda / 2;
+        return colisionan(
+                disparo.obtenerCoordenadaX(), disparo.obtenerCoordenadaY(), radioDisparo,
+                colisionable.obtenerCoordenadaX(), colisionable.obtenerCoordenadaY(), radioColisionable
+        );
     }
+
 
     private List<Colisionable> obtenerColisionables(){
         List<Colisionable> colisionables = new ArrayList<>();
@@ -125,7 +129,15 @@ public class NivelModel {
         }
         return colisionables;
     }
-
+    private void intentarGenerarPowerUp(){
+        if (Math.random() < 0.20) {
+            TipoPowerUp tipoPowerUp = TipoPowerUp.random();
+            double x = Math.random() * anchoNivel;
+            double y = Math.random() * altoNivel;
+            PowerUp powerUp = new PowerUp(x, y, tipoPowerUp);
+            this.powerUps.add(powerUp);
+        }
+    }
     public void actualizarColisionesConDisparos(){
         List<Colisionable>colisionables= obtenerColisionables();
 
@@ -136,6 +148,7 @@ public class NivelModel {
 
                     if (resultado == ResultadoImpacto.ENEMIGO_ELIMINADO) {
                         this.enemigos.remove(colisionable);
+                        intentarGenerarPowerUp();
                        // System.out.println("Enemigo eliminado, quedan: " + this.enemigos.size());
                     }
 
@@ -230,7 +243,9 @@ public class NivelModel {
     public List<Bloque> obtenerBloques(){
         return bloques;
     }
-
+    public List<PowerUp> obtenerPowerUps(){
+        return powerUps;
+    }
     public boolean enCurso(){
         return estadoNivel==EstadoNivel.EN_CURSO;
     }
