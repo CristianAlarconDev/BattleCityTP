@@ -40,6 +40,9 @@ public class JuegoController {
     public List<Bloque> obtenerBloques(){
         return juego.obtenerBloques();
     }
+    public List<PowerUp> obtenerPowerUps(){
+        return juego.obtenerPowerUps();
+    }
     public void actualizarJuego(){
         juego.actualizar();
     }
