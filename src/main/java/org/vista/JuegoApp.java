@@ -11,8 +11,12 @@ public class JuegoApp extends Application {
     public void start(Stage stage) {
         this.stage = stage;
         stage.setTitle("Yet Another Battle City");
-        mostrarMenu();
+        mostrarInicio();
         stage.show();
+    }
+    private void mostrarInicio(){
+        Scene inicio= InicioView.crear(this::mostrarMenu);
+        stage.setScene(inicio);
     }
     private void mostrarMenu()
     {
