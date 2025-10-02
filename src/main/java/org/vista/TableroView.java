@@ -21,6 +21,7 @@ public class TableroView {
     private Image spriteLadrillo, spriteAcero, spriteBosque, spriteAgua, spriteBlanco,spriteBase;
     private Image spriteDisparo, spritePrimerJugador, spriteSegundoJugador;
     private Image spriteTanqueRegular;
+    private Image spritePowerUpHelmet, spritePowerUpStar;
     private final JuegoController juegoController;
     private final InputController inputController;
     private final Runnable volverAlMenu;
@@ -52,6 +53,8 @@ public class TableroView {
         spritePrimerJugador=this.cargarImagen("/sprites/Player1Tank0_20x20.png");
         spriteSegundoJugador=this.cargarImagen("/sprites/Player2Tank0_20x20.png");
         spriteTanqueRegular=this.cargarImagen("/sprites/EnemyTankRegular0_20x20.png");
+        spritePowerUpHelmet=this.cargarImagen("/sprites/PowerUp-Helmet20x20.png");
+        spritePowerUpStar=this.cargarImagen("/sprites/PowerUp-Star20x20.png");
     }
     private Image obtenerSprite(Bloque bloque){
         return switch (bloque.obtenerTipo()) {
@@ -60,6 +63,14 @@ public class TableroView {
             case AGUA     -> spriteAgua;
             case BOSQUE   -> spriteBosque;
             case BASE     -> spriteBase;
+            default -> spriteBlanco;
+        };
+    }
+    private Image obtenerSprite(PowerUp powerUp){
+        return switch (powerUp.obtenerTipoPowerUp()) {
+            case CASCO -> spritePowerUpHelmet;
+            case ESTRELLA -> spritePowerUpStar;
+            default -> spriteBlanco;
         };
     }
 
@@ -150,8 +161,16 @@ public class TableroView {
     private void dibujarBloques(GraphicsContext graphicsContext){
         for (Bloque bloque : juegoController.obtenerBloques()) {
             Image sprite = obtenerSprite(bloque);
-            double xEsquina = bloque.obtenerCoordenadaX() - (sprite.getWidth() / 2.0);
-            double yEsquina = bloque.obtenerCoordenadaY() - (sprite.getHeight() / 2.0);
+            double xEsquina = bloque.obtenerCoordenadaX() - (TAMANIO_BLOQUE / 2.0);
+            double yEsquina = bloque.obtenerCoordenadaY() - (TAMANIO_BLOQUE / 2.0);
+            graphicsContext.drawImage(sprite,xEsquina,yEsquina,TAMANIO_BLOQUE,TAMANIO_BLOQUE);
+        }
+    }
+    private void dibujarPowerUp(GraphicsContext graphicsContext){
+        for(PowerUp powerUp: juegoController.obtenerPowerUps()){
+            Image sprite = obtenerSprite(powerUp);
+            double xEsquina = powerUp.obtenerCoordenadaX()-TAMANIO_BLOQUE/2.0;
+            double yEsquina = powerUp.obtenerCoordenadaY()-TAMANIO_BLOQUE/2.0;
             graphicsContext.drawImage(sprite,xEsquina,yEsquina,TAMANIO_BLOQUE,TAMANIO_BLOQUE);
         }
     }
@@ -172,5 +191,6 @@ public class TableroView {
         dibujarJugadores(graphics);
         dibujarEnemigos(graphics);
         dibujarDisparos(graphics);
+        dibujarPowerUp(graphics);
     }
 }

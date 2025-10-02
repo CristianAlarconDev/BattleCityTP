@@ -44,10 +44,13 @@ public class JuegoModel {
         return obtenerNivelActual().obtenerBloques();
     }
     public List<Enemigo> obtenerEnemigos(){
-        return obtenerNivelActual().obtenerEnemigos();
+        return this.nivelEnJuego.obtenerEnemigos();
     }
     public List<Disparo> obtenerDisparos(){
-        return obtenerNivelActual().obtenerDisparos();
+        return this.nivelEnJuego.obtenerDisparos();
+    }
+    public List<PowerUp> obtenerPowerUps(){
+        return this.nivelEnJuego.obtenerPowerUps();
     }
     public void siguienteNivel(){
         nivelActual++;
