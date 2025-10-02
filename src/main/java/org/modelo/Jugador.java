@@ -3,9 +3,10 @@ package org.modelo;
 public class Jugador extends Tanque implements Colisionable {
     private String nombre;
     private ArmaUnDisparo arma;
-    private boolean activo;
-    private int id;
-    private int tamanio;
+    private final int tamanio;
+    private boolean congelado;
+    private long tiemporDescongelacion;
+    private final int  tiempoCongelado;
 
     public Jugador(String nombre, double x, double y, double velocidadMovBase) {
         super(x, y, velocidadMovBase);
@@ -13,54 +14,58 @@ public class Jugador extends Tanque implements Colisionable {
         //cambiar luego en constructor de hacer falta
         //this.velocidadDeDisparo = velocidadMovBase;
         arma = new ArmaUnDisparo(velocidadMovBase);
-        this.tamanio=20;
-        activo= false;
+        this.tamanio = 20;
+        this.congelado = false;
+        this.tiemporDescongelacion = 0;
+        tiempoCongelado=2000;
+    }
+    public void mover(Direccion direccion){
+        if(estaCongelado()){
+            return;
+        }
+        super.mover(direccion);
     }
 
-
     public ResultadoImpacto recibirImpacto(Disparo disparo) {
-        this.vidasTotales--;
 
         if (disparo.esDeJugador()) {
-            //se congela el jugador que recibe el disparo
+            this.congelar(this.tiempoCongelado);
             return ResultadoImpacto.CONGELADO;
         }
-        if (vidasTotales<=0){
+        this.vidasTotales--;
+        if (vidasTotales <= 0) {
             return ResultadoImpacto.JUGADOR_ELIMINADO;
         }
         return ResultadoImpacto.NADA;
     }
-
-
-    public boolean estaActivo() {
-        return activo;
+    public boolean estaCongelado(){
+        if (congelado&&System.currentTimeMillis()>tiemporDescongelacion){
+            congelado=false;
+        }
+        return congelado;
     }
-
-    public int getId() {
-        return id;
+    private void congelar(int tiempoMilisegundos){
+        this.congelado=true;
+        this.tiemporDescongelacion=System.currentTimeMillis()+tiempoMilisegundos;
     }
-
-
-
-    public void cambiarVelocidadDeDisparo(double velocidadDeDisparo){
+    public void cambiarVelocidadDeDisparo(double velocidadDeDisparo) {
         arma.cambiarVelocidadDisparo(velocidadDeDisparo);
     }
-    public double obtenerVelocidadDeDisparo(){
+
+    public double obtenerVelocidadDeDisparo() {
         return arma.obtenerVelocidadDisparo();
     }
+
     public Disparo intentarDisparar() {
-        Vector2D posicionCentro= this.posicion;
+        Vector2D posicionCentro = this.posicion;
         Vector2D direccionActual = obtenerDireccionActual().comoVector();
         Vector2D posicionDisparo = posicionCentro.sumadoA(
                 direccionActual.escalado((tamanio / 2.0) + 3.0));
-        return arma.disparar(posicionDisparo, obtenerDireccionActual(), OrigenDisparo .JUGADOR);
+        return arma.disparar(posicionDisparo, obtenerDireccionActual(), OrigenDisparo.JUGADOR);
     }
 
     public String obtenerNombre() {
         return nombre;
     }
 
-    public void activarJugador(boolean activo) {
-        this.activo = activo;
-    }
 }
