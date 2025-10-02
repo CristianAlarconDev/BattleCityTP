@@ -12,7 +12,7 @@ public class BloqueBase extends Bloque implements Colisionable {
     }
     public ResultadoImpacto recibirImpacto(Disparo disparo){
             resistencia--;
-            return ResultadoImpacto.DESTRUIDO;
+            return ResultadoImpacto.BASE_DESTRUIDA;
     }
     public boolean estaDestruida(){
         return resistencia <= 0;
