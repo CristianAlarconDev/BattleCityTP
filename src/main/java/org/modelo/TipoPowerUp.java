@@ -3,7 +3,7 @@ package org.modelo;
 import java.util.Random;
 
 public enum TipoPowerUp {
-    EXTRA_VIDA, VELOCIDAD, DISPARO_RAPIDO;
+    GRANADA, CASCO, ESTRELLA;
     private static final Random random = new Random();
     public static TipoPowerUp random(){
         TipoPowerUp[] valores= values();
