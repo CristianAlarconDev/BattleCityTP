@@ -80,7 +80,7 @@ public class Jugador extends Tanque implements Colisionable {
         Vector2D posicionCentro = this.posicion;
         Vector2D direccionActual = obtenerDireccionActual().comoVector();
         Vector2D posicionDisparo = posicionCentro.sumadoA(
-                direccionActual.escalado((tamanio / 2.0) + 3.0));
+                direccionActual.escalado((tamanio / 2.0) + arma.obtenerTamanioDisparo()/3.0));
         Disparo disparo= arma.disparar(posicionDisparo, obtenerDireccionActual(), OrigenDisparo.JUGADOR);
         if(disparoMejorado)
         {

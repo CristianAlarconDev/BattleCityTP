@@ -3,10 +3,12 @@ package org.modelo;
 public class ArmaUnDisparo {
     private Disparo disparoEnCurso;
     private double velocidadDisparo;
+    private double tamanioDisparo;
 
     public ArmaUnDisparo(double velocidadDisparo){
         disparoEnCurso = null;
         this.velocidadDisparo=velocidadDisparo;
+        this.tamanioDisparo=6.0;
     }
     private void reiniciarDisparo(){
         if (disparoEnCurso != null && !disparoEnCurso.estaActivo()) {
@@ -16,6 +18,9 @@ public class ArmaUnDisparo {
     public boolean puedeDisparar(){
         reiniciarDisparo();
         return disparoEnCurso == null;
+    }
+    public double obtenerTamanioDisparo(){
+        return tamanioDisparo;
     }
     public Disparo disparar(Vector2D origen, Direccion direccion){
         if(!puedeDisparar()){
