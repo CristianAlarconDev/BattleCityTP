@@ -26,7 +26,7 @@ public class CargadorDeNivel {
         File xmlFile = new File(resourcexml.getPath());
         File xsdFile = new File(resourcexsd.getPath());
 
-        validarXMLconXSD(xmlFile, xsdFile);
+        validarXMLcocoordenadaXActualSD(xmlFile, xsdFile);
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -84,7 +84,7 @@ public class CargadorDeNivel {
             Element elem = (Element) nodo;
             int xPx = Integer.parseInt(elem.getAttribute("x"));
             int yPx = Integer.parseInt(elem.getAttribute("y"));
-            Enemigo enemigo = new Enemigo(xPx,yPx, 10, 2000);
+            Enemigo enemigo = new Enemigo(xPx,yPx, 2, 2000, anchoCelda);
             nivel.agregarEnemigo(enemigo);
         }
 
@@ -106,7 +106,7 @@ public class CargadorDeNivel {
         return nivel;
     }
 
-    private void validarXMLconXSD(File xml, File xsd) throws Exception {
+    private void validarXMLcocoordenadaXActualSD(File xml, File xsd) throws Exception {
         SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         Schema schema= factory.newSchema(xsd);
         Validator validator = schema.newValidator();

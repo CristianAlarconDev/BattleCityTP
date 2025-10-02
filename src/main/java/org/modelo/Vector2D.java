@@ -5,6 +5,7 @@ public class Vector2D {
     private double coordenadaX;
     private double coordenadaY;
 
+
     Vector2D(double coordenadaX, double coordenadaY){
         this.coordenadaX = coordenadaX;
         this.coordenadaY = coordenadaY;
@@ -50,5 +51,10 @@ public class Vector2D {
     }
     public double obtenerCoordenadaY(){
         return coordenadaY;
+    }
+
+    public boolean esCasiIgualA(Vector2D vector2D, double epsilon){
+        return Math.abs(coordenadaX - vector2D.obtenerCoordenadaX()) < epsilon &&
+                Math.abs(coordenadaY - vector2D.obtenerCoordenadaY()) < epsilon;
     }
 }

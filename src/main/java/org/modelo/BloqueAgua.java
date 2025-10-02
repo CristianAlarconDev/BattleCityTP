@@ -1,6 +1,6 @@
 package org.modelo;
 
-public class BloqueAgua extends Bloque{
+public class BloqueAgua extends Bloque implements Colisionable{
     public BloqueAgua(Vector2D posicion) {
         super(posicion.obtenerCoordenadaX(), posicion.obtenerCoordenadaY());
     }
@@ -14,7 +14,12 @@ public class BloqueAgua extends Bloque{
 
     @Override
     public boolean esColisionable() {
-        return false;
+        return true;
+    }
+
+    @Override
+    public ResultadoImpacto recibirImpacto(Disparo disparo) {
+        return ResultadoImpacto.NADA;
     }
 
 }

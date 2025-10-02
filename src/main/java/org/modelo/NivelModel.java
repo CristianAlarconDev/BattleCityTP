@@ -97,14 +97,9 @@ public class NivelModel {
         }
     }
 
-    public void moverEnemigos(){
-        for (Enemigo enemigo: enemigos){
-            double coordXNueva=(enemigo.obtenerCoordenadaX());
-            double coordYNueva=(enemigo.obtenerCoordenadaY());
-
-            if (puedeMoverA(coordXNueva,coordYNueva,tamanioCelda/2)){
-                enemigo.mover();
-            }
+    public void moverEnemigos() {
+        for (Enemigo enemigo : enemigos) {
+            enemigo.mover( obtenerBloquesColisionables() , anchoNivel,altoNivel, tamanioCelda/2);
         }
     }
 
@@ -115,6 +110,16 @@ public class NivelModel {
                 disparo.obtenerCoordenadaX(), disparo.obtenerCoordenadaY(), radioDisparo,
                 colisionable.obtenerCoordenadaX(), colisionable.obtenerCoordenadaY(), radioColisionable
         );
+    }
+
+    private List<Colisionable> obtenerBloquesColisionables(){
+        List<Colisionable> bloquesColisionables = new ArrayList<>();
+        for (Bloque bloque : bloques) {
+            if (bloque.esColisionable()) {
+                bloquesColisionables.add((Colisionable) bloque);
+            }
+        }
+        return bloquesColisionables;
     }
 
 
@@ -256,4 +261,5 @@ public class NivelModel {
     public boolean terminoEnDerrota(){
         return estadoNivel==EstadoNivel.DERROTA;
     }
+
 }

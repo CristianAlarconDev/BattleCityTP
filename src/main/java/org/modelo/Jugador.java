@@ -93,4 +93,10 @@ public class Jugador extends Tanque implements Colisionable {
         return nombre;
     }
 
+    @Override
+    public boolean impideElPaso() {
+        return true;
+    }
+
+
 }

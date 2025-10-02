@@ -21,6 +21,10 @@ public class Tanque {
         this.direccionActual = direccion;
     }
 
+    public void setPosicion(Vector2D nuevaPosicion) {
+        this.posicion = nuevaPosicion;
+    }
+
 
     public void mover(Direccion direccion){
         Vector2D dir =direccion.comoVector();
