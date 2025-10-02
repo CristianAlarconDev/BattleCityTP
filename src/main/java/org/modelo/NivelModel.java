@@ -184,10 +184,18 @@ public class NivelModel {
         actualizarColisionesConDisparos();
         disparoFueraDeLimites();
         moverEnemigos();
+        enemigosDisparan();
         verificarEstadoNivel();
 
     }
-
+    private void enemigosDisparan(){
+        for (Enemigo enemigo : enemigos) {
+            Disparo disparo =enemigo.disparar();
+            if (disparo!=null){
+                disparos.add(disparo);
+            }
+        }
+    }
     private void moverDisparos(){
         for (Disparo disparo: new ArrayList<>(disparos)){
             disparo.mover();
