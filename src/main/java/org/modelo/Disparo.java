@@ -6,6 +6,7 @@ public class Disparo {
     private boolean activo;
     private Direccion direccion;
     private OrigenDisparo origenDisparo;
+    private boolean poderoso;
 
 
     public Disparo(Vector2D posicion, Direccion direccion, double velocidadBase) {
@@ -13,6 +14,7 @@ public class Disparo {
         this.direccion = direccion;
         this.activo = true;
         this.velocidad = direccion.comoVector().escalado(velocidadBase);
+        this.poderoso=false;
 
     }
 
@@ -23,7 +25,12 @@ public class Disparo {
         this.velocidad = direccion.comoVector().escalado(velocidadBase);
         this.origenDisparo = origenDisparo;
     }
-
+    public void hacerPoderoso(){
+        this.poderoso=true;
+    }
+    public boolean esPoderoso(){
+        return poderoso;
+    }
     public boolean esDeJugador(){
         return origenDisparo == OrigenDisparo.JUGADOR;
     }
@@ -59,8 +66,6 @@ public class Disparo {
     public boolean estaActivo() {
         return activo;
     }
-
-
 
     public double obtenerCoordenadaX(){
         return posicion.obtenerCoordenadaX();
