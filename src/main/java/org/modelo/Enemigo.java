@@ -35,6 +35,9 @@ public class Enemigo implements Colisionable {
     }
 
     public ResultadoImpacto recibirImpacto(Disparo disparo) {
+        if (disparo.esPoderoso()&&disparo.esDeJugador()){
+            return ResultadoImpacto.ENEMIGO_ELIMINADO;
+        }
         vidas--;
         if (vidas <= 0) {
             if (disparo.esDeJugador()) {
