@@ -12,13 +12,13 @@ public class Enemigo implements Colisionable {
     private int pasosMaximos;
     private int vidas;
     private final int tamanioEnemigo;
-    private Disparo disparoActivo; // null si no hay disparo en curso
     private long inicioTiempoConducta;   // inicio del comportamiento actual
     private long duracionConducta;       // duración aleatoria 1-5 s
     private Vector2D ultimaPosicion;     // última posición para detectar si está bloqueado
     private long ultimoPosicionCambio;   // tiempo en que la posición cambió
     private double anchoDeCelda;
     private Vector2D siguientePosicion;
+    private ArmaUnDisparo arma;
 
 
     public Direccion obtenerDireccionActual() {
@@ -57,6 +57,8 @@ public class Enemigo implements Colisionable {
         ultimaPosicion = new Vector2D(tanque.obtenerPosicion().obtenerCoordenadaX(), tanque.obtenerPosicion().obtenerCoordenadaY());
         ultimoPosicionCambio= System.currentTimeMillis();
         tamanioEnemigo=20;
+        this.arma=new ArmaUnDisparo(this.tanque.obtenerVelocidadBase());
+
 
     }
     public Enemigo(double coordenadaX, double coordenadaY,
@@ -99,12 +101,19 @@ public class Enemigo implements Colisionable {
     }
 
     public Disparo disparar() {
-        if (disparoActivo == null) {
-            // Crear un nuevo disparo
-            disparoActivo = new Disparo(obtenerPosicion(), direccionActual, tanque.obtenerVelocidadBase());
-            return disparoActivo;
+        long ahora = System.currentTimeMillis();
+        if (arma.puedeDisparar())
+        {
+            Vector2D posicionCentro = tanque.obtenerPosicion();
+            Vector2D direccionVector =direccionActual.comoVector();
+            double desplazamiento = (20/2.0)+(arma.obtenerTamanioDisparo()/2.0);
+            Vector2D posicionDisparo = posicionCentro.sumadoA(direccionVector.escalado(desplazamiento));
+            Disparo disparo= arma.disparar(posicionDisparo, direccionActual, OrigenDisparo.ENEMIGO);
+            return disparo;
         }
-        return null; // Ya hay un disparo activo
+        else {
+            return null;
+        }
     }
 
 
