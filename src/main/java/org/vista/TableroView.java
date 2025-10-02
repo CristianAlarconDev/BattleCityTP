@@ -21,7 +21,7 @@ public class TableroView {
     private Image spriteLadrillo, spriteAcero, spriteBosque, spriteAgua, spriteBlanco,spriteBase;
     private Image spriteDisparo, spritePrimerJugador, spriteSegundoJugador;
     private Image spriteTanqueRegular;
-    private Image spritePowerUpHelmet, spritePowerUpStar;
+    private Image spritePowerUpHelmet, spritePowerUpStar,spritePowerUpGranada;
     private final JuegoController juegoController;
     private final InputController inputController;
     private final Runnable volverAlMenu;
@@ -55,6 +55,7 @@ public class TableroView {
         spriteTanqueRegular=this.cargarImagen("/sprites/EnemyTankRegular0_20x20.png");
         spritePowerUpHelmet=this.cargarImagen("/sprites/PowerUp-Helmet20x20.png");
         spritePowerUpStar=this.cargarImagen("/sprites/PowerUp-Star20x20.png");
+        spritePowerUpGranada=this.cargarImagen("/sprites/PowerUp-Grenade20x20.png");
     }
     private Image obtenerSprite(Bloque bloque){
         return switch (bloque.obtenerTipo()) {
@@ -70,6 +71,7 @@ public class TableroView {
         return switch (powerUp.obtenerTipoPowerUp()) {
             case CASCO -> spritePowerUpHelmet;
             case ESTRELLA -> spritePowerUpStar;
+            case GRANADA -> spritePowerUpGranada;
             default -> spriteBlanco;
         };
     }
