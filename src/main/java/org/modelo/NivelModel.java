@@ -78,6 +78,10 @@ public class NivelModel {
                     jugador.obtenerCoordenadaX(), jugador.obtenerCoordenadaY(), tamanioCelda/2,
                     powerUp.obtenerCoordenadaX(), powerUp.obtenerCoordenadaY(), tamanioCelda/2
             )) {
+                if(powerUp.esGranada()){
+                    enemigos.clear();
+                    estadoNivel=EstadoNivel.VICTORIA;
+                }
                 powerUp.aplicarEfecto(jugador);
                 powerUps.remove(powerUp);
                 System.out.println("PowerUp " + powerUp.obtenerTipoPowerUp() + " consumido por " + jugador.obtenerNombre());
