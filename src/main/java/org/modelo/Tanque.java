@@ -78,4 +78,5 @@ public class Tanque {
         return posicion.obtenerCoordenadaY();
     }
 
+
 }

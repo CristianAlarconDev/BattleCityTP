@@ -11,6 +11,10 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import org.modelo.*;
 import java.util.function.Consumer;
+import java.util.HashMap;
+import java.util.Map;
+
+
 
 public class TableroView {
     private static final int ANCHO = 800;
@@ -19,13 +23,20 @@ public class TableroView {
     private static final int TAMANIO_DISPARO = 6;
     private static final int TAMANIO_BLOQUE=20;
     private Image spriteLadrillo, spriteAcero, spriteBosque, spriteAgua, spriteBlanco,spriteBase;
-    private Image spriteDisparo, spritePrimerJugador, spriteSegundoJugador;
-    private Image spriteTanqueRegular;
+    private Image spriteDisparo, spritePrimerJugador, spriteSegundoJugador, sprite2PrimerJugador,sprite2SegundoJugador;
+    private Image spriteTanqueRegular, spriteTanqueRapido, spriteTanqueBlindado, spriteTanquePotente, spriteTanqueRegular2, spriteTanqueRapido2, spriteTanqueBlindado2, spriteTanquePotente2;
     private Image spritePowerUpHelmet, spritePowerUpStar;
     private final JuegoController juegoController;
     private final InputController inputController;
     private final Runnable volverAlMenu;
     private final Consumer<Scene> cambiarEscena;
+    private Image[] spritesJugador1, spritesJugador2, spritesTanqueRegular, spritesTanqueRapido,  spritesTanqueBlindado, spritesTanquePotente;
+    private final Map<Enemigo, Integer> frameEnemigos = new HashMap<>();
+    private final Map<Jugador, Integer> frameJugadores = new HashMap<>();
+
+
+
+
 
 
     public TableroView(JuegoController juegoController, Runnable volverAlMenu, Consumer<Scene> cambiarEscena) {
@@ -51,10 +62,45 @@ public class TableroView {
         spriteBase=this.cargarImagen("/sprites/Base20x20.png");
         spriteDisparo=this.cargarImagen("/sprites/Shot.png");
         spritePrimerJugador=this.cargarImagen("/sprites/Player1Tank0_20x20.png");
+        sprite2PrimerJugador=this.cargarImagen("/sprites/Player1Tank1_20x20.png");
         spriteSegundoJugador=this.cargarImagen("/sprites/Player2Tank0_20x20.png");
-        spriteTanqueRegular=this.cargarImagen("/sprites/EnemyTankRegular0_20x20.png");
+        sprite2SegundoJugador=this.cargarImagen("/sprites/Player2Tank1_20x20.png");
         spritePowerUpHelmet=this.cargarImagen("/sprites/PowerUp-Helmet20x20.png");
         spritePowerUpStar=this.cargarImagen("/sprites/PowerUp-Star20x20.png");
+        spriteTanqueRapido= this.cargarImagen("/sprites/EnemyTankFast0_20x20.png");
+        spriteTanqueRapido2= this.cargarImagen("/sprites/EnemyTankFast1_20x20.png");
+        spriteTanqueBlindado= this.cargarImagen("/sprites/EnemyTankHeavy0_20x20.png");
+        spriteTanqueBlindado2= this.cargarImagen("/sprites/EnemyTankHeavy1_20x20.png");
+        spriteTanqueRegular=this.cargarImagen("/sprites/EnemyTankRegular0_20x20.png");
+        spriteTanqueRegular2=this.cargarImagen("/sprites/EnemyTankRegular1_20x20.png");
+        spriteTanquePotente=this.cargarImagen("/sprites/EnemyTankPowerful0_20x20.png");
+        spriteTanquePotente2=this.cargarImagen("/sprites/EnemyTankPowerful1_20x20.png");
+
+        spritesJugador1 = new Image[] {
+                spritePrimerJugador,
+                sprite2PrimerJugador
+        };
+        spritesJugador2 = new Image[] {
+                spriteSegundoJugador,
+                sprite2SegundoJugador
+        };
+        spritesTanqueRegular = new Image[] {
+                spriteTanqueRegular,
+                spriteTanqueRegular2
+        };
+        spritesTanqueRapido = new Image[] {
+                spriteTanqueRapido,
+                spriteTanqueRapido2
+        };
+        spritesTanqueBlindado = new Image[] {
+                spriteTanqueBlindado,
+                spriteTanqueBlindado2
+        };
+        spritesTanquePotente = new Image[] {
+                spriteTanquePotente,
+                spriteTanquePotente2
+        };
+
     }
     private Image obtenerSprite(Bloque bloque){
         return switch (bloque.obtenerTipo()) {
@@ -66,6 +112,7 @@ public class TableroView {
             default -> spriteBlanco;
         };
     }
+
     private Image obtenerSprite(PowerUp powerUp){
         return switch (powerUp.obtenerTipoPowerUp()) {
             case CASCO -> spritePowerUpHelmet;
@@ -140,7 +187,7 @@ public class TableroView {
         graphicsContext.drawImage(sprite,-ancho/2.0,-alto/2.0,ancho,alto);
         graphicsContext.restore();
     }
-
+/*
     private void dibujarJugadores(GraphicsContext graphicsContext){
         var jugadores = juegoController.obtenerJugadores();
         for(int nroJugador=0;nroJugador<jugadores.size();nroJugador++){
@@ -149,6 +196,33 @@ public class TableroView {
             dibujarJugador(graphicsContext,jugador,sprite);
         }
     }
+    */
+
+    private void dibujarJugadores(GraphicsContext graphicsContext){
+        var jugadores = juegoController.obtenerJugadores();
+        for(int nroJugador=0; nroJugador<jugadores.size(); nroJugador++){
+            Jugador jugador = jugadores.get(nroJugador);
+
+
+            int frame = frameJugadores.getOrDefault(jugador, 0);
+
+
+            if(juegoController.jugadorEnMovimiento(jugador)){
+                frame = (frame + 1) % 2;
+                frameJugadores.put(jugador, frame);
+            }
+
+            Image sprite;
+            if(nroJugador == 0){
+                sprite = spritesJugador1[frame];
+            } else {
+                sprite = spritesJugador2[frame];
+            }
+
+            dibujarJugador(graphicsContext, jugador, sprite);
+        }
+    }
+
     private void dibujarDisparos(GraphicsContext graphics){
         graphics.setFill(Color.YELLOW);
         for(Disparo disparo: juegoController.obtenerDisparos()){
@@ -174,16 +248,33 @@ public class TableroView {
             graphicsContext.drawImage(sprite,xEsquina,yEsquina,TAMANIO_BLOQUE,TAMANIO_BLOQUE);
         }
     }
-    private void dibujarEnemigos(GraphicsContext graphicsContext){
-        graphicsContext.setFill(Color.RED);
-        for(Enemigo enemigo: juegoController.obtenerEnemigos()){
-            //double xEsquina = enemigo.obtenerCoordenadaX()-TAMANIO_JUGADOR/2.0;
-            //double yEsquina = enemigo.obtenerCoordenadaY()-TAMANIO_JUGADOR/2.0;
-            dibujarEnemigo(graphicsContext,enemigo,spriteTanqueRegular);
-            //graphicsContext.drawImage(spriteTanqueRegular,xEsquina,yEsquina,TAMANIO_JUGADOR,TAMANIO_JUGADOR);
 
+    private void dibujarEnemigos(GraphicsContext graphicsContext){
+        for(Enemigo enemigo: juegoController.obtenerEnemigos()){
+
+            int frame = frameEnemigos.getOrDefault(enemigo, 0);
+            if (juegoController.enemigoEnMovimiento(enemigo)) {
+                frame = (frame + 1) % 2;
+                frameEnemigos.put(enemigo, frame);
+            }
+
+
+
+            Image sprite;
+            switch (enemigo.obtenerTipo()) {
+                case REGULARENEMY -> sprite = spritesTanqueRegular[frame];
+                case FASTENEMY    -> sprite = spritesTanqueRapido[frame];
+                case HEAVYENEMY   -> sprite = spritesTanqueBlindado[frame];
+                case POWERFULENEMY-> sprite = spritesTanquePotente[frame];
+                default -> sprite = spriteTanqueRegular;
+            }
+
+            dibujarEnemigo(graphicsContext, enemigo, sprite);
         }
     }
+
+
+
     private void actualizarPantalla(GraphicsContext graphics){
         graphics.setFill(Color.BLACK);
         graphics.fillRect(0, 0, ANCHO, ALTO);

@@ -235,6 +235,14 @@ public class NivelModel {
         }
     }
 
+    public boolean enemigoEnMovimiento(Enemigo enemigo){
+        return enemigo.enemigoEstaEnMovimiento();
+    }
+
+    public boolean jugadorEnMovimiento(Jugador jugador){
+        return jugador.jugadorEstaEnMovimiento();
+    }
+
     public List<Disparo> obtenerDisparos(){
         return disparos;
     }

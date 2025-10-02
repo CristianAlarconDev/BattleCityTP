@@ -6,8 +6,7 @@ class EnemigoTest {
 
     @Test
     public void enemigoNoSeMueveAntesDeIntervalo() throws InterruptedException{
-        Enemigo enemigo = new Enemigo(0, 0,
-                2, 5000);
+        Enemigo enemigo = new EnemigoRapido(0, 0);
 
         Thread.sleep(1000);
 
@@ -17,8 +16,7 @@ class EnemigoTest {
     }
     @Test
     public void enemigoSeMueveDespuesDeIntervalo() throws InterruptedException{
-        Enemigo enemigo = new Enemigo(0, 0,
-                2, 2000);
+        Enemigo enemigo = new EnemigoPesado(0, 0);
         Thread.sleep(3000);
 
         assertTrue(enemigo.mover());
@@ -26,8 +24,7 @@ class EnemigoTest {
 
     @Test
     public void enemigoLuegoDeMoverseTieneOtraPosicion() throws InterruptedException{
-        Enemigo enemigo = new Enemigo(0, 0,
-                2, 2000);
+        Enemigo enemigo = new EnemigoPoderoso(0, 0);
         Thread.sleep(3000);
         enemigo.mover();
         Vector2D ultimaPosicion = enemigo.obtenerPosicion();
@@ -36,8 +33,7 @@ class EnemigoTest {
     }
     @Test
     public void enemigoAlNoMoverseNoCambiaPosicion() throws InterruptedException{
-        Enemigo enemigo = new Enemigo(0, 0,
-                2, 5000);
+        Enemigo enemigo = new EnemigoRapido(0, 0);
         Thread.sleep(1000);
         enemigo.mover();
         Vector2D ultimaPosicion = enemigo.obtenerPosicion();
@@ -45,8 +41,7 @@ class EnemigoTest {
     }
     @Test
     public void enemigoLuegoDeMoverseDebeEsperarParaMoverseNuevamente() throws InterruptedException{
-        Enemigo enemigo = new Enemigo(0, 0,
-                2, 3000);
+        Enemigo enemigo = new EnemigoRapido(0, 0);
         Thread.sleep(3500);
         boolean movimientoExitoso=enemigo.mover();
         assertTrue(movimientoExitoso);

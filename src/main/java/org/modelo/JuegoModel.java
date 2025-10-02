@@ -12,10 +12,12 @@ public class JuegoModel {
         nivelActual=0;
         CargadorDeNivel cargador = new CargadorDeNivel();
         try {
-            NivelModel nivel = cargador.cargarNivel("nivel1.xml", "levelConfig.xsd",cantJugadores,"cristian","juan");
-            NivelModel nivel2 = cargador.cargarNivel("nivel_de_prueba.xml", "levelConfig.xsd",cantJugadores,"cristian","juan");
+            NivelModel nivel = cargador.cargarNivel("nivel4.xml", "levelConfig.xsd",cantJugadores,"cristian","juan");
+            NivelModel nivel2 = cargador.cargarNivel("nivel5.xml", "levelConfig.xsd",cantJugadores,"cristian","juan");
+            NivelModel nivel3 = cargador.cargarNivel("nivel3.xml", "levelConfig.xsd",cantJugadores,"cristian","juan");
             niveles.add(nivel);
             niveles.add(nivel2);
+            niveles.add(nivel3);
             nivelEnJuego = nivel;
         }
         catch (Exception e) {
@@ -51,6 +53,12 @@ public class JuegoModel {
     }
     public List<PowerUp> obtenerPowerUps(){
         return this.nivelEnJuego.obtenerPowerUps();
+    }
+    public boolean enemigoEnMovimiento(Enemigo enemigo){
+        return this.nivelEnJuego.enemigoEnMovimiento(enemigo);
+    }
+    public boolean jugadorEnMovimiento(Jugador jugador){
+        return this.nivelEnJuego.jugadorEnMovimiento(jugador);
     }
     public void siguienteNivel(){
         nivelActual++;

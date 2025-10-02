@@ -6,7 +6,7 @@ public class CargadorDeNivelTest {
     public static void main(String[] args) {
         try {
             CargadorDeNivel cargador = new CargadorDeNivel();
-            NivelModel nivel = cargador.cargarNivel("nivel_de_prueba.xml", "levelConfig.xsd",2,"cristian","juan");
+            NivelModel nivel = cargador.cargarNivel("nivel_4.xml", "levelConfig.xsd",2,"cristian","juan");
 
             System.out.println("Jugadores:");
             for (Tanque j : nivel.obtenerJugadores()) {
@@ -23,17 +23,6 @@ public class CargadorDeNivelTest {
             for (Bloque b : nivel.obtenerBloques()) {
                 System.out.println("- " + b.getClass().getSimpleName()+ " en (" + b.obtenerPosicion().obtenerCoordenadaX() + "," + b.obtenerPosicion().obtenerCoordenadaY() + ")");
             }
-
-            /*
-            for (int f = 0; f < nivel.getFilas(); f++) {
-                for (int c = 0; c < nivel.getColumnas(); c++) {
-                    Posicion pos = new Posicion(f, c);
-                    Bloque b = nivel.getBloqueEnPosicion(pos);
-                    if (b != null) {
-                        System.out.println("- " + b.getClass().getSimpleName() + " en (" + f + "," + c + ")");
-                    }
-                }
-            }*/
 
         } catch (Exception e) {
             e.printStackTrace();

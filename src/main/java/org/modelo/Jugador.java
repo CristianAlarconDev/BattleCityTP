@@ -10,6 +10,7 @@ public class Jugador extends Tanque implements Colisionable {
     private boolean invulnerable;
     private long tiempoInvulnerable;
     private boolean disparoMejorado;
+    private boolean enMovimiento;
 
     public Jugador(String nombre, double x, double y, double velocidadMovBase) {
         super(x, y, velocidadMovBase);
@@ -23,15 +24,23 @@ public class Jugador extends Tanque implements Colisionable {
         tiempoCongelado=2000;
         invulnerable=false;
         tiempoInvulnerable=0;
+        enMovimiento=false;
 
 
     }
     public void mover(Direccion direccion){
         if(estaCongelado()){
+            enMovimiento = false; // si está congelado, no se mueve
             return;
         }
-        super.mover(direccion);
+        if (direccion != null) {
+            super.mover(direccion);
+            enMovimiento = true; // se está moviendo
+        } else {
+            enMovimiento = false; // no hay dirección → no se mueve
+        }
     }
+
 
     public ResultadoImpacto recibirImpacto(Disparo disparo) {
         if (estaInvulnerable()) {
@@ -97,6 +106,11 @@ public class Jugador extends Tanque implements Colisionable {
     public boolean impideElPaso() {
         return true;
     }
+
+    public boolean jugadorEstaEnMovimiento() {
+        return enMovimiento;
+    }
+
 
 
 }

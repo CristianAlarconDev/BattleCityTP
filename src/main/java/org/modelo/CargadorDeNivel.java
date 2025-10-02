@@ -82,9 +82,11 @@ public class CargadorDeNivel {
             Node nodo = enemyNodes.item(i);
             if (nodo.getNodeType() != Node.ELEMENT_NODE) continue;
             Element elem = (Element) nodo;
+            String tipo = elem.getAttribute("type");
             int xPx = Integer.parseInt(elem.getAttribute("x"));
             int yPx = Integer.parseInt(elem.getAttribute("y"));
-            Enemigo enemigo = new Enemigo(xPx,yPx, 2, 2000, anchoCelda);
+            //Enemigo enemigo = new Enemigo(xPx,yPx, 2, 2000, anchoCelda);
+            Enemigo enemigo = CreadorDeEnemigo.crearEnemigo(tipo, xPx, yPx);
             nivel.agregarEnemigo(enemigo);
         }
 

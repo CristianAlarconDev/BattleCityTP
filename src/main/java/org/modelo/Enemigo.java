@@ -2,7 +2,7 @@
 package org.modelo;
 import java.util.List;
 
-public class Enemigo implements Colisionable {
+public abstract class Enemigo implements Colisionable {
     private Tanque tanque;
     private long ultimoDisparo;
     private  long INTERVALO_MOVIMIENTO = 1000;
@@ -19,6 +19,7 @@ public class Enemigo implements Colisionable {
     private long ultimoPosicionCambio;   // tiempo en que la posición cambió
     private double anchoDeCelda;
     private Vector2D siguientePosicion;
+    private boolean enMovimiento = false;
 
 
     public Direccion obtenerDireccionActual() {
@@ -48,9 +49,9 @@ public class Enemigo implements Colisionable {
         return ResultadoImpacto.NADA;
     }
 
-    public Enemigo(double coordenadaX, double coordenadaY, double velocidadBase) {
+    public Enemigo(double coordenadaX, double coordenadaY, double velocidadBase, int vidas) {
         tanque = new Tanque(coordenadaX, coordenadaY, velocidadBase);
-        this.vidas=3;
+        this.vidas=vidas;
         direccionActual = Direccion.ABAJO;
         inicioTiempoConducta= System.currentTimeMillis();
         duracionConducta= 1000 + (long)(Math.random() * 4000); // 1-5s
@@ -58,17 +59,6 @@ public class Enemigo implements Colisionable {
         ultimoPosicionCambio= System.currentTimeMillis();
         tamanioEnemigo=20;
 
-    }
-    public Enemigo(double coordenadaX, double coordenadaY,
-                   double velocidadBase, long intervaloMovimiento,double anchoDeCelda) {
-        this(coordenadaX, coordenadaY, velocidadBase);
-        INTERVALO_MOVIMIENTO = intervaloMovimiento;
-        this.anchoDeCelda=anchoDeCelda;
-    }
-    public Enemigo(double coordenadaX, double coordenadaY, double velocidadBase,
-                   long intervaloMovimiento, int pasosMaximos,double anchoDeCelda) {
-        this(coordenadaX, coordenadaY, velocidadBase, intervaloMovimiento,anchoDeCelda);
-        this.pasosMaximos = pasosMaximos;
     }
 
 
@@ -110,6 +100,13 @@ public class Enemigo implements Colisionable {
 
 
 
+    public boolean enemigoEstaEnMovimiento() {
+        return enMovimiento;
+    }
+
+
+
+
 
 
 
@@ -134,6 +131,11 @@ public class Enemigo implements Colisionable {
         long tiempoActual = System.currentTimeMillis();
         actualizarConducta(tiempoActual, colisionables, anchoNivel, altoNivel, radio);
         boolean seMovio = avanzar();
+        if(seMovio){
+            enMovimiento = true;
+        } else {
+            enMovimiento = false;
+        }
         actualizarBloqueo(tiempoActual);
         return seMovio;
     }
@@ -210,11 +212,12 @@ public class Enemigo implements Colisionable {
 
     private Vector2D calcularSiguientePosicion() {
         Vector2D pos = tanque.obtenerPosicion();
+        double paso = tanque.velocidadBase;
         switch (direccionActual) {
-            case ARRIBA:     return new Vector2D(pos.obtenerCoordenadaX(), pos.obtenerCoordenadaY() - 1);
-            case ABAJO:      return new Vector2D(pos.obtenerCoordenadaX(), pos.obtenerCoordenadaY() + 1);
-            case IZQUIERDA:  return new Vector2D(pos.obtenerCoordenadaX() - 1, pos.obtenerCoordenadaY());
-            case DERECHA:    return new Vector2D(pos.obtenerCoordenadaX() + 1, pos.obtenerCoordenadaY());
+            case ARRIBA:     return new Vector2D(pos.obtenerCoordenadaX(), pos.obtenerCoordenadaY() - paso);
+            case ABAJO:      return new Vector2D(pos.obtenerCoordenadaX(), pos.obtenerCoordenadaY() + paso);
+            case IZQUIERDA:  return new Vector2D(pos.obtenerCoordenadaX() - paso, pos.obtenerCoordenadaY());
+            case DERECHA:    return new Vector2D(pos.obtenerCoordenadaX() + paso, pos.obtenerCoordenadaY());
             default:         return null;
         }
     }
@@ -246,6 +249,7 @@ public class Enemigo implements Colisionable {
         return true;
     }
 
+    public abstract TipoEnemigo obtenerTipo();
 
 
 
