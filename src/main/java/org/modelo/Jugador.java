@@ -7,6 +7,9 @@ public class Jugador extends Tanque implements Colisionable {
     private boolean congelado;
     private long tiemporDescongelacion;
     private final int  tiempoCongelado;
+    private boolean invulnerable;
+    private long tiempoInvulnerable;
+    private boolean disparoMejorado;
 
     public Jugador(String nombre, double x, double y, double velocidadMovBase) {
         super(x, y, velocidadMovBase);
@@ -18,6 +21,10 @@ public class Jugador extends Tanque implements Colisionable {
         this.congelado = false;
         this.tiemporDescongelacion = 0;
         tiempoCongelado=2000;
+        invulnerable=false;
+        tiempoInvulnerable=0;
+
+
     }
     public void mover(Direccion direccion){
         if(estaCongelado()){
@@ -27,7 +34,9 @@ public class Jugador extends Tanque implements Colisionable {
     }
 
     public ResultadoImpacto recibirImpacto(Disparo disparo) {
-
+        if (estaInvulnerable()) {
+            return ResultadoImpacto.NADA;
+        }
         if (disparo.esDeJugador()) {
             this.congelar(this.tiempoCongelado);
             return ResultadoImpacto.CONGELADO;
@@ -48,12 +57,23 @@ public class Jugador extends Tanque implements Colisionable {
         this.congelado=true;
         this.tiemporDescongelacion=System.currentTimeMillis()+tiempoMilisegundos;
     }
-    public void cambiarVelocidadDeDisparo(double velocidadDeDisparo) {
-        arma.cambiarVelocidadDisparo(velocidadDeDisparo);
-    }
+    public void activarCasco(int duracionMilisegundos){
+        this.invulnerable=true;
+        this.tiempoInvulnerable=System.currentTimeMillis()+duracionMilisegundos;
 
-    public double obtenerVelocidadDeDisparo() {
-        return arma.obtenerVelocidadDisparo();
+    }
+    public boolean estaInvulnerable(){
+        if (invulnerable&&System.currentTimeMillis()>tiempoInvulnerable){
+            invulnerable=false;
+        }
+        return invulnerable;
+    }
+    public void activarEstrella(){
+        this.disparoMejorado=true;
+        System.out.println(nombre + " ahora tiene disparos mejorados!");
+    }
+    public boolean tieneDisparosMejorados(){
+        return disparoMejorado;
     }
 
     public Disparo intentarDisparar() {
@@ -61,7 +81,12 @@ public class Jugador extends Tanque implements Colisionable {
         Vector2D direccionActual = obtenerDireccionActual().comoVector();
         Vector2D posicionDisparo = posicionCentro.sumadoA(
                 direccionActual.escalado((tamanio / 2.0) + 3.0));
-        return arma.disparar(posicionDisparo, obtenerDireccionActual(), OrigenDisparo.JUGADOR);
+        Disparo disparo= arma.disparar(posicionDisparo, obtenerDireccionActual(), OrigenDisparo.JUGADOR);
+        if(disparoMejorado)
+        {
+            disparo.hacerPoderoso();
+        }
+        return disparo;
     }
 
     public String obtenerNombre() {
