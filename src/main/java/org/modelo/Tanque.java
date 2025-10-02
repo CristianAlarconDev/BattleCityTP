@@ -32,10 +32,6 @@ public class Tanque {
         posicion=posicion.sumadoA(desplazamiento);
     }
 
-    public void moverSegunDireccionActual(){
-        mover(this.obtenerDireccionActual());
-    }
-
     public boolean estaVivo(){
 
         return vidasTotales > 0;
@@ -71,18 +67,6 @@ public class Tanque {
     }
 
 
-    public void moverArriba(){
-        mover(Direccion.ARRIBA);
-    }
-    public void moverAbajo() {
-        mover(Direccion.ABAJO);
-    }
-    public void moverIzquierda() {
-        mover(Direccion.IZQUIERDA);
-    }
-    public void moverDerecha() {
-        mover(Direccion.DERECHA);
-    }
     public double obtenerCoordenadaX(){
         return posicion.obtenerCoordenadaX();
     }

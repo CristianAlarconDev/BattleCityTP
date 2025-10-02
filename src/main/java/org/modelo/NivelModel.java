@@ -136,7 +136,7 @@ public class NivelModel {
 
                     if (resultado == ResultadoImpacto.ENEMIGO_ELIMINADO) {
                         this.enemigos.remove(colisionable);
-                        System.out.println("Enemigo eliminado, quedan: " + this.enemigos.size());
+                       // System.out.println("Enemigo eliminado, quedan: " + this.enemigos.size());
                     }
 
                     if (resultado == ResultadoImpacto.DESTRUIDO) {
@@ -186,9 +186,9 @@ public class NivelModel {
     }
 
     private void verificarEstadoNivel(){
-        System.out.println("Verificar estado: enemigos=" + enemigos.size());
+        //System.out.println("Verificar estado: enemigos=" + enemigos.size());
         if(this.enemigos.isEmpty()){
-            System.out.println("ganaste el nivel");
+          //  System.out.println("ganaste el nivel");
             this.estadoNivel=EstadoNivel.VICTORIA;
         }
         if (jugadores.isEmpty()){
