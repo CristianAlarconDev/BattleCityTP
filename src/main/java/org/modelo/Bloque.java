@@ -19,8 +19,6 @@ public abstract class Bloque  {
     }
     public abstract TipoBloque obtenerTipo();
     public abstract boolean impideElPaso();
-    public abstract boolean bloqueaDisparo();
-    public abstract boolean esDestructible();
     public abstract boolean esColisionable();
 
 

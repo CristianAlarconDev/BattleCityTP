@@ -13,17 +13,6 @@ public class BloqueAgua extends Bloque{
     }
 
     @Override
-    public boolean bloqueaDisparo() {
-        return false;
-    }
-
-    @Override
-    public boolean esDestructible() {
-        return false;
-    }
-
-
-    @Override
     public boolean esColisionable() {
         return false;
     }

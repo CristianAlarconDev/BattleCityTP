@@ -14,9 +14,6 @@ public class BloqueBase extends Bloque implements Colisionable {
             resistencia--;
             return ResultadoImpacto.BASE_DESTRUIDA;
     }
-    public boolean estaDestruida(){
-        return resistencia <= 0;
-    }
 
     public double obtenerCoordenadaX(){
         return posicion.obtenerCoordenadaX();
@@ -27,16 +24,6 @@ public class BloqueBase extends Bloque implements Colisionable {
 
     @Override
     public boolean impideElPaso() {
-        return true;
-    }
-
-    @Override
-    public boolean bloqueaDisparo() {
-        return false;
-    }
-
-    @Override
-    public boolean esDestructible() {
         return true;
     }
 

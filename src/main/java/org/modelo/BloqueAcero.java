@@ -14,16 +14,6 @@ public class BloqueAcero extends Bloque implements Colisionable {
     }
 
     @Override
-    public boolean bloqueaDisparo() {
-        return true;
-    }
-
-    @Override
-    public boolean esDestructible() {
-        return false;
-    }
-
-    @Override
     public boolean esColisionable() {
         return true;
     }

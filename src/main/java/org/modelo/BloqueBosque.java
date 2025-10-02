@@ -15,16 +15,6 @@ public class BloqueBosque extends Bloque {
         return false;
     }
 
-    @Override
-    public boolean bloqueaDisparo() {
-        return false;
-    }
-
-    @Override
-    public boolean esDestructible() {
-        return false;
-    }
-
 
     @Override
     public boolean esColisionable() {

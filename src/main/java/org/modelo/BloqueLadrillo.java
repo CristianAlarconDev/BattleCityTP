@@ -32,19 +32,6 @@ public class BloqueLadrillo extends Bloque implements Colisionable{
     public TipoBloque obtenerTipo(){
         return TipoBloque.LADRILLO;
     }
-    public boolean destruido(){
-        return resistencia == 0;
-    }
-
-    @Override
-    public boolean bloqueaDisparo() {
-        return true;
-    }
-
-    @Override
-    public boolean esDestructible() {
-        return true;
-    }
 
     @Override
     public boolean esColisionable() {
