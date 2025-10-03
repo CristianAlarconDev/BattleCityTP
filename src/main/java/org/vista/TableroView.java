@@ -16,12 +16,12 @@ import java.util.Map;
 
 
 
-public class TableroView {
-    private static final int ANCHO = 800;
-    private static final int ALTO = 600;
-    private static final int TAMANIO_JUGADOR = 20;
-    private static final int TAMANIO_DISPARO = 6;
-    private static final int TAMANIO_BLOQUE=20;
+public  class TableroView {
+    private final int ANCHO;
+    private final int ALTO;
+    private final int TAMANIO_JUGADOR;
+    private final int TAMANIO_DISPARO;
+    private final int TAMANIO_BLOQUE;
     private Image spriteLadrillo, spriteAcero, spriteBosque, spriteAgua, spriteBlanco,spriteBase;
     private Image spriteDisparo, spritePrimerJugador, spriteSegundoJugador, sprite2PrimerJugador,sprite2SegundoJugador;
     private Image spriteTanqueRegular, spriteTanqueRapido, spriteTanqueBlindado, spriteTanquePotente, spriteTanqueRegular2, spriteTanqueRapido2, spriteTanqueBlindado2, spriteTanquePotente2;
@@ -44,6 +44,11 @@ public class TableroView {
         this.inputController = new InputController(juegoController);
         this.volverAlMenu = volverAlMenu;
         this.cambiarEscena = cambiarEscena;
+        ANCHO = 800;
+        ALTO = 600;
+        TAMANIO_JUGADOR = 20;
+        TAMANIO_DISPARO = 6;
+        TAMANIO_BLOQUE=20;
     }
     private Image cargarImagen(String ruta){
         var url = getClass().getResource(ruta);
@@ -135,8 +140,6 @@ public class TableroView {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                /*probar si se puede disminuir la velocidad con long now
-                * se procesa muy rapido y puede variar en otro SO*/
                 inputController.procesarInputs();
                 juegoController.actualizarJuego();
                 actualizarPantalla(graphics);
@@ -189,16 +192,6 @@ public class TableroView {
         graphicsContext.drawImage(sprite,-ancho/2.0,-alto/2.0,ancho,alto);
         graphicsContext.restore();
     }
-/*
-    private void dibujarJugadores(GraphicsContext graphicsContext){
-        var jugadores = juegoController.obtenerJugadores();
-        for(int nroJugador=0;nroJugador<jugadores.size();nroJugador++){
-            Jugador jugador = jugadores.get(nroJugador);
-            Image sprite = (nroJugador==0)? spritePrimerJugador:spriteSegundoJugador;
-            dibujarJugador(graphicsContext,jugador,sprite);
-        }
-    }
-    */
 
     private void dibujarJugadores(GraphicsContext graphicsContext){
         var jugadores = juegoController.obtenerJugadores();
@@ -260,8 +253,6 @@ public class TableroView {
                 frameEnemigos.put(enemigo, frame);
             }
 
-
-
             Image sprite;
             switch (enemigo.obtenerTipo()) {
                 case REGULARENEMY -> sprite = spritesTanqueRegular[frame];
@@ -274,8 +265,6 @@ public class TableroView {
             dibujarEnemigo(graphicsContext, enemigo, sprite);
         }
     }
-
-
 
     private void actualizarPantalla(GraphicsContext graphics){
         graphics.setFill(Color.BLACK);

@@ -25,12 +25,6 @@ class Vector2DTest {
         assertEquals(20,vectorEscalado.obtenerCoordenadaX());
         assertEquals(20,vectorEscalado.obtenerCoordenadaY());
     }
-    @Test
-    public void unVector2DSeInverteCoordenadasX(){
-        Vector2D vector2D = new Vector2D(10,10);
-        vector2D.invertirCoordenadaX();
-        assertEquals(-10,vector2D.obtenerCoordenadaX());
-        assertEquals(10,vector2D.obtenerCoordenadaY());
-    }
+
 
 }

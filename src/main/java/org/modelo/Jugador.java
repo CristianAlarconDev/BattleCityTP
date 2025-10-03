@@ -15,8 +15,6 @@ public class Jugador extends Tanque implements Colisionable {
     public Jugador(String nombre, double x, double y, double velocidadMovBase) {
         super(x, y, velocidadMovBase);
         this.nombre = nombre;
-        //cambiar luego en constructor de hacer falta
-        //this.velocidadDeDisparo = velocidadMovBase;
         arma = new ArmaUnDisparo(velocidadMovBase);
         this.tamanio = 20;
         this.congelado = false;
@@ -30,14 +28,14 @@ public class Jugador extends Tanque implements Colisionable {
     }
     public void mover(Direccion direccion){
         if(estaCongelado()){
-            enMovimiento = false; // si está congelado, no se mueve
+            enMovimiento = false;
             return;
         }
         if (direccion != null) {
             super.mover(direccion);
-            enMovimiento = true; // se está moviendo
+            enMovimiento = true;
         } else {
-            enMovimiento = false; // no hay dirección → no se mueve
+            enMovimiento = false;
         }
     }
 
@@ -80,9 +78,6 @@ public class Jugador extends Tanque implements Colisionable {
     public void activarEstrella(){
         this.disparoMejorado=true;
         System.out.println(nombre + " ahora tiene disparos mejorados!");
-    }
-    public boolean tieneDisparosMejorados(){
-        return disparoMejorado;
     }
 
     public Disparo intentarDisparar() {

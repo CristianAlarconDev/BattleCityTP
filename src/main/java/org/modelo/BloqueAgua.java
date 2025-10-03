@@ -14,7 +14,7 @@ public class BloqueAgua extends Bloque implements Colisionable{
 
     @Override
     public boolean esColisionable() {
-        return true;
+        return false;
     }
 
     @Override

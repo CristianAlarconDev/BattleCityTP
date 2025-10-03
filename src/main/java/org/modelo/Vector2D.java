@@ -11,7 +11,6 @@ public class Vector2D {
         this.coordenadaY = coordenadaY;
     }
 
-    //metodos nuevos de vector2d basado en la forma de uso o para mejor legibilidad
     public Vector2D copiar(){
         return new Vector2D(coordenadaX,coordenadaY);
     }
@@ -22,25 +21,6 @@ public class Vector2D {
     public Vector2D sumadoA(Vector2D vector2D){
         return new Vector2D(coordenadaX+vector2D.obtenerCoordenadaX(),
                 coordenadaY+vector2D.obtenerCoordenadaY());
-    }
-    //fin metodos
-
-    public void desplazar(Vector2D vector2D){
-        this.coordenadaX += vector2D.obtenerCoordenadaX();
-        this.coordenadaY += vector2D.obtenerCoordenadaY();
-    }
-
-    /*prueba para invertir coordenadas
-     cuando llegue al limite del tablero*/
-    public void invertirCoordenadaX(){
-        this.coordenadaX = -this.coordenadaX;
-    }
-    public void invertirCoordenadaY(){
-        this.coordenadaY = -this.coordenadaY;
-    }
-    @Override
-    public String toString() {
-        return "(%f, %f)".formatted(coordenadaX, coordenadaY);
     }
     public double obtenerCoordenadaX(){
         return coordenadaX;

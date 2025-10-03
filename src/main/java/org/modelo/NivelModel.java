@@ -16,14 +16,6 @@ public class NivelModel {
     private EstadoNivel estadoNivel;
 
 
-    public NivelModel(String nombreJugador1, String nombreJugador2){
-        this(nombreJugador1,nombreJugador2,800,600,2);
-    }
-
-    public NivelModel(String nombreJugador1){
-        this(nombreJugador1,null,800,600,2);
-
-    }
     public NivelModel(String nombreJugador1, String nombreJugador2, int ancho, int alto, int cantidadDeJugadores){
         this.jugadores=new ArrayList<>();
         this.enemigos=new ArrayList<>();
@@ -147,7 +139,7 @@ public class NivelModel {
             this.powerUps.add(powerUp);
         }
     }
-    public void actualizarColisionesConDisparos(){
+    private void actualizarColisionesConDisparos(){
         List<Colisionable>colisionables= obtenerColisionables();
 
         for (Disparo disparo: new ArrayList<>(disparos)) {
@@ -243,7 +235,6 @@ public class NivelModel {
            Disparo disparo=jugador.intentarDisparar();
            disparos.add(disparo);
         }catch (Exception e){
-            /*agregar algun cartel en consola o alerta*/
         }
     }
 

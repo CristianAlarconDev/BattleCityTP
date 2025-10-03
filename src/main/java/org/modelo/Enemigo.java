@@ -57,8 +57,6 @@ public abstract class Enemigo implements Colisionable {
 
     }
 
-
-
     public Vector2D obtenerPosicion() {
         return tanque.obtenerPosicion();
     }
@@ -68,13 +66,7 @@ public abstract class Enemigo implements Colisionable {
         return direcciones[(int)(Math.random() * direcciones.length)];
     }
 
-    //lo siguiente no hace falta:
-    public boolean estaVivo() {
-        return tanque.estaVivo();
-    }
-
     public Disparo disparar() {
-        long ahora = System.currentTimeMillis();
         if (arma.puedeDisparar())
         {
             Vector2D posicionCentro = tanque.obtenerPosicion();
@@ -88,10 +80,6 @@ public abstract class Enemigo implements Colisionable {
             return null;
         }
     }
-
-
-
-
     public boolean enemigoEstaEnMovimiento() {
         return enMovimiento;
     }

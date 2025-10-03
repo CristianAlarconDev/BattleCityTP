@@ -28,7 +28,6 @@ public class JuegoModel {
         if (nivelEnJuego.enCurso()) {
             nivelEnJuego.actualizarMovimientos();
         } else if (nivelEnJuego.terminoEnVictoria()) {
-            System.out.println("Victoria detectada en JuegoModel");
             siguienteNivel();
         } else if (nivelEnJuego.terminoEnDerrota()) {
             return;
@@ -79,13 +78,6 @@ public class JuegoModel {
     public boolean juegoTerminado(){
 
         return nivelActual>=niveles.size();
-    }
-
-    public void reiniciarNivel(){
-        nivelActual = 0;
-        if (!niveles.isEmpty()) {
-            nivelEnJuego = niveles.get(nivelActual);
-        }
     }
 
     public void moverJugador(int nroJugador,Direccion direccion){

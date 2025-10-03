@@ -41,13 +41,6 @@ public class Tanque {
         return vidasTotales > 0;
     }
 
-    public boolean recibirDanio(){
-        if (!estaVivo()){
-            return false;
-        }
-        vidasTotales--;
-        return estaVivo();
-    }
     public Vector2D obtenerPosicion(){
         return new Vector2D(posicion.obtenerCoordenadaX(),
                 posicion.obtenerCoordenadaY());
@@ -55,7 +48,8 @@ public class Tanque {
     public boolean estaEnPosicion(double coordenadaX, double coordenadaY){
         return posicion.esIgualA(new Vector2D(coordenadaX,coordenadaY));
     }
-    /*Esto pensado para powerups*/
+
+
     public void cambiarVelocidadBase(double velocidadBase){
 
         this.velocidadBase = velocidadBase;
@@ -65,11 +59,6 @@ public class Tanque {
 
         return velocidadBase;
     }
-    public Disparo disparar() {
-        Vector2D posDisparo = this.obtenerPosicion();
-        return new Disparo(posDisparo, this.obtenerDireccionActual(), this.obtenerVelocidadBase());
-    }
-
 
     public double obtenerCoordenadaX(){
         return posicion.obtenerCoordenadaX();
