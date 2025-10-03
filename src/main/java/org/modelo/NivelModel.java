@@ -78,6 +78,10 @@ public class NivelModel {
                     jugador.obtenerCoordenadaX(), jugador.obtenerCoordenadaY(), tamanioCelda/2,
                     powerUp.obtenerCoordenadaX(), powerUp.obtenerCoordenadaY(), tamanioCelda/2
             )) {
+                if(powerUp.esGranada()){
+                    enemigos.clear();
+                    estadoNivel=EstadoNivel.VICTORIA;
+                }
                 powerUp.aplicarEfecto(jugador);
                 powerUps.remove(powerUp);
                 System.out.println("PowerUp " + powerUp.obtenerTipoPowerUp() + " consumido por " + jugador.obtenerNombre());
@@ -184,10 +188,18 @@ public class NivelModel {
         actualizarColisionesConDisparos();
         disparoFueraDeLimites();
         moverEnemigos();
+        enemigosDisparan();
         verificarEstadoNivel();
 
     }
-
+    private void enemigosDisparan(){
+        for (Enemigo enemigo : enemigos) {
+            Disparo disparo =enemigo.disparar();
+            if (disparo!=null){
+                disparos.add(disparo);
+            }
+        }
+    }
     private void moverDisparos(){
         for (Disparo disparo: new ArrayList<>(disparos)){
             disparo.mover();

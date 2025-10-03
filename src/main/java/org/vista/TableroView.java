@@ -25,7 +25,7 @@ public class TableroView {
     private Image spriteLadrillo, spriteAcero, spriteBosque, spriteAgua, spriteBlanco,spriteBase;
     private Image spriteDisparo, spritePrimerJugador, spriteSegundoJugador, sprite2PrimerJugador,sprite2SegundoJugador;
     private Image spriteTanqueRegular, spriteTanqueRapido, spriteTanqueBlindado, spriteTanquePotente, spriteTanqueRegular2, spriteTanqueRapido2, spriteTanqueBlindado2, spriteTanquePotente2;
-    private Image spritePowerUpHelmet, spritePowerUpStar;
+    private Image spritePowerUpHelmet, spritePowerUpStar,spritePowerUpGranada;
     private final JuegoController juegoController;
     private final InputController inputController;
     private final Runnable volverAlMenu;
@@ -67,6 +67,7 @@ public class TableroView {
         sprite2SegundoJugador=this.cargarImagen("/sprites/Player2Tank1_20x20.png");
         spritePowerUpHelmet=this.cargarImagen("/sprites/PowerUp-Helmet20x20.png");
         spritePowerUpStar=this.cargarImagen("/sprites/PowerUp-Star20x20.png");
+        spritePowerUpGranada=this.cargarImagen("/sprites/PowerUp-Grenade20x20.png");
         spriteTanqueRapido= this.cargarImagen("/sprites/EnemyTankFast0_20x20.png");
         spriteTanqueRapido2= this.cargarImagen("/sprites/EnemyTankFast1_20x20.png");
         spriteTanqueBlindado= this.cargarImagen("/sprites/EnemyTankHeavy0_20x20.png");
@@ -117,6 +118,7 @@ public class TableroView {
         return switch (powerUp.obtenerTipoPowerUp()) {
             case CASCO -> spritePowerUpHelmet;
             case ESTRELLA -> spritePowerUpStar;
+            case GRANADA -> spritePowerUpGranada;
             default -> spriteBlanco;
         };
     }

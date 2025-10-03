@@ -4,22 +4,16 @@ import java.util.List;
 
 public abstract class Enemigo implements Colisionable {
     private Tanque tanque;
-    private long ultimoDisparo;
-    private  long INTERVALO_MOVIMIENTO = 1000;
-    private  long INTERVALO_DISPARO = 2000;
     private Direccion direccionActual;
-    //private double velocidad;
-    private int pasosMaximos;
     private int vidas;
     private final int tamanioEnemigo;
-    private Disparo disparoActivo; // null si no hay disparo en curso
-    private long inicioTiempoConducta;   // inicio del comportamiento actual
-    private long duracionConducta;       // duración aleatoria 1-5 s
-    private Vector2D ultimaPosicion;     // última posición para detectar si está bloqueado
-    private long ultimoPosicionCambio;   // tiempo en que la posición cambió
-    private double anchoDeCelda;
+    private long inicioTiempoConducta;
+    private long duracionConducta;
+    private Vector2D ultimaPosicion;
+    private long ultimoPosicionCambio;
     private Vector2D siguientePosicion;
     private boolean enMovimiento = false;
+    private ArmaUnDisparo arma;
 
 
     public Direccion obtenerDireccionActual() {
@@ -58,24 +52,15 @@ public abstract class Enemigo implements Colisionable {
         ultimaPosicion = new Vector2D(tanque.obtenerPosicion().obtenerCoordenadaX(), tanque.obtenerPosicion().obtenerCoordenadaY());
         ultimoPosicionCambio= System.currentTimeMillis();
         tamanioEnemigo=20;
+        this.arma=new ArmaUnDisparo(this.tanque.obtenerVelocidadBase());
+
 
     }
 
-
-    private void actualizarPosicion(Direccion direccion) {
-        int pasos = 1 + (int)(Math.random() * pasosMaximos);
-        for (int i = 0; i < pasos; i++) {
-            tanque.mover(direccion);
-        }
-    }
 
 
     public Vector2D obtenerPosicion() {
         return tanque.obtenerPosicion();
-    }
-
-    public boolean recibirDanio() {
-        return tanque.recibirDanio();
     }
 
     private Direccion elegirDireccionAleatoria() {
@@ -89,12 +74,19 @@ public abstract class Enemigo implements Colisionable {
     }
 
     public Disparo disparar() {
-        if (disparoActivo == null) {
-            // Crear un nuevo disparo
-            disparoActivo = new Disparo(obtenerPosicion(), direccionActual, tanque.obtenerVelocidadBase());
-            return disparoActivo;
+        long ahora = System.currentTimeMillis();
+        if (arma.puedeDisparar())
+        {
+            Vector2D posicionCentro = tanque.obtenerPosicion();
+            Vector2D direccionVector =direccionActual.comoVector();
+            double desplazamiento = (20/2.0)+(arma.obtenerTamanioDisparo()/2.0);
+            Vector2D posicionDisparo = posicionCentro.sumadoA(direccionVector.escalado(desplazamiento));
+            Disparo disparo= arma.disparar(posicionDisparo, direccionActual, OrigenDisparo.ENEMIGO);
+            return disparo;
         }
-        return null; // Ya hay un disparo activo
+        else {
+            return null;
+        }
     }
 
 

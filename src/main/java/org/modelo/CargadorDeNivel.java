@@ -34,22 +34,11 @@ public class CargadorDeNivel {
         document.getDocumentElement().normalize();
 
         NivelModel nivel = new NivelModel(nombre1, nombre2, 800, 600, cantidadDeJugadores);
-        //Nivel nivel = new Nivel(2, 60_000);
 
 
         Element root = document.getDocumentElement(); // <levelConfig>
         Element nivelElem = (Element) root.getElementsByTagName("level").item(0);
 
-        double anchoNivelPx = Integer.parseInt(nivelElem.getAttribute("width"));   // ej: 800
-        double altoNivelPx  = Integer.parseInt(nivelElem.getAttribute("height"));    // ej: 600
-        double numFilas     = Integer.parseInt(nivelElem.getAttribute("rows"));     // ej: 30
-        double numColumnas  = Integer.parseInt(nivelElem.getAttribute("cols"));  // ej: 40
-
-        double anchoCelda = anchoNivelPx / numColumnas;  // ej: 800 / 40 = 20
-        double altoCelda  = altoNivelPx / numFilas;      // ej: 600 / 30 = 20
-
-
-        NodeList nodos = nivelElem.getChildNodes();
 
         Element playersContainer = (Element) nivelElem.getElementsByTagName("players").item(0);
         Element enemiesContainer = (Element) nivelElem.getElementsByTagName("enemies").item(0);
@@ -63,8 +52,6 @@ public class CargadorDeNivel {
             Element elem = (Element) nodo;
             int xPx = Integer.parseInt(elem.getAttribute("x"));
             int yPx = Integer.parseInt(elem.getAttribute("y"));
-            //double fila = Math.floor(yPx / altoCelda);
-            //double columna = Math.floor(xPx / anchoCelda);
             if (i==0){
                 Jugador jugador = new Jugador(nombre1, xPx, yPx, 2);
                 nivel.agregarJugador(jugador);
@@ -76,7 +63,6 @@ public class CargadorDeNivel {
         }
 
         // Enemigos
-
         NodeList enemyNodes = enemiesContainer.getChildNodes();
         for (int i = 0; i < enemyNodes.getLength(); i++) {
             Node nodo = enemyNodes.item(i);
@@ -85,13 +71,11 @@ public class CargadorDeNivel {
             String tipo = elem.getAttribute("type");
             int xPx = Integer.parseInt(elem.getAttribute("x"));
             int yPx = Integer.parseInt(elem.getAttribute("y"));
-            //Enemigo enemigo = new Enemigo(xPx,yPx, 2, 2000, anchoCelda);
             Enemigo enemigo = CreadorDeEnemigo.crearEnemigo(tipo, xPx, yPx);
             nivel.agregarEnemigo(enemigo);
         }
 
         // Bloques
-
         NodeList blockNodes = staticObjectsContainer.getChildNodes();
         for (int i = 0; i < blockNodes.getLength(); i++) {
             Node nodo = blockNodes.item(i);
@@ -100,8 +84,6 @@ public class CargadorDeNivel {
             String tipo = elem.getAttribute("type");
             int xPx = Integer.parseInt(elem.getAttribute("x"));
             int yPx = Integer.parseInt(elem.getAttribute("y"));
-            //double fila = yPx / altoCelda;
-            //double columna = xPx / anchoCelda;
             Bloque bloque = CreadorDeBloque.crearBloque(tipo, xPx, yPx);
             nivel.agregarBloque(bloque);
         }

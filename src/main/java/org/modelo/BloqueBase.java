@@ -3,7 +3,7 @@ package org.modelo;
 public class BloqueBase extends Bloque implements Colisionable {
     private int resistencia;
 
-        public BloqueBase(Vector2D posicion) {
+    public BloqueBase(Vector2D posicion) {
         super(posicion.obtenerCoordenadaX(), posicion.obtenerCoordenadaY());
         this.resistencia = 1;
     }

@@ -49,12 +49,6 @@ public class Disparo {
         this.activo=false;
     }
 
-    /*no se usa pero puede servir para visualizar en capas superiores*/
-    public Vector2D obtenerPosicion() {
-        return posicion.copiar();
-    }
-    /*fin comentario*/
-
     public boolean estaEnPosicion(Vector2D vector2D) {
         return this.posicion.esIgualA(vector2D);
     }
