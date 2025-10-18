@@ -16,7 +16,7 @@ public class Jugador extends Tanque implements Colisionable {
     public Jugador(String nombre, double x, double y, double velocidadMovBase) {
         super(x, y, velocidadMovBase);
         /*prueba de uso de nueva clase AreaColisionable*/
-        areaColisionable = new AreaColisionable(new Vector2D(x, y), 5);
+        areaColisionable = new AreaColisionable(this.posicion, 5);
         /**/
         this.nombre = nombre;
         arma = new ArmaUnDisparo(velocidadMovBase);
