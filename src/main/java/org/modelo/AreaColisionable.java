@@ -28,6 +28,9 @@ public class AreaColisionable {
     public double obtenerCentroY(){
         return centro.obtenerCoordenadaY();
     }
+    public void cambiarCentro(Vector2D centro){
+        this.centro = centro;
+    }
 
 
 }
