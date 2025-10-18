@@ -136,21 +136,21 @@ public class NivelModel {
         for (Disparo disparo: new ArrayList<>(disparos)) {
             for (Colisionable colisionable : colisionables){
                 if (disparo.impactaA(colisionable)) {
-                    ResultadoImpacto resultado =colisionable.recibirImpacto(disparo);
+                    ResultadoImpacto resultado = colisionable.recibirImpacto(disparo);
                     if (resultado == ResultadoImpacto.ENEMIGO_ELIMINADO) {
                         this.enemigos.remove(colisionable);
                         intentarGenerarPowerUp();
                     }
 
                     if (resultado == ResultadoImpacto.DESTRUIDO) {
-                        bloques.remove(colisionable);
+                        this.bloques.remove(colisionable);
                     }
 
                     if (resultado == ResultadoImpacto.JUGADOR_ELIMINADO) {
-                        jugadores.remove(colisionable);
+                        this.jugadores.remove(colisionable);
                     }
                     if (resultado == ResultadoImpacto.BASE_DESTRUIDA) {
-                        estadoNivel=EstadoNivel.DERROTA;
+                        estadoNivel = EstadoNivel.DERROTA;
                         return;
                     }
 
@@ -158,32 +158,6 @@ public class NivelModel {
                     disparos.remove(disparo);
                     break;
                 }
-                /*if (compararPosiciones(disparo, colisionable)){
-                    ResultadoImpacto resultado =colisionable.recibirImpacto(disparo);
-
-                    if (resultado == ResultadoImpacto.ENEMIGO_ELIMINADO) {
-                        this.enemigos.remove(colisionable);
-                        intentarGenerarPowerUp();
-                       // System.out.println("Enemigo eliminado, quedan: " + this.enemigos.size());
-                    }
-
-                    if (resultado == ResultadoImpacto.DESTRUIDO) {
-                        bloques.remove(colisionable);
-                    }
-
-                    if (resultado == ResultadoImpacto.JUGADOR_ELIMINADO) {
-                        jugadores.remove(colisionable);
-                    }
-                    if (resultado == ResultadoImpacto.BASE_DESTRUIDA) {
-                        estadoNivel=EstadoNivel.DERROTA;
-                        return;
-                    }
-
-                    disparo.desactivar();
-                    disparos.remove(disparo);
-                    break;
-                }
-            */
             }
         }
 
