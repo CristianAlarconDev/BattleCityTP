@@ -14,7 +14,7 @@ public abstract class Enemigo implements Colisionable {
     private Vector2D siguientePosicion;
     private boolean enMovimiento = false;
     private ArmaUnDisparo arma;
-
+    private AreaColisionable areaColisionable;
 
     public Direccion obtenerDireccionActual() {
         return direccionActual;
@@ -53,10 +53,12 @@ public abstract class Enemigo implements Colisionable {
         ultimoPosicionCambio= System.currentTimeMillis();
         tamanioEnemigo=20;
         this.arma=new ArmaUnDisparo(this.tanque.obtenerVelocidadBase());
-
+        areaColisionable= new AreaColisionable(tanque.obtenerPosicion(), 10);
 
     }
-
+    public AreaColisionable obtenerAreaColisionable(){
+        return areaColisionable;
+    }
     public Vector2D obtenerPosicion() {
         return tanque.obtenerPosicion();
     }
@@ -83,29 +85,6 @@ public abstract class Enemigo implements Colisionable {
     public boolean enemigoEstaEnMovimiento() {
         return enMovimiento;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
 
     public boolean mover(List<Colisionable> colisionables, double anchoNivel, double altoNivel, double radio) {
         long tiempoActual = System.currentTimeMillis();
@@ -169,7 +148,8 @@ public abstract class Enemigo implements Colisionable {
         }
 
         tanque.setPosicion(new Vector2D(coordenadaXActual, coordenadaYActual));
-
+        /*cambios en area colisionable*/
+        this.areaColisionable.cambiarCentro(tanque.obtenerPosicion());
         Vector2D actual = new Vector2D(coordenadaXActual, coordenadaYActual);
         if (siguientePosicion.esCasiIgualA(actual,0.1)) {
             siguientePosicion = null;
