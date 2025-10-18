@@ -11,9 +11,13 @@ public class Jugador extends Tanque implements Colisionable {
     private long tiempoInvulnerable;
     private boolean disparoMejorado;
     private boolean enMovimiento;
+    private AreaColisionable areaColisionable;
 
     public Jugador(String nombre, double x, double y, double velocidadMovBase) {
         super(x, y, velocidadMovBase);
+        /*prueba de uso de nueva clase AreaColisionable*/
+        areaColisionable = new AreaColisionable(new Vector2D(x, y), 5);
+        /**/
         this.nombre = nombre;
         arma = new ArmaUnDisparo(velocidadMovBase);
         this.tamanio = 20;
@@ -23,8 +27,9 @@ public class Jugador extends Tanque implements Colisionable {
         invulnerable=false;
         tiempoInvulnerable=0;
         enMovimiento=false;
-
-
+    }
+    public AreaColisionable obtenerAreaColisionable(){
+        return areaColisionable;
     }
     public void mover(Direccion direccion){
         if(estaCongelado()){
