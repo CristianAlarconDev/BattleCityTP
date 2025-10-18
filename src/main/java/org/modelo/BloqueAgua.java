@@ -1,8 +1,10 @@
 package org.modelo;
 
 public class BloqueAgua extends Bloque implements Colisionable{
+    private AreaColisionable areaColisionable;
     public BloqueAgua(Vector2D posicion) {
         super(posicion.obtenerCoordenadaX(), posicion.obtenerCoordenadaY());
+        areaColisionable = new AreaColisionable(posicion, 5);
     }
     public TipoBloque obtenerTipo(){
         return TipoBloque.AGUA;
@@ -20,6 +22,9 @@ public class BloqueAgua extends Bloque implements Colisionable{
     @Override
     public ResultadoImpacto recibirImpacto(Disparo disparo) {
         return ResultadoImpacto.NADA;
+    }
+    public AreaColisionable obtenerAreaColisionable(){
+        return areaColisionable;
     }
 
 }
