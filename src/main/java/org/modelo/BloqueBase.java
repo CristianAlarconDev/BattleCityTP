@@ -6,7 +6,7 @@ public class BloqueBase extends Bloque implements Colisionable {
     public BloqueBase(Vector2D posicion) {
         super(posicion.obtenerCoordenadaX(), posicion.obtenerCoordenadaY());
         this.resistencia = 1;
-        areaColisionable = new AreaColisionable(posicion, 5);
+        areaColisionable = new AreaColisionable(posicion, 10);
     }
     public TipoBloque obtenerTipo(){
         return TipoBloque.BASE;

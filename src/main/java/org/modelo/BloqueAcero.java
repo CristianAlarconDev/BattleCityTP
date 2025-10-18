@@ -5,7 +5,7 @@ public class BloqueAcero extends Bloque implements Colisionable {
     public BloqueAcero(Vector2D posicion) {
         super(posicion.obtenerCoordenadaX(), posicion.obtenerCoordenadaY());
         /*prueba de uso de nueva clase AreaColisionable*/
-        areaColisionable = new AreaColisionable(posicion, 5);
+        areaColisionable = new AreaColisionable(posicion, 10);
         /**/
     }
     public TipoBloque obtenerTipo(){

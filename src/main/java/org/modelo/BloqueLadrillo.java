@@ -7,7 +7,7 @@ public class BloqueLadrillo extends Bloque implements Colisionable{
     public BloqueLadrillo(Vector2D posicion){
         super(posicion.obtenerCoordenadaX(), posicion.obtenerCoordenadaY());
         this.resistencia = 3;
-        areaColisionable = new AreaColisionable(posicion, 5);
+        areaColisionable = new AreaColisionable(posicion, 10);
     }
 
     @Override

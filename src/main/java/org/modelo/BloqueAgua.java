@@ -4,7 +4,7 @@ public class BloqueAgua extends Bloque implements Colisionable{
     private AreaColisionable areaColisionable;
     public BloqueAgua(Vector2D posicion) {
         super(posicion.obtenerCoordenadaX(), posicion.obtenerCoordenadaY());
-        areaColisionable = new AreaColisionable(posicion, 5);
+        areaColisionable = new AreaColisionable(posicion, 10);
     }
     public TipoBloque obtenerTipo(){
         return TipoBloque.AGUA;
