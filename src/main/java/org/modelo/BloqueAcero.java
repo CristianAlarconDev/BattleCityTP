@@ -1,9 +1,12 @@
 package org.modelo;
 
 public class BloqueAcero extends Bloque implements Colisionable {
-
+    private AreaColisionable areaColisionable;
     public BloqueAcero(Vector2D posicion) {
         super(posicion.obtenerCoordenadaX(), posicion.obtenerCoordenadaY());
+        /*prueba de uso de nueva clase AreaColisionable*/
+        areaColisionable = new AreaColisionable(posicion, 5);
+        /**/
     }
     public TipoBloque obtenerTipo(){
         return TipoBloque.ACERO;
@@ -21,6 +24,9 @@ public class BloqueAcero extends Bloque implements Colisionable {
     @Override
     public ResultadoImpacto recibirImpacto(Disparo disparo) {
         return ResultadoImpacto.NADA;
+    }
+    public AreaColisionable obtenerAreaColisionable(){
+        return areaColisionable;
     }
 
 }
