@@ -99,15 +99,6 @@ public class NivelModel {
         }
     }
 
-    private boolean compararPosiciones(Disparo disparo, Colisionable colisionable) {
-        int radioDisparo = tamanioDisparo / 2;
-        int radioColisionable = tamanioCelda / 2;
-        return colisionan(
-                disparo.obtenerCoordenadaX(), disparo.obtenerCoordenadaY(), radioDisparo,
-                colisionable.obtenerCoordenadaX(), colisionable.obtenerCoordenadaY(), radioColisionable
-        );
-    }
-
     private List<Colisionable> obtenerBloquesColisionables(){
         List<Colisionable> bloquesColisionables = new ArrayList<>();
         for (Bloque bloque : bloques) {
@@ -144,7 +135,30 @@ public class NivelModel {
 
         for (Disparo disparo: new ArrayList<>(disparos)) {
             for (Colisionable colisionable : colisionables){
-                if (compararPosiciones(disparo, colisionable)){
+                if (disparo.impactaA(colisionable)) {
+                    ResultadoImpacto resultado =colisionable.recibirImpacto(disparo);
+                    if (resultado == ResultadoImpacto.ENEMIGO_ELIMINADO) {
+                        this.enemigos.remove(colisionable);
+                        intentarGenerarPowerUp();
+                    }
+
+                    if (resultado == ResultadoImpacto.DESTRUIDO) {
+                        bloques.remove(colisionable);
+                    }
+
+                    if (resultado == ResultadoImpacto.JUGADOR_ELIMINADO) {
+                        jugadores.remove(colisionable);
+                    }
+                    if (resultado == ResultadoImpacto.BASE_DESTRUIDA) {
+                        estadoNivel=EstadoNivel.DERROTA;
+                        return;
+                    }
+
+                    disparo.desactivar();
+                    disparos.remove(disparo);
+                    break;
+                }
+                /*if (compararPosiciones(disparo, colisionable)){
                     ResultadoImpacto resultado =colisionable.recibirImpacto(disparo);
 
                     if (resultado == ResultadoImpacto.ENEMIGO_ELIMINADO) {
@@ -169,6 +183,7 @@ public class NivelModel {
                     disparos.remove(disparo);
                     break;
                 }
+            */
             }
         }
 
