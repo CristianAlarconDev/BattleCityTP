@@ -2,10 +2,11 @@ package org.modelo;
 
 public class BloqueBase extends Bloque implements Colisionable {
     private int resistencia;
-
+    private AreaColisionable areaColisionable;
     public BloqueBase(Vector2D posicion) {
         super(posicion.obtenerCoordenadaX(), posicion.obtenerCoordenadaY());
         this.resistencia = 1;
+        areaColisionable = new AreaColisionable(posicion, 5);
     }
     public TipoBloque obtenerTipo(){
         return TipoBloque.BASE;
@@ -30,6 +31,9 @@ public class BloqueBase extends Bloque implements Colisionable {
     @Override
     public boolean esColisionable() {
         return true;
+    }
+    public AreaColisionable obtenerAreaColisionable(){
+        return areaColisionable;
     }
 
 
