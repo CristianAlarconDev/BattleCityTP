@@ -33,7 +33,10 @@ public class Tanque {
         cambiarDireccion(direccion);
     }
     private void moverA(Vector2D desplazamiento){
-        posicion=posicion.sumadoA(desplazamiento);
+        //posicion=posicion.sumadoA(desplazamiento);
+        double nuevaX = posicion.obtenerCoordenadaX() + desplazamiento.obtenerCoordenadaX();
+        double nuevaY = posicion.obtenerCoordenadaY() + desplazamiento.obtenerCoordenadaY();
+        posicion.cambiarCoordenadas(nuevaX,nuevaY);
     }
 
     public boolean estaVivo(){
@@ -42,8 +45,9 @@ public class Tanque {
     }
 
     public Vector2D obtenerPosicion(){
-        return new Vector2D(posicion.obtenerCoordenadaX(),
-                posicion.obtenerCoordenadaY());
+        //return new Vector2D(posicion.obtenerCoordenadaX(),
+        //        posicion.obtenerCoordenadaY());
+        return posicion;
     }
     public boolean estaEnPosicion(double coordenadaX, double coordenadaY){
         return posicion.esIgualA(new Vector2D(coordenadaX,coordenadaY));
