@@ -3,7 +3,7 @@ package org.modelo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NivelModel {
+public class NivelModel implements EntornoFisico{
     private final List<Jugador> jugadores;
     private final List<Enemigo> enemigos;
     private final List<Bloque> bloques;
@@ -14,6 +14,7 @@ public class NivelModel {
     private final int anchoNivel, altoNivel;
     private int cantidadDeJugadores;
     private EstadoNivel estadoNivel;
+    private GestorDeMovimientos gestorDeMovimientos;
 
 
     public NivelModel(String nombreJugador1, String nombreJugador2, int ancho, int alto, int cantidadDeJugadores){
@@ -28,7 +29,7 @@ public class NivelModel {
         this.altoNivel=alto;
         this.cantidadDeJugadores=cantidadDeJugadores;
         this.estadoNivel=EstadoNivel.EN_CURSO;
-
+        this.gestorDeMovimientos= new GestorDeMovimientos(this);
     }
     public void agregarBloque(Bloque bloque){
         this.bloques.add(bloque);
@@ -39,16 +40,7 @@ public class NivelModel {
     public void agregarJugador(Jugador jugador){
         this.jugadores.add(jugador);
     }
-    private boolean estaDentroDeLimites(AreaColisionable areaDePrueba) {
-        double xCentro = areaDePrueba.obtenerCentroX();
-        double yCentro = areaDePrueba.obtenerCentroY();
-        int semilado = (int)areaDePrueba.obtenerSemilado();
 
-        boolean dentroHorizontal = (xCentro - semilado >= 0) && (xCentro + semilado <= anchoNivel);
-        boolean dentroVertical   = (yCentro - semilado >= 0) && (yCentro + semilado <= altoNivel);
-
-        return dentroHorizontal && dentroVertical;
-    }
     public List<Obstruible> obtenerObstrucciones() {
         List<Obstruible> obstrucciones = new ArrayList<>();
 
@@ -59,14 +51,6 @@ public class NivelModel {
             }
         }
         return obstrucciones;
-    }
-    private boolean hayColisionConObstaculo(AreaColisionable areaMovimiento) {
-        for (Obstruible obstruccion : obtenerObstrucciones()) {
-            if (areaMovimiento.estaEnArea(obstruccion.obtenerAreaColisionable())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private void verificarColisionConPowerUps(Jugador jugador) {
@@ -92,11 +76,11 @@ public class NivelModel {
                 (direccion.dY()*jugador.obtenerVelocidadBase());
         AreaColisionable destino= new AreaColisionable(new Vector2D(xDesplazado, yDesplazado),
                 10);
-
-        if (!hayColisionConObstaculo(destino) && estaDentroDeLimites(destino)){
+        if (gestorDeMovimientos.puedeMoverA(destino)){
             verificarColisionConPowerUps(jugador);
             jugador.mover(direccion);
         }
+
     }
 
     public void moverEnemigos() {
@@ -118,6 +102,14 @@ public class NivelModel {
         }
         return colisionables;
     }
+    public double obtenerAncho(){
+        return anchoNivel;
+    }
+
+    public double obtenerAlto() {
+        return this.altoNivel;
+    }
+
     private void intentarGenerarPowerUp(){
         if (Math.random() < 0.80) {
             TipoPowerUp tipoPowerUp = TipoPowerUp.random();
@@ -164,7 +156,7 @@ public class NivelModel {
 
         moverDisparos();
         actualizarColisionesConDisparos();
-        disparoFueraDeLimites();
+        gestorDeMovimientos.limpiarDisparosFueraDeLimites();
         moverEnemigos();
         enemigosDisparan();
         verificarEstadoNivel();
@@ -184,15 +176,6 @@ public class NivelModel {
         }
     }
 
-    private void disparoFueraDeLimites(){
-        for(Disparo disparo: new ArrayList<>(disparos)){
-            if (!disparoDentroDeLimites(disparo.obtenerCoordenadaX(), disparo.obtenerCoordenadaY())){
-                disparo.desactivar();
-                disparos.remove(disparo);
-            }
-        }
-    }
-
     private void verificarEstadoNivel(){
         //System.out.println("Verificar estado: enemigos=" + enemigos.size());
         if(this.enemigos.isEmpty()){
@@ -202,17 +185,6 @@ public class NivelModel {
         if (jugadores.isEmpty()){
             this.estadoNivel=EstadoNivel.DERROTA;
         }
-
-
-    }
-    private boolean disparoDentroDeLimites(double xCentro, double yCentro){
-        int radioDisparo = tamanioDisparo / 2;
-
-        boolean dentroHorizontal = (xCentro - radioDisparo >= 0) && (xCentro + radioDisparo <= anchoNivel);
-        boolean dentroVertical   = (yCentro - radioDisparo >= 0) && (yCentro + radioDisparo <= altoNivel);
-
-        return dentroHorizontal && dentroVertical;
-
     }
 
     public void jugadorDisparar(int nroJugador){
