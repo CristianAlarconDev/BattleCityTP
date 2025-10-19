@@ -25,6 +25,7 @@ public class Disparo {
         this.velocidad = direccion.comoVector().escalado(velocidadBase);
         this.origenDisparo = origenDisparo;
         this.areaColisionable= new AreaColisionable(this.posicion, 3);
+        this.poderoso=false;
     }
     public void hacerPoderoso(){
         this.poderoso=true;
@@ -40,11 +41,11 @@ public class Disparo {
     public void mover(double tiempo){
         if (!activo) return;
         Vector2D delta = velocidad.escalado(tiempo);
-        /*nueva forma*/
         double nuevaX = this.posicion.obtenerCoordenadaX() + delta.obtenerCoordenadaX();
         double nuevaY = this.posicion.obtenerCoordenadaY() + delta.obtenerCoordenadaY();
         this.posicion.cambiarCoordenadas(nuevaX,nuevaY);
-       // this.posicion = posicion.sumadoA(delta);
+        this.areaColisionable.cambiarCentro(this.posicion);
+
     }
     public void mover() {
         if (!activo) return;
@@ -74,6 +75,7 @@ public class Disparo {
     }
 
     public boolean impactaA(Colisionable colisionable){
+        if (!activo) return false;
     return areaColisionable.estaEnArea(colisionable.obtenerAreaColisionable());
     }
     public AreaColisionable obtenerAreaColisionable(){
