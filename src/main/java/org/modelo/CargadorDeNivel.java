@@ -33,7 +33,7 @@ public class CargadorDeNivel {
         Document document = builder.parse(xmlFile);
         document.getDocumentElement().normalize();
 
-        NivelModel nivel = new NivelModel(nombre1, nombre2, 800, 600, cantidadDeJugadores);
+        NivelModel nivel = new NivelModel(800, 600);
 
 
         Element root = document.getDocumentElement(); // <levelConfig>
