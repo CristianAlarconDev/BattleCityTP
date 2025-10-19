@@ -76,4 +76,7 @@ public class Disparo {
     public boolean impactaA(Colisionable colisionable){
     return areaColisionable.estaEnArea(colisionable.obtenerAreaColisionable());
     }
+    public AreaColisionable obtenerAreaColisionable(){
+        return areaColisionable;
+    }
 }
