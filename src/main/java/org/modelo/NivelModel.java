@@ -39,37 +39,41 @@ public class NivelModel {
     public void agregarJugador(Jugador jugador){
         this.jugadores.add(jugador);
     }
-    private boolean colisionan(double x1, double y1, int r1,
-                               double x2, double y2, int r2) {
-        return Math.abs(x1 - x2) < (r1 + r2) &&
-                Math.abs(y1 - y2) < (r1 + r2);
-    }
+    private boolean estaDentroDeLimites(AreaColisionable areaDePrueba) {
+        double xCentro = areaDePrueba.obtenerCentroX();
+        double yCentro = areaDePrueba.obtenerCentroY();
+        int semilado = (int)areaDePrueba.obtenerSemilado();
 
-    private boolean estaDentroDeLimites(double xCentro, double yCentro, int radio) {
-        boolean dentroHorizontal = (xCentro - radio >= 0) && (xCentro + radio <= anchoNivel);
-        boolean dentroVertical   = (yCentro - radio >= 0) && (yCentro + radio <= altoNivel);
+        boolean dentroHorizontal = (xCentro - semilado >= 0) && (xCentro + semilado <= anchoNivel);
+        boolean dentroVertical   = (yCentro - semilado >= 0) && (yCentro + semilado <= altoNivel);
+
         return dentroHorizontal && dentroVertical;
     }
-    private boolean hayColisionConObstaculo(double xCentro, double yCentro, int radio) {
-        for (Bloque bloque : bloques) {
-            if(bloque.impideElPaso()){
-                if (colisionan(xCentro, yCentro, radio,
-                        bloque.obtenerCoordenadaX(), bloque.obtenerCoordenadaY(), tamanioCelda / 2)) {
-                    return true;
-                }
+    public List<Obstruible> obtenerObstrucciones() {
+        List<Obstruible> obstrucciones = new ArrayList<>();
+
+        for (Bloque bloque : this.bloques) {
+            if (bloque.impideElPaso()) {
+
+                obstrucciones.add((Obstruible) bloque);
+            }
+        }
+        return obstrucciones;
+    }
+    private boolean hayColisionConObstaculo(AreaColisionable areaMovimiento) {
+        for (Obstruible obstruccion : obtenerObstrucciones()) {
+            if (areaMovimiento.estaEnArea(obstruccion.obtenerAreaColisionable())) {
+                return true;
             }
         }
         return false;
     }
-    private boolean puedeMoverA(double x, double y, int radio) {
-        return estaDentroDeLimites(x, y, radio) && !hayColisionConObstaculo(x, y, radio);
-    }
+
     private void verificarColisionConPowerUps(Jugador jugador) {
+        AreaColisionable areaJugador= jugador.obtenerAreaColisionable();
         for (PowerUp powerUp : new ArrayList<>(powerUps)) {
-            if (colisionan(
-                    jugador.obtenerCoordenadaX(), jugador.obtenerCoordenadaY(), tamanioCelda/2,
-                    powerUp.obtenerCoordenadaX(), powerUp.obtenerCoordenadaY(), tamanioCelda/2
-            )) {
+            if (areaJugador.estaEnArea(powerUp.obtenerAreaColisionable()))
+            {
                 if(powerUp.esGranada()){
                     enemigos.clear();
                     estadoNivel=EstadoNivel.VICTORIA;
@@ -82,12 +86,14 @@ public class NivelModel {
     }
     public void moverJugador(int nroJugador,Direccion direccion){
         Jugador jugador=jugadores.get(nroJugador);
-        double coordXNueva=(jugador.obtenerCoordenadaX())+
+        double xDesplazado=(jugador.obtenerCoordenadaX())+
                 (direccion.dX()*jugador.obtenerVelocidadBase());
-        double coordYNueva=(jugador.obtenerCoordenadaY())+
+        double yDesplazado=(jugador.obtenerCoordenadaY())+
                 (direccion.dY()*jugador.obtenerVelocidadBase());
+        AreaColisionable destino= new AreaColisionable(new Vector2D(xDesplazado, yDesplazado),
+                10);
 
-        if (puedeMoverA(coordXNueva,coordYNueva,tamanioCelda/2)){
+        if (!hayColisionConObstaculo(destino) && estaDentroDeLimites(destino)){
             verificarColisionConPowerUps(jugador);
             jugador.mover(direccion);
         }
@@ -95,18 +101,9 @@ public class NivelModel {
 
     public void moverEnemigos() {
         for (Enemigo enemigo : enemigos) {
-            enemigo.mover( obtenerBloquesColisionables() , anchoNivel,altoNivel, tamanioCelda/2);
+           // enemigo.mover( obtenerBloquesColisionables() , anchoNivel,altoNivel, tamanioCelda/2);
+            enemigo.mover(obtenerObstrucciones(), anchoNivel, altoNivel, tamanioCelda/2);
         }
-    }
-
-    private List<Colisionable> obtenerBloquesColisionables(){
-        List<Colisionable> bloquesColisionables = new ArrayList<>();
-        for (Bloque bloque : bloques) {
-            if (bloque.esColisionable()) {
-                bloquesColisionables.add((Colisionable) bloque);
-            }
-        }
-        return bloquesColisionables;
     }
 
 
