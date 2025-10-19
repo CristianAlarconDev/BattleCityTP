@@ -23,18 +23,15 @@ public class BloqueBase extends Bloque implements Colisionable {
         return posicion.obtenerCoordenadaY();
     }
 
-    @Override
-    public boolean impideElPaso() {
-        return true;
-    }
 
     @Override
     public boolean esColisionable() {
         return true;
     }
+    public boolean impideElPaso() {
+        return false;
+    }
     public AreaColisionable obtenerAreaColisionable(){
         return areaColisionable;
     }
-
-
 }
