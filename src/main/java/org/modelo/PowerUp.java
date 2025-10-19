@@ -2,18 +2,20 @@ package org.modelo;
 
 public class PowerUp extends Bloque{
     private final TipoPowerUp tipoPowerUp;
+    private AreaColisionable areaColisionable;
     public PowerUp(double coordenadaX, double coordenadaY, TipoPowerUp powerUp) {
         super(coordenadaX, coordenadaY);
         tipoPowerUp=powerUp;
+        areaColisionable = new AreaColisionable(posicion, 10);
 
+    }
+    public AreaColisionable obtenerAreaColisionable(){
+        return areaColisionable;
     }
     public TipoBloque obtenerTipo(){
         return TipoBloque.POWERUP;
     }
-    @Override
-    public boolean impideElPaso() {
-        return false;
-    }
+
     @Override
     public boolean esColisionable() {
         return false;
@@ -32,6 +34,12 @@ public class PowerUp extends Bloque{
 
         }
     }
+
+    @Override
+    public boolean impideElPaso() {
+        return false;
+    }
+
     public boolean esGranada(){
         return tipoPowerUp==TipoPowerUp.GRANADA;
     }
