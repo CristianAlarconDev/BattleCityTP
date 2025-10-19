@@ -1,6 +1,6 @@
 package org.modelo;
 
-public class BloqueLadrillo extends Bloque implements Colisionable{
+public class BloqueLadrillo extends Bloque implements Colisionable,  Obstruible{
     private int resistencia;
     private AreaColisionable areaColisionable;
 

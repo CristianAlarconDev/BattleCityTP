@@ -1,6 +1,6 @@
 package org.modelo;
 
-public class BloqueAcero extends Bloque implements Colisionable {
+public class BloqueAcero extends Bloque implements Colisionable, Obstruible {
     private AreaColisionable areaColisionable;
     public BloqueAcero(Vector2D posicion) {
         super(posicion.obtenerCoordenadaX(), posicion.obtenerCoordenadaY());
@@ -11,7 +11,6 @@ public class BloqueAcero extends Bloque implements Colisionable {
     public TipoBloque obtenerTipo(){
         return TipoBloque.ACERO;
     }
-    @Override
     public boolean impideElPaso() {
         return true;
     }

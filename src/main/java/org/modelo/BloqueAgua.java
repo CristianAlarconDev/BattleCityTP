@@ -1,6 +1,6 @@
 package org.modelo;
 
-public class BloqueAgua extends Bloque implements Colisionable{
+public class BloqueAgua extends Bloque implements Colisionable, Obstruible{
     private AreaColisionable areaColisionable;
     public BloqueAgua(Vector2D posicion) {
         super(posicion.obtenerCoordenadaX(), posicion.obtenerCoordenadaY());
@@ -9,7 +9,7 @@ public class BloqueAgua extends Bloque implements Colisionable{
     public TipoBloque obtenerTipo(){
         return TipoBloque.AGUA;
     }
-    @Override
+
     public boolean impideElPaso() {
         return true;
     }
