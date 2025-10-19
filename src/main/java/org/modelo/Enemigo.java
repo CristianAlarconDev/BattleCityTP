@@ -75,8 +75,7 @@ public abstract class Enemigo implements Colisionable {
             Vector2D direccionVector =direccionActual.comoVector();
             double desplazamiento = (20/2.0)+(arma.obtenerTamanioDisparo()/2.0);
             Vector2D posicionDisparo = posicionCentro.sumadoA(direccionVector.escalado(desplazamiento));
-            Disparo disparo= arma.disparar(posicionDisparo, direccionActual, OrigenDisparo.ENEMIGO);
-            return disparo;
+            return arma.disparar(posicionDisparo, direccionActual, OrigenDisparo.ENEMIGO);
         }
         else {
             return null;
@@ -86,20 +85,16 @@ public abstract class Enemigo implements Colisionable {
         return enMovimiento;
     }
 
-    public boolean mover(List<Colisionable> colisionables, double anchoNivel, double altoNivel, double radio) {
+    public boolean mover(List<Obstruible> obstrucciones, double anchoNivel, double altoNivel, double radio) {
         long tiempoActual = System.currentTimeMillis();
-        actualizarConducta(tiempoActual, colisionables, anchoNivel, altoNivel, radio);
+        actualizarConducta(tiempoActual, obstrucciones, anchoNivel, altoNivel, radio);
         boolean seMovio = avanzar();
-        if(seMovio){
-            enMovimiento = true;
-        } else {
-            enMovimiento = false;
-        }
+        enMovimiento = seMovio;
         actualizarBloqueo(tiempoActual);
         return seMovio;
     }
 
-    private void actualizarConducta(long tiempoActual, List<Colisionable> colisionables,
+    private void actualizarConducta(long tiempoActual, List<Obstruible> obstrucciones,
                                     double anchoNivel, double altoNivel, double radio) {
         //si ya llego a la celda destino, calcula la posicion de la siguiente celda a la que se va a mover y actualiza direccion y tiempo de conducta si es necesario
 
@@ -116,7 +111,7 @@ public abstract class Enemigo implements Colisionable {
 
             // Verifica si la siguiente posicion esta libre y si se esta saliendo de los limites del nivel
             int intentos = 0;
-            while ((!PosicionLibre(siguientePosicion, colisionables) || !dentroDeLimites(siguientePosicion, anchoNivel, altoNivel, radio))
+            while ((!PosicionLibre(siguientePosicion, obstrucciones) || !dentroDeLimites(siguientePosicion, anchoNivel, altoNivel, radio))
                     && intentos < 4) {
                 direccionActual = elegirDireccionAleatoria();
                 siguientePosicion = calcularSiguientePosicion();
@@ -190,9 +185,15 @@ public abstract class Enemigo implements Colisionable {
                 pos.obtenerCoordenadaY() + radio <= alto;
     }
 
-    private boolean PosicionLibre(Vector2D pos, List<Colisionable> colisionables) {
+    private boolean PosicionLibre(Vector2D pos, List<Obstruible> obstrucciones) {
         double radioTanque = tamanioEnemigo / 2.0;
-        for (Colisionable c : colisionables) {
+        AreaColisionable areaPrueba = new AreaColisionable(pos, radioTanque);
+       for (Obstruible obstruccion : obstrucciones) {
+           if (areaPrueba.estaEnArea(obstruccion.obtenerAreaColisionable())) {
+               return false;
+           }
+       }
+        /*for (Colisionable c : colisionables) {
             if (!c.impideElPaso()) continue;
             double radioBloque = 10;
             Vector2D posBloque = c.obtenerPosicion();
@@ -200,14 +201,10 @@ public abstract class Enemigo implements Colisionable {
             double dy = pos.obtenerCoordenadaY() - posBloque.obtenerCoordenadaY();
             double distancia = Math.sqrt(dx*dx + dy*dy);
             if (distancia < radioTanque + radioBloque) return false;
-        }
+        }*/
         return true;
     }
 
-    @Override
-    public boolean impideElPaso() {
-        return true;
-    }
 
     public abstract TipoEnemigo obtenerTipo();
 
