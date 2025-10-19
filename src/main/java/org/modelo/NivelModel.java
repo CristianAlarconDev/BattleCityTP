@@ -3,7 +3,7 @@ package org.modelo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NivelModel implements EntornoFisico{
+public class NivelModel implements EntornoFisico, ContextoDeColision{
     private final List<Jugador> jugadores;
     private final List<Enemigo> enemigos;
     private final List<Bloque> bloques;
@@ -91,7 +91,7 @@ public class NivelModel implements EntornoFisico{
     }
 
 
-    private List<Colisionable> obtenerColisionables(){
+    public List<Colisionable> obtenerColisionables(){
         List<Colisionable> colisionables = new ArrayList<>();
         colisionables.addAll(jugadores);
         colisionables.addAll(enemigos);
