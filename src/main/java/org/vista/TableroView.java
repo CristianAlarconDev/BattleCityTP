@@ -145,13 +145,10 @@ public  class TableroView {
         Canvas canvas = new Canvas(ANCHO, ALTO);
         GraphicsContext graphics = canvas.getGraphicsContext2D();
 
-        //Scene scene = new Scene(new StackPane(canvas), ANCHO, ALTO, Color.GRAY);
-        /*Media-Player, mover luego a otra vista*/
-
         BorderPane rootPane = new BorderPane();
         rootPane.setCenter(canvas);
         rootPane.setTop(hudView.obtenerLayout());
-        Scene scene = new Scene(rootPane, ANCHO, ALTO, Color.GRAY);
+        Scene scene = new Scene(rootPane, ANCHO, ALTO+ hudView.obtenerAlto(), Color.GRAY);
 
         /*------*/
         iniciarSprites(graphics);
