@@ -3,22 +3,27 @@ package org.vista;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.media.Media;
 import javafx.scene.paint.Color;
 import org.controlador.InputController;
 import org.controlador.JuegoController;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.media.MediaPlayer;
 import org.modelo.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public  class TableroView {
     private final int ANCHO;
     private final int ALTO;
-    private final int TAMANIO_JUGADOR;
+    private final int TAMANIO_TANQUE;
     private final int TAMANIO_DISPARO;
     private final int TAMANIO_BLOQUE;
+    private MediaPlayer mediaPlayer;
+    private final HudView hudView;
     private Image spriteLadrillo, spriteAcero, spriteBosque, spriteAgua, spriteBlanco,spriteBase;
     private Image spriteDisparo, spritePrimerJugador, spriteSegundoJugador, sprite2PrimerJugador,sprite2SegundoJugador;
     private Image spriteTanqueRegular, spriteTanqueRapido, spriteTanqueBlindado, spriteTanquePotente, spriteTanqueRegular2, spriteTanqueRapido2, spriteTanqueBlindado2, spriteTanquePotente2;
@@ -41,9 +46,21 @@ public  class TableroView {
         this.onDerrota = onDerrota;
         ANCHO = 800;
         ALTO = 600;
-        TAMANIO_JUGADOR = 20;
+        TAMANIO_TANQUE = 20;
         TAMANIO_DISPARO = 6;
         TAMANIO_BLOQUE=20;
+        /*Media-Player, mover luego a otra vista*/
+        try {
+            String musicFile = "/music/loop-music.mp3";
+            Media sound = new Media(Objects.requireNonNull(getClass().getResource(musicFile)).toExternalForm());
+            this.mediaPlayer = new MediaPlayer(sound);
+        } catch (Exception e) {
+            System.out.println("Error al cargar la música: " + e.getMessage());
+
+        }
+
+        this.hudView = new HudView(this.mediaPlayer);
+        /*------*/
     }
     private Image cargarImagen(String ruta){
         var url = getClass().getResource(ruta);
@@ -128,10 +145,25 @@ public  class TableroView {
         Canvas canvas = new Canvas(ANCHO, ALTO);
         GraphicsContext graphics = canvas.getGraphicsContext2D();
 
-        Scene scene = new Scene(new StackPane(canvas), ANCHO, ALTO, Color.GRAY);
+        //Scene scene = new Scene(new StackPane(canvas), ANCHO, ALTO, Color.GRAY);
+        /*Media-Player, mover luego a otra vista*/
+
+        BorderPane rootPane = new BorderPane();
+        rootPane.setCenter(canvas);
+        rootPane.setTop(hudView.obtenerLayout());
+        Scene scene = new Scene(rootPane, ANCHO, ALTO, Color.GRAY);
+
+        /*------*/
         iniciarSprites(graphics);
         scene.setOnKeyPressed(evento-> inputController.presionarTecla(evento.getCode()));
         scene.setOnKeyReleased(evento-> inputController.soltarTecla(evento.getCode()));
+
+        /*Media-Player, mover luego a otra vista*/
+        if (this.mediaPlayer != null) {
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            mediaPlayer.play();
+        }
+
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -140,6 +172,7 @@ public  class TableroView {
                 actualizarPantalla(graphics);
                 if (juegoController.terminoEnDerrota()) {
                     stop();
+                    mediaPlayer.stop();
                     onDerrota.run();
 
                 } else if (juegoController.terminoNivelEnVictoria()) {
@@ -156,29 +189,13 @@ public  class TableroView {
         timer.start();
         return scene;
     }
-    private void dibujarJugador(GraphicsContext graphicsContext,Jugador jugador, Image sprite){
-        double x = jugador.obtenerCoordenadaX();
-        double y = jugador.obtenerCoordenadaY();
-        int ancho =TAMANIO_JUGADOR;
-        int alto =TAMANIO_JUGADOR;
-        double angulo=switch(jugador.obtenerDireccionActual()){
-            case DERECHA -> 90;
-            case IZQUIERDA -> 270;
-            case ARRIBA -> 0;
-            case ABAJO -> 180;
-        };
-        graphicsContext.save();
-        graphicsContext.translate(x,y);
-        graphicsContext.rotate(angulo);
-        graphicsContext.drawImage(sprite,-ancho/2.0,-alto/2.0,ancho,alto);
-        graphicsContext.restore();
-    }
-    private void dibujarEnemigo(GraphicsContext graphicsContext,Enemigo enemigo, Image sprite){
-        double x = enemigo.obtenerCoordenadaX();
-        double y = enemigo.obtenerCoordenadaY();
-        int ancho =TAMANIO_JUGADOR;
-        int alto =TAMANIO_JUGADOR;
-        double angulo=switch(enemigo.obtenerDireccionActual()){
+
+    private void dibujarTanque(GraphicsContext graphicsContext,Tanque tanque, Image sprite){
+        double x = tanque.obtenerCoordenadaX();
+        double y = tanque.obtenerCoordenadaY();
+        int ancho =TAMANIO_TANQUE;
+        int alto =TAMANIO_TANQUE;
+        double angulo=switch(tanque.obtenerDireccionActual()){
             case DERECHA -> 90;
             case IZQUIERDA -> 270;
             case ARRIBA -> 0;
@@ -212,7 +229,7 @@ public  class TableroView {
                 sprite = spritesJugador2[frame];
             }
 
-            dibujarJugador(graphicsContext, jugador, sprite);
+            dibujarTanque(graphicsContext, jugador, sprite);
         }
     }
 
@@ -260,7 +277,7 @@ public  class TableroView {
                 default -> sprite = spriteTanqueRegular;
             }
 
-            dibujarEnemigo(graphicsContext, enemigo, sprite);
+            dibujarTanque(graphicsContext, enemigo, sprite);
         }
     }
 
