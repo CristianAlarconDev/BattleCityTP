@@ -17,14 +17,6 @@ public class JuegoController {
         juego.moverJugador(nroJugador, direccion);
     }
 
-    public boolean terminoEnVictoria() {
-        return juego.terminoEnVictoria();
-    }
-
-    public boolean terminoEnDerrota() {
-        return juego.terminoEnDerrota();
-    }
-
     public void siguienteNivel() {
         juego.siguienteNivel();
     }
@@ -32,7 +24,15 @@ public class JuegoController {
     public void jugadorDispara(int jugador) {
         juego.jugadorDispara(jugador);
     }
-
+    public boolean terminoNivelEnVictoria() {
+        return juego.terminoNivelEnVictoria();
+    }
+    public boolean terminoJuegoEnVictoria(){
+        return juego.terminoJuegoEnVictoria();
+    }
+    public boolean terminoEnDerrota(){
+        return juego.terminoEnDerrota();
+    }
     public List<Jugador> obtenerJugadores() {
         return juego.obtenerJugadores();
     }
@@ -57,14 +57,6 @@ public class JuegoController {
         juego.actualizar();
     }
 
-    /*
-    public boolean enemigoEnMovimiento(Enemigo enemigo) {
-        return juego.enemigoEnMovimiento(enemigo);
-    }
-    public boolean jugadorEnMovimiento(Jugador jugador){
-        return juego.jugadorEnMovimiento(jugador);
-    }
-     */
     public boolean tanqueEnMovimiento(Tanque tanque) {
         return juego.tanqueEnMovimiento(tanque);
     }
