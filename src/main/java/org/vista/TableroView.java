@@ -10,11 +10,8 @@ import org.controlador.JuegoController;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import org.modelo.*;
-import java.util.function.Consumer;
 import java.util.HashMap;
 import java.util.Map;
-
-
 
 public  class TableroView {
     private final int ANCHO;
@@ -28,22 +25,20 @@ public  class TableroView {
     private Image spritePowerUpHelmet, spritePowerUpStar,spritePowerUpGranada;
     private final JuegoController juegoController;
     private final InputController inputController;
-    private final Runnable volverAlMenu;
-    private final Consumer<Scene> cambiarEscena;
+
+    private final Runnable onDerrota, onNivelCompletado, onJuegoCompletado;
     private Image[] spritesJugador1, spritesJugador2, spritesTanqueRegular, spritesTanqueRapido,  spritesTanqueBlindado, spritesTanquePotente;
     private final Map<Enemigo, Integer> frameEnemigos = new HashMap<>();
     private final Map<Jugador, Integer> frameJugadores = new HashMap<>();
 
-
-
-
-
-
-    public TableroView(JuegoController juegoController, Runnable volverAlMenu, Consumer<Scene> cambiarEscena) {
+    public TableroView(JuegoController juegoController, Runnable
+            onNivelCompletado, Runnable onJuegoCompletado,
+                       Runnable onDerrota) {
         this.juegoController = juegoController;
         this.inputController = new InputController(juegoController);
-        this.volverAlMenu = volverAlMenu;
-        this.cambiarEscena = cambiarEscena;
+        this.onNivelCompletado = onNivelCompletado;
+        this.onJuegoCompletado = onJuegoCompletado;
+        this.onDerrota = onDerrota;
         ANCHO = 800;
         ALTO = 600;
         TAMANIO_JUGADOR = 20;
@@ -124,7 +119,7 @@ public  class TableroView {
             case CASCO -> spritePowerUpHelmet;
             case ESTRELLA -> spritePowerUpStar;
             case GRANADA -> spritePowerUpGranada;
-            default -> spriteBlanco;
+
         };
     }
 
@@ -145,13 +140,16 @@ public  class TableroView {
                 actualizarPantalla(graphics);
                 if (juegoController.terminoEnDerrota()) {
                     stop();
-                    volverAlMenu.run();
-                } else if (juegoController.terminoEnVictoria()) {
-                    stop();
-                    juegoController.siguienteNivel();
+                    onDerrota.run();
 
-                    Scene nuevoTablero = new TableroView(juegoController, volverAlMenu, cambiarEscena).crearTableroView();
-                    cambiarEscena.accept(nuevoTablero);
+                } else if (juegoController.terminoNivelEnVictoria()) {
+                    stop();
+                    onNivelCompletado.run();
+
+                }
+                else if(juegoController.terminoJuegoEnVictoria()){
+                    stop();
+                    onJuegoCompletado.run();
                 }
             }
         };
