@@ -1,49 +1,36 @@
 package org.modelo;
 
-public class Jugador extends Tanque implements Colisionable {
+public class Jugador extends Tanque{
     private String nombre;
-    private ArmaUnDisparo arma;
-    private final int tamanio;
     private boolean congelado;
     private long tiemporDescongelacion;
     private final int  tiempoCongelado;
     private boolean invulnerable;
     private long tiempoInvulnerable;
     private boolean disparoMejorado;
-    private boolean enMovimiento;
-    private AreaColisionable areaColisionable;
 
     public Jugador(String nombre, double x, double y, double velocidadMovBase) {
-        super(x, y, velocidadMovBase);
-        /*prueba de uso de nueva clase AreaColisionable*/
-        areaColisionable = new AreaColisionable(this.posicion, 5);
-        /**/
+        super(x, y, velocidadMovBase,3,5);
         this.nombre = nombre;
-        arma = new ArmaUnDisparo(velocidadMovBase);
-        this.tamanio = 20;
         this.congelado = false;
         this.tiemporDescongelacion = 0;
         tiempoCongelado=2000;
         invulnerable=false;
         tiempoInvulnerable=0;
-        enMovimiento=false;
     }
-    public AreaColisionable obtenerAreaColisionable(){
-        return areaColisionable;
-    }
+
     public void mover(Direccion direccion){
         if(estaCongelado()){
-            enMovimiento = false;
+            setEnMovimiento(false);
             return;
         }
         if (direccion != null) {
             super.mover(direccion);
-            enMovimiento = true;
+            setEnMovimiento(true);
         } else {
-            enMovimiento = false;
+            setEnMovimiento(false);
         }
     }
-
 
     public ResultadoImpacto recibirImpacto(Disparo disparo) {
         if (estaInvulnerable()) {
@@ -53,44 +40,45 @@ public class Jugador extends Tanque implements Colisionable {
             this.congelar(this.tiempoCongelado);
             return ResultadoImpacto.CONGELADO;
         }
-        this.vidasTotales--;
-        if (vidasTotales <= 0) {
+        this.perderVida();
+        if (!this.estaVivo()) {
             return ResultadoImpacto.JUGADOR_ELIMINADO;
         }
         return ResultadoImpacto.NADA;
     }
+
     public boolean estaCongelado(){
         if (congelado&&System.currentTimeMillis()>tiemporDescongelacion){
             congelado=false;
         }
         return congelado;
     }
+
     private void congelar(int tiempoMilisegundos){
         this.congelado=true;
         this.tiemporDescongelacion=System.currentTimeMillis()+tiempoMilisegundos;
     }
+
     public void activarCasco(int duracionMilisegundos){
         this.invulnerable=true;
         this.tiempoInvulnerable=System.currentTimeMillis()+duracionMilisegundos;
 
     }
+
     public boolean estaInvulnerable(){
         if (invulnerable&&System.currentTimeMillis()>tiempoInvulnerable){
             invulnerable=false;
         }
         return invulnerable;
     }
+
     public void activarEstrella(){
         this.disparoMejorado=true;
         System.out.println(nombre + " ahora tiene disparos mejorados!");
     }
 
     public Disparo intentarDisparar() {
-        Vector2D posicionCentro = this.posicion;
-        Vector2D direccionActual = obtenerDireccionActual().comoVector();
-        Vector2D posicionDisparo = posicionCentro.sumadoA(
-                direccionActual.escalado((tamanio / 2.0) + arma.obtenerTamanioDisparo()/3.0));
-        Disparo disparo= arma.disparar(posicionDisparo, obtenerDireccionActual(), OrigenDisparo.JUGADOR);
+        Disparo disparo = prepararDisparo(OrigenDisparo.JUGADOR);
         if(disparoMejorado)
         {
             disparo.hacerPoderoso();
@@ -100,11 +88,6 @@ public class Jugador extends Tanque implements Colisionable {
 
     public String obtenerNombre() {
         return nombre;
-    }
-
-
-    public boolean jugadorEstaEnMovimiento() {
-        return enMovimiento;
     }
 
 }

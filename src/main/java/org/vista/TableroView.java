@@ -202,7 +202,7 @@ public  class TableroView {
             int frame = frameJugadores.getOrDefault(jugador, 0);
 
 
-            if(juegoController.jugadorEnMovimiento(jugador)){
+            if(juegoController.tanqueEnMovimiento(jugador)){
                 frame = (frame + 1) % 2;
                 frameJugadores.put(jugador, frame);
             }
@@ -248,7 +248,7 @@ public  class TableroView {
         for(Enemigo enemigo: juegoController.obtenerEnemigos()){
 
             int frame = frameEnemigos.getOrDefault(enemigo, 0);
-            if (juegoController.enemigoEnMovimiento(enemigo)) {
+            if (juegoController.tanqueEnMovimiento(enemigo)) {
                 frame = (frame + 1) % 2;
                 frameEnemigos.put(enemigo, frame);
             }

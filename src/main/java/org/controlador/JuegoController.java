@@ -57,10 +57,15 @@ public class JuegoController {
         juego.actualizar();
     }
 
+    /*
     public boolean enemigoEnMovimiento(Enemigo enemigo) {
         return juego.enemigoEnMovimiento(enemigo);
     }
     public boolean jugadorEnMovimiento(Jugador jugador){
         return juego.jugadorEnMovimiento(jugador);
+    }
+     */
+    public boolean tanqueEnMovimiento(Tanque tanque) {
+        return juego.tanqueEnMovimiento(tanque);
     }
 }

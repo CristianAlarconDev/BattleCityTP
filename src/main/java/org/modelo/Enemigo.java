@@ -2,65 +2,33 @@
 package org.modelo;
 import java.util.List;
 
-public abstract class Enemigo implements Colisionable {
-    private Tanque tanque;
-    private Direccion direccionActual;
-    private int vidas;
-    private final int tamanioEnemigo;
+public abstract class Enemigo extends Tanque {
     private long inicioTiempoConducta;
     private long duracionConducta;
     private Vector2D ultimaPosicion;
     private long ultimoPosicionCambio;
     private Vector2D siguientePosicion;
-    private boolean enMovimiento = false;
-    private ArmaUnDisparo arma;
-    private AreaColisionable areaColisionable;
 
-    public Direccion obtenerDireccionActual() {
-        return direccionActual;
-    }
-    @Override
-    public double obtenerCoordenadaX() {
-        return tanque.obtenerPosicion().obtenerCoordenadaX();
+    public Enemigo(double coordenadaX, double coordenadaY, double velocidadBase, int vidas) {
+        super(coordenadaX, coordenadaY, velocidadBase, vidas, 10);
+        inicioTiempoConducta= System.currentTimeMillis();
+        duracionConducta= 1000 + (long)(Math.random() * 4000); // 1-5s
+        ultimaPosicion = new Vector2D(this.obtenerCoordenadaX(), this.obtenerCoordenadaY());
+        ultimoPosicionCambio= System.currentTimeMillis();
     }
 
-    @Override
-    public double obtenerCoordenadaY() {
-        return tanque.obtenerPosicion().obtenerCoordenadaY();
-    }
 
     public ResultadoImpacto recibirImpacto(Disparo disparo) {
         if (disparo.esPoderoso()&&disparo.esDeJugador()){
             return ResultadoImpacto.ENEMIGO_ELIMINADO;
         }
-        vidas--;
-        if (vidas <= 0) {
-            if (disparo.esDeJugador()) {
+        if (disparo.esDeJugador()){
+            this.perderVida();
+            if (!estaVivo()) {
                 return ResultadoImpacto.ENEMIGO_ELIMINADO;
             }
-            return ResultadoImpacto.DESTRUIDO;
         }
         return ResultadoImpacto.NADA;
-    }
-
-    public Enemigo(double coordenadaX, double coordenadaY, double velocidadBase, int vidas) {
-        tanque = new Tanque(coordenadaX, coordenadaY, velocidadBase);
-        this.vidas=vidas;
-        direccionActual = Direccion.ABAJO;
-        inicioTiempoConducta= System.currentTimeMillis();
-        duracionConducta= 1000 + (long)(Math.random() * 4000); // 1-5s
-        ultimaPosicion = new Vector2D(tanque.obtenerPosicion().obtenerCoordenadaX(), tanque.obtenerPosicion().obtenerCoordenadaY());
-        ultimoPosicionCambio= System.currentTimeMillis();
-        tamanioEnemigo=20;
-        this.arma=new ArmaUnDisparo(this.tanque.obtenerVelocidadBase());
-        areaColisionable= new AreaColisionable(tanque.obtenerPosicion(), 10);
-
-    }
-    public AreaColisionable obtenerAreaColisionable(){
-        return areaColisionable;
-    }
-    public Vector2D obtenerPosicion() {
-        return tanque.obtenerPosicion();
     }
 
     private Direccion elegirDireccionAleatoria() {
@@ -68,28 +36,15 @@ public abstract class Enemigo implements Colisionable {
         return direcciones[(int)(Math.random() * direcciones.length)];
     }
 
-    public Disparo disparar() {
-        if (arma.puedeDisparar())
-        {
-            Vector2D posicionCentro = tanque.obtenerPosicion();
-            Vector2D direccionVector =direccionActual.comoVector();
-            double desplazamiento = (20/2.0)+(arma.obtenerTamanioDisparo()/2.0);
-            Vector2D posicionDisparo = posicionCentro.sumadoA(direccionVector.escalado(desplazamiento));
-            return arma.disparar(posicionDisparo, direccionActual, OrigenDisparo.ENEMIGO);
-        }
-        else {
-            return null;
-        }
-    }
-    public boolean enemigoEstaEnMovimiento() {
-        return enMovimiento;
+    public Disparo intentarDisparar() {
+            return prepararDisparo(OrigenDisparo.ENEMIGO);
     }
 
     public boolean mover(List<Obstruible> obstrucciones, double anchoNivel, double altoNivel, double radio) {
         long tiempoActual = System.currentTimeMillis();
         actualizarConducta(tiempoActual, obstrucciones, anchoNivel, altoNivel, radio);
         boolean seMovio = avanzar();
-        enMovimiento = seMovio;
+        setEnMovimiento(seMovio);
         actualizarBloqueo(tiempoActual);
         return seMovio;
     }
@@ -101,7 +56,7 @@ public abstract class Enemigo implements Colisionable {
         if (siguientePosicion == null) {
 
             if (tiempoActual - inicioTiempoConducta >= duracionConducta || bloqueadoMasDe2Segundos(tiempoActual)) {
-                direccionActual = elegirDireccionAleatoria();
+                this.cambiarDireccion(elegirDireccionAleatoria());
                 inicioTiempoConducta = tiempoActual;
                 duracionConducta = 1000 + (long)(Math.random() * 4000);
                 siguientePosicion = null; // recalcula nueva posición
@@ -113,7 +68,7 @@ public abstract class Enemigo implements Colisionable {
             int intentos = 0;
             while ((!PosicionLibre(siguientePosicion, obstrucciones) || !dentroDeLimites(siguientePosicion, anchoNivel, altoNivel, radio))
                     && intentos < 4) {
-                direccionActual = elegirDireccionAleatoria();
+                this.cambiarDireccion(elegirDireccionAleatoria());
                 siguientePosicion = calcularSiguientePosicion();
                 intentos++;
             }
@@ -123,8 +78,8 @@ public abstract class Enemigo implements Colisionable {
     private boolean avanzar() {
         if (siguientePosicion == null) return false;
 
-        Vector2D posActual = tanque.obtenerPosicion();
-        double velocidad = tanque.obtenerVelocidadBase();
+        Vector2D posActual = this.obtenerPosicion();
+        double velocidad = this.obtenerVelocidadBase();
 
         double coordenadaXActual = posActual.obtenerCoordenadaX();
         double coordenadaYActual= posActual.obtenerCoordenadaY();
@@ -142,9 +97,9 @@ public abstract class Enemigo implements Colisionable {
             coordenadaYActual = Math.max(coordenadaYActual - velocidad, siguientePosicion.obtenerCoordenadaY());
         }
 
-        tanque.setPosicion(new Vector2D(coordenadaXActual, coordenadaYActual));
+        this.setPosicion(new Vector2D(coordenadaXActual, coordenadaYActual));
         /*cambios en area colisionable*/
-        this.areaColisionable.cambiarCentro(tanque.obtenerPosicion());
+        this.obtenerAreaColisionable().cambiarCentro(this.obtenerPosicion());
         Vector2D actual = new Vector2D(coordenadaXActual, coordenadaYActual);
         if (siguientePosicion.esCasiIgualA(actual,0.1)) {
             siguientePosicion = null;
@@ -154,7 +109,7 @@ public abstract class Enemigo implements Colisionable {
     }
 
     private void actualizarBloqueo(long tiempoActual) {
-        Vector2D posActual = tanque.obtenerPosicion();
+        Vector2D posActual = this.obtenerPosicion();
         if (!posActual.esIgualA(ultimaPosicion)) {
             ultimaPosicion = posActual;
             ultimoPosicionCambio = tiempoActual;
@@ -166,9 +121,9 @@ public abstract class Enemigo implements Colisionable {
     }
 
     private Vector2D calcularSiguientePosicion() {
-        Vector2D pos = tanque.obtenerPosicion();
-        double paso = tanque.velocidadBase;
-        switch (direccionActual) {
+        Vector2D pos = this.obtenerPosicion();
+        double paso = this.obtenerVelocidadBase();
+        switch (this.obtenerDireccionActual()) {
             case ARRIBA:     return new Vector2D(pos.obtenerCoordenadaX(), pos.obtenerCoordenadaY() - paso);
             case ABAJO:      return new Vector2D(pos.obtenerCoordenadaX(), pos.obtenerCoordenadaY() + paso);
             case IZQUIERDA:  return new Vector2D(pos.obtenerCoordenadaX() - paso, pos.obtenerCoordenadaY());
@@ -176,7 +131,6 @@ public abstract class Enemigo implements Colisionable {
             default:         return null;
         }
     }
-
 
     private boolean dentroDeLimites(Vector2D pos, double ancho, double alto, double radio) {
         return pos.obtenerCoordenadaX() - radio >= 0 &&
@@ -186,7 +140,7 @@ public abstract class Enemigo implements Colisionable {
     }
 
     private boolean PosicionLibre(Vector2D pos, List<Obstruible> obstrucciones) {
-        double radioTanque = tamanioEnemigo / 2.0;
+        double radioTanque = this.obtenerTamanio() / 2.0;
         AreaColisionable areaPrueba = new AreaColisionable(pos, radioTanque);
        for (Obstruible obstruccion : obstrucciones) {
            if (areaPrueba.estaEnArea(obstruccion.obtenerAreaColisionable())) {
@@ -205,9 +159,5 @@ public abstract class Enemigo implements Colisionable {
         return true;
     }
 
-
     public abstract TipoEnemigo obtenerTipo();
-
-
-
 }

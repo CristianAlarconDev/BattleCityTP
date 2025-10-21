@@ -124,11 +124,11 @@ public class NivelModel implements EntornoFisico, ContextoDeColision, ReglasDeNi
         moverEnemigos();
         enemigosDisparan();
         verificarEstadoNivel();
-
     }
+
     private void enemigosDisparan(){
         for (Enemigo enemigo : enemigos) {
-            Disparo disparo =enemigo.disparar();
+            Disparo disparo =enemigo.intentarDisparar();
             if (disparo!=null){
                 disparos.add(disparo);
             }
@@ -166,12 +166,9 @@ public class NivelModel implements EntornoFisico, ContextoDeColision, ReglasDeNi
         disparo.desactivar();
         disparos.remove(disparo);
     }
-    public boolean enemigoEnMovimiento(Enemigo enemigo){
-        return enemigo.enemigoEstaEnMovimiento();
-    }
 
-    public boolean jugadorEnMovimiento(Jugador jugador){
-        return jugador.jugadorEstaEnMovimiento();
+    public boolean tanqueEnMovimiento(Tanque tanque) {
+        return tanque.estaEnMovimiento();
     }
 
     public List<Disparo> obtenerDisparos(){

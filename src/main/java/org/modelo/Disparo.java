@@ -37,6 +37,10 @@ public class Disparo {
         return origenDisparo == OrigenDisparo.JUGADOR;
     }
 
+    public OrigenDisparo obtenerOrigen() {
+        return origenDisparo;
+    }
+
 
     public void mover(double tiempo){
         if (!activo) return;
@@ -81,4 +85,5 @@ public class Disparo {
     public AreaColisionable obtenerAreaColisionable(){
         return areaColisionable;
     }
+
 }

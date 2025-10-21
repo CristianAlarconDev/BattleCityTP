@@ -53,12 +53,20 @@ public class JuegoModel {
     public List<PowerUp> obtenerPowerUps(){
         return this.nivelEnJuego.obtenerPowerUps();
     }
+
+
+    public boolean tanqueEnMovimiento(Tanque tanque) {
+        return this.nivelEnJuego.tanqueEnMovimiento(tanque);
+    }
+    /*
     public boolean enemigoEnMovimiento(Enemigo enemigo){
-        return this.nivelEnJuego.enemigoEnMovimiento(enemigo);
+        return this.nivelEnJuego.tanqueEnMovimiento(enemigo);
     }
     public boolean jugadorEnMovimiento(Jugador jugador){
-        return this.nivelEnJuego.jugadorEnMovimiento(jugador);
+        return this.nivelEnJuego.tanqueEnMovimiento(jugador);
     }
+    */
+
     public void siguienteNivel(){
         nivelActual++;
         if(nivelActual<niveles.size()){

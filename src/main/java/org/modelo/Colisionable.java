@@ -10,5 +10,4 @@ public interface Colisionable {
     Vector2D obtenerPosicion();
 
     AreaColisionable obtenerAreaColisionable();
-
 }
