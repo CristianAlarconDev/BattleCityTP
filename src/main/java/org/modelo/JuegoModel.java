@@ -47,7 +47,13 @@ public class JuegoModel {
     }
 
 
-
+    public List<Integer>obtenerVidasDeJugadores(){
+        List<Integer> vidas= new ArrayList<>();
+        for (Jugador jugador : nivelEnJuego.obtenerJugadores()){
+            vidas.add(jugador.obtenerVidasTotales());
+        }
+        return vidas;
+    }
     public List<Jugador> obtenerJugadores(){
         return nivelEnJuego.obtenerJugadores();
     }
