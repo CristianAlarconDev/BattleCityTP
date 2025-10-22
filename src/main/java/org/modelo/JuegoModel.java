@@ -9,11 +9,14 @@ public class JuegoModel {
     private NivelModel nivelEnJuego;
     private EstadoJuego estadoJuego;
 
+    private CargadorDeNivel cargador;
+
     public JuegoModel(int cantJugadores){
         niveles= new ArrayList<>();
         nivelActual=0;
         CargadorDeNivel cargador = new CargadorDeNivel();
         estadoJuego=EstadoJuego.EN_CURSO;
+        this.cargador = new CargadorDeNivel();
         try {
             NivelModel nivel = cargador.cargarNivel("nivel4.xml", "levelConfig.xsd",cantJugadores,"cristian","juan");
             NivelModel nivel2 = cargador.cargarNivel("nivel5.xml", "levelConfig.xsd",cantJugadores,"cristian","juan");
@@ -68,6 +71,9 @@ public class JuegoModel {
     }
     public List<PowerUp> obtenerPowerUps(){
         return this.nivelEnJuego.obtenerPowerUps();
+    }
+    public CargadorDeNivel getCargadorDeNivel(){
+        return this.cargador;
     }
 
 
