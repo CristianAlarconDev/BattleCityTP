@@ -43,4 +43,28 @@ public class GestorDeColisiones {
         }
 
     }
+    public void comprobarColisionesJugadorPowerUp() {
+        List<Jugador> jugadores = nivel.obtenerJugadores();
+
+        List<PowerUp> powerUps = nivel.obtenerPowerUps();
+
+        for (Jugador jugador : jugadores) {
+            AreaColisionable areaJugador = jugador.obtenerAreaColisionable();
+
+            for (PowerUp powerUp : powerUps) {
+                if (areaJugador.estaEnArea(powerUp.obtenerAreaColisionable())) {
+                    if (powerUp.esGranada()) {
+                        reglasDeNivel.activarEfectoGranada();
+                    } else {
+                        powerUp.aplicarEfecto(jugador);
+                    }
+
+                    System.out.println("PowerUp " + powerUp.obtenerTipoPowerUp() +
+                            " consumido por " + jugador.obtenerNombre());
+                    nivel.eliminarPowerUp(powerUp);
+                    break;
+                }
+            }
+        }
+    }
 }
