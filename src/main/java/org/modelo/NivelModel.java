@@ -146,8 +146,12 @@ public class NivelModel implements EntornoFisico, ContextoDeColision, ReglasDeNi
         }
     }
     public void eliminarColisionable(Colisionable colisionable){
-        jugadores.remove(colisionable);
-        enemigos.remove(colisionable);
+        if (jugadores.remove(colisionable)) {
+            return;
+        }
+        if (enemigos.remove(colisionable)) {
+            return;
+        }
         bloques.remove(colisionable);
     }
     public void eliminarDisparo(Disparo disparo){
