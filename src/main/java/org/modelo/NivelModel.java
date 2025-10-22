@@ -54,21 +54,7 @@ public class NivelModel implements EntornoFisico, ContextoDeColision, ReglasDeNi
         return obstrucciones;
     }
 
-    private void verificarColisionConPowerUps(Jugador jugador) {
-        AreaColisionable areaJugador= jugador.obtenerAreaColisionable();
-        for (PowerUp powerUp : new ArrayList<>(powerUps)) {
-            if (areaJugador.estaEnArea(powerUp.obtenerAreaColisionable()))
-            {
-                if(powerUp.esGranada()){
-                    enemigos.clear();
-                    estadoNivel=EstadoNivel.VICTORIA;
-                }
-                powerUp.aplicarEfecto(jugador);
-                powerUps.remove(powerUp);
-                System.out.println("PowerUp " + powerUp.obtenerTipoPowerUp() + " consumido por " + jugador.obtenerNombre());
-            }
-        }
-    }
+
     public void moverJugador(int nroJugador,Direccion direccion){
         Jugador jugador=jugadores.get(nroJugador);
         double xDesplazado=(jugador.obtenerCoordenadaX())+
@@ -78,7 +64,6 @@ public class NivelModel implements EntornoFisico, ContextoDeColision, ReglasDeNi
         AreaColisionable destino= new AreaColisionable(new Vector2D(xDesplazado, yDesplazado),
                 10);
         if (gestorDeMovimientos.puedeMoverA(jugador, destino)){
-            verificarColisionConPowerUps(jugador);
             jugador.mover(direccion);
         }
 
@@ -128,7 +113,9 @@ public class NivelModel implements EntornoFisico, ContextoDeColision, ReglasDeNi
     public void actualizarMovimientos(){
         moverDisparos();
         gestorDeColisiones.comprobarColisiones();
+        gestorDeColisiones.comprobarColisionesJugadorPowerUp();
         gestorDeMovimientos.limpiarDisparosFueraDeLimites();
+
         moverEnemigos();
         enemigosDisparan();
         verificarEstadoNivel();
@@ -166,15 +153,21 @@ public class NivelModel implements EntornoFisico, ContextoDeColision, ReglasDeNi
         }
     }
     public void eliminarColisionable(Colisionable colisionable){
-        jugadores.remove(colisionable);
-        enemigos.remove(colisionable);
+        if (jugadores.remove(colisionable)) {
+            return;
+        }
+        if (enemigos.remove(colisionable)) {
+            return;
+        }
         bloques.remove(colisionable);
     }
     public void eliminarDisparo(Disparo disparo){
         disparo.desactivar();
         disparos.remove(disparo);
     }
-
+    public void eliminarPowerUp(PowerUp powerUp){
+        powerUps.remove(powerUp);
+    }
     public boolean tanqueEnMovimiento(Tanque tanque) {
         return tanque.estaEnMovimiento();
     }
@@ -193,16 +186,17 @@ public class NivelModel implements EntornoFisico, ContextoDeColision, ReglasDeNi
         return bloques;
     }
     public List<PowerUp> obtenerPowerUps(){
-        return powerUps;
+        return new ArrayList<>(powerUps);
     }
 
     @Override
     public void finalizarNivel() {
         estadoNivel=EstadoNivel.DERROTA;
     }
-
-    public boolean enCurso(){
-        return estadoNivel==EstadoNivel.EN_CURSO;
+    @Override
+    public void activarEfectoGranada(){
+        enemigos.clear();
+        estadoNivel=EstadoNivel.VICTORIA;
     }
 
     public boolean terminoEnVictoria(){
