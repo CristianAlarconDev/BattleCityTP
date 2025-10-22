@@ -7,10 +7,12 @@ public class JuegoModel {
     private List<NivelModel> niveles;
     private int nivelActual;
     private NivelModel nivelEnJuego;
+    private CargadorDeNivel cargador;
+
     public JuegoModel(int cantJugadores){
         niveles= new ArrayList<>();
         nivelActual=0;
-        CargadorDeNivel cargador = new CargadorDeNivel();
+        cargador = new CargadorDeNivel();
         try {
             NivelModel nivel = cargador.cargarNivel("nivel4.xml", "levelConfig.xsd",cantJugadores,"cristian","juan");
             NivelModel nivel2 = cargador.cargarNivel("nivel5.xml", "levelConfig.xsd",cantJugadores,"cristian","juan");
@@ -53,19 +55,14 @@ public class JuegoModel {
     public List<PowerUp> obtenerPowerUps(){
         return this.nivelEnJuego.obtenerPowerUps();
     }
+    public CargadorDeNivel getCargadorDeNivel(){
+        return this.cargador;
+    }
 
 
     public boolean tanqueEnMovimiento(Tanque tanque) {
         return this.nivelEnJuego.tanqueEnMovimiento(tanque);
     }
-    /*
-    public boolean enemigoEnMovimiento(Enemigo enemigo){
-        return this.nivelEnJuego.tanqueEnMovimiento(enemigo);
-    }
-    public boolean jugadorEnMovimiento(Jugador jugador){
-        return this.nivelEnJuego.tanqueEnMovimiento(jugador);
-    }
-    */
 
     public void siguienteNivel(){
         nivelActual++;
@@ -76,6 +73,7 @@ public class JuegoModel {
             System.out.println("Juego terminado");
         }
     }
+
     public boolean terminoEnVictoria() {
         return nivelEnJuego.terminoEnVictoria();
     }
@@ -83,6 +81,7 @@ public class JuegoModel {
     public boolean terminoEnDerrota() {
         return nivelEnJuego.terminoEnDerrota();
     }
+
     public boolean juegoTerminado(){
 
         return nivelActual>=niveles.size();
@@ -96,6 +95,4 @@ public class JuegoModel {
 
         nivelEnJuego.jugadorDisparar(nroJugador);
     }
-
-
 }

@@ -35,9 +35,15 @@ public class NivelModel implements EntornoFisico, ContextoDeColision, ReglasDeNi
     public void agregarJugador(Jugador jugador){
         this.jugadores.add(jugador);
     }
+    public void agregarBloqueTanqueDestruido(Vector2D posicion){
+        Bloque bloque= new BloqueTanqueDestruido(posicion);
+        this.bloques.add(bloque);
+    }
 
     public List<Obstruible> obtenerObstrucciones() {
-        List<Obstruible> obstrucciones = new ArrayList<>();
+        //se agregaron enemigo a obstrucciones para que los enemigos no se atraviesen entre si
+        List<Obstruible> obstrucciones = new ArrayList<>(this.enemigos);
+        obstrucciones.addAll(this.jugadores);
 
         for (Bloque bloque : this.bloques) {
             if (bloque.impideElPaso()) {
@@ -71,7 +77,7 @@ public class NivelModel implements EntornoFisico, ContextoDeColision, ReglasDeNi
                 (direccion.dY()*jugador.obtenerVelocidadBase());
         AreaColisionable destino= new AreaColisionable(new Vector2D(xDesplazado, yDesplazado),
                 10);
-        if (gestorDeMovimientos.puedeMoverA(destino)){
+        if (gestorDeMovimientos.puedeMoverA(jugador, destino)){
             verificarColisionConPowerUps(jugador);
             jugador.mover(direccion);
         }
@@ -83,7 +89,9 @@ public class NivelModel implements EntornoFisico, ContextoDeColision, ReglasDeNi
            // enemigo.mover( obtenerBloquesColisionables() , anchoNivel,altoNivel, tamanioCelda/2);
             /*cambiar aca de donde obtiene enemigo el tamanio de la celda,
             en jguador delegue a la clase AreaColisionable*/
-            enemigo.mover(obtenerObstrucciones(), anchoNivel, altoNivel, 10);
+            List<Obstruible> obstrucciones = new ArrayList<>(obtenerObstrucciones());
+            obstrucciones.remove(enemigo); //
+            enemigo.mover(obstrucciones, anchoNivel, altoNivel, 10);
         }
     }
 

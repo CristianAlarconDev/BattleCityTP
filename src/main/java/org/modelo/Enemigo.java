@@ -2,21 +2,22 @@
 package org.modelo;
 import java.util.List;
 
-public abstract class Enemigo extends Tanque {
+public abstract class Enemigo extends Tanque{
     private long inicioTiempoConducta;
     private long duracionConducta;
     private Vector2D ultimaPosicion;
     private long ultimoPosicionCambio;
     private Vector2D siguientePosicion;
+    private boolean impideElPaso;
 
     public Enemigo(double coordenadaX, double coordenadaY, double velocidadBase, int vidas) {
-        super(coordenadaX, coordenadaY, velocidadBase, vidas, 10);
+        super(coordenadaX, coordenadaY, velocidadBase, vidas, ConstantesJuego.RADIO_AREA_COLISION_ENEMIGO);
         inicioTiempoConducta= System.currentTimeMillis();
         duracionConducta= 1000 + (long)(Math.random() * 4000); // 1-5s
         ultimaPosicion = new Vector2D(this.obtenerCoordenadaX(), this.obtenerCoordenadaY());
         ultimoPosicionCambio= System.currentTimeMillis();
+        impideElPaso=true;
     }
-
 
     public ResultadoImpacto recibirImpacto(Disparo disparo) {
         if (disparo.esPoderoso()&&disparo.esDeJugador()){
@@ -160,4 +161,5 @@ public abstract class Enemigo extends Tanque {
     }
 
     public abstract TipoEnemigo obtenerTipo();
+
 }

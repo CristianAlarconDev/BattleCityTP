@@ -13,6 +13,7 @@ public class GestorDeColisiones {
         switch (resultadoImpacto) {
             case JUGADOR_ELIMINADO, DESTRUIDO -> nivel.eliminarColisionable(colisionable);
             case ENEMIGO_ELIMINADO -> {
+                nivel.agregarBloqueTanqueDestruido(colisionable.obtenerPosicion());
                 nivel.eliminarColisionable(colisionable);
                 reglasDeNivel.intentarGenerarPowerUp();
             }

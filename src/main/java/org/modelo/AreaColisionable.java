@@ -8,6 +8,7 @@ public class AreaColisionable {
         this.centro = centro;
         this.semilado = semilado;
     }
+
     public boolean estaEnArea(AreaColisionable otraArea){
         double distanciaX = Math.abs(centro.obtenerCoordenadaX() - otraArea.obtenerCentroX());
         double distanciaY = Math.abs(centro.obtenerCoordenadaY() - otraArea.obtenerCentroY());

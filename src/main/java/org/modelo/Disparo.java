@@ -8,6 +8,7 @@ public class Disparo {
     private OrigenDisparo origenDisparo;
     private boolean poderoso;
     private AreaColisionable areaColisionable;
+    private int tamanio;
 
     public Disparo(Vector2D posicion, Direccion direccion, double velocidadBase) {
         this.posicion = posicion.copiar();
@@ -15,7 +16,8 @@ public class Disparo {
         this.activo = true;
         this.velocidad = direccion.comoVector().escalado(velocidadBase);
         this.poderoso=false;
-        this.areaColisionable= new AreaColisionable(this.posicion, 3);
+        this.areaColisionable= new AreaColisionable(this.posicion, ConstantesJuego.RADIO_AREA_COLISION_DISPARO);
+        this.tamanio=ConstantesJuego.TAMANIO_DISPARO;
     }
 
     public Disparo(Vector2D posicion, Direccion direccion, double velocidadBase, OrigenDisparo origenDisparo) {
@@ -24,8 +26,9 @@ public class Disparo {
         this.activo = true;
         this.velocidad = direccion.comoVector().escalado(velocidadBase);
         this.origenDisparo = origenDisparo;
-        this.areaColisionable= new AreaColisionable(this.posicion, 3);
+        this.areaColisionable= new AreaColisionable(this.posicion, ConstantesJuego.RADIO_AREA_COLISION_DISPARO);
         this.poderoso=false;
+        this.tamanio=ConstantesJuego.TAMANIO_DISPARO;
     }
     public void hacerPoderoso(){
         this.poderoso=true;
@@ -39,6 +42,10 @@ public class Disparo {
 
     public OrigenDisparo obtenerOrigen() {
         return origenDisparo;
+    }
+
+    public int obtenerTamanio(){
+        return tamanio;
     }
 
 

@@ -53,18 +53,14 @@ public class JuegoController {
         return juego.obtenerPowerUps();
     }
 
+    public CargadorDeNivel getCargadorDeNivel() {
+        return juego.getCargadorDeNivel();
+    }
+
     public void actualizarJuego() {
         juego.actualizar();
     }
 
-    /*
-    public boolean enemigoEnMovimiento(Enemigo enemigo) {
-        return juego.enemigoEnMovimiento(enemigo);
-    }
-    public boolean jugadorEnMovimiento(Jugador jugador){
-        return juego.jugadorEnMovimiento(jugador);
-    }
-     */
     public boolean tanqueEnMovimiento(Tanque tanque) {
         return juego.tanqueEnMovimiento(tanque);
     }
