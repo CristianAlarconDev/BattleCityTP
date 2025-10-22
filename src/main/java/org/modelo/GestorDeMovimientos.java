@@ -22,8 +22,9 @@ public class GestorDeMovimientos {
         return dentroHorizontal && dentroVertical;
     }
 
-    private boolean hayColisionConObstaculo(AreaColisionable areaMovimiento) {
+    private boolean hayColisionConObstaculo(Tanque tanque, AreaColisionable areaMovimiento) {
         for (Obstruible obstruccion : nivel.obtenerObstrucciones()) {
+            if (obstruccion == tanque) continue;
             if (areaMovimiento.estaEnArea(obstruccion.obtenerAreaColisionable())) {
                 return true;
             }
@@ -31,8 +32,8 @@ public class GestorDeMovimientos {
         return false;
     }
 
-    public boolean puedeMoverA(AreaColisionable areaMovimiento) {
-        return estaDentroDeLimites(areaMovimiento) && !hayColisionConObstaculo(areaMovimiento);
+    public boolean puedeMoverA(Tanque tanque, AreaColisionable areaMovimiento) {
+        return estaDentroDeLimites(areaMovimiento) && !hayColisionConObstaculo(tanque,areaMovimiento);
     }
 
     public void limpiarDisparosFueraDeLimites() {
