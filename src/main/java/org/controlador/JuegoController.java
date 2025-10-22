@@ -56,6 +56,10 @@ public class JuegoController {
     public List<Integer> vidasJugadores(){
         return juego.obtenerVidasDeJugadores();
     }
+    public CargadorDeNivel getCargadorDeNivel() {
+        return juego.getCargadorDeNivel();
+    }
+
     public void actualizarJuego() {
         juego.actualizar();
     }
