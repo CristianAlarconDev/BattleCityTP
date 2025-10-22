@@ -7,4 +7,5 @@ public interface ContextoDeColision {
     List<Disparo> obtenerDisparos();
     void eliminarColisionable(Colisionable colisionable);
     void eliminarDisparo(Disparo disparo);
+    void agregarBloqueTanqueDestruido(Vector2D posicion);
 }

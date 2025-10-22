@@ -1,6 +1,6 @@
 package org.modelo;
 
-public abstract class Tanque implements Colisionable{
+public abstract class Tanque implements Colisionable, Obstruible{
     private Vector2D posicion;
     private int vidasTotales;
     private double velocidadBase;
@@ -9,13 +9,14 @@ public abstract class Tanque implements Colisionable{
     private ArmaUnDisparo arma;
     private boolean enMovimiento;
     private AreaColisionable areaColisionable;
+    private boolean impideElPaso;
 
     public Tanque(double coordenadaX, double coordenadaY, double velocidadBase, int vidas, int radioColision) {
         this.posicion = new Vector2D(coordenadaX, coordenadaY);
         this.vidasTotales = vidas;
         this.velocidadBase = velocidadBase;
         this.direccionActual = Direccion.ARRIBA;
-        this.tamanio = 20;
+        this.tamanio = ConstantesJuego.TAMANIO_TANQUE;
         this.arma=new ArmaUnDisparo(this.obtenerVelocidadBase());
         enMovimiento=false;
         areaColisionable = new AreaColisionable(this.obtenerPosicion(), radioColision);
@@ -130,6 +131,10 @@ public abstract class Tanque implements Colisionable{
         Disparo disparoActual = arma.disparar(posicionDisparo, this.obtenerDireccionActual(), origen);
         return disparoActual ;
     }
+
+    public boolean impideElPaso(){
+        return impideElPaso;
+    };
 
 
 

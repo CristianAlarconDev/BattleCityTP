@@ -20,11 +20,9 @@ public  class TableroView {
     private final int ANCHO;
     private final int ALTO;
     private final int TAMANIO_TANQUE;
-    private final int TAMANIO_DISPARO;
-    private final int TAMANIO_BLOQUE;
     private MediaPlayer mediaPlayer;
     private final HudView hudView;
-    private Image spriteLadrillo, spriteAcero, spriteBosque, spriteAgua, spriteBlanco,spriteBase;
+    private Image spriteLadrillo, spriteAcero, spriteBosque, spriteAgua, spriteBlanco,spriteBase, spriteTanqueDestruido;
     private Image spriteDisparo, spritePrimerJugador, spriteSegundoJugador, sprite2PrimerJugador,sprite2SegundoJugador;
     private Image spriteTanqueRegular, spriteTanqueRapido, spriteTanqueBlindado, spriteTanquePotente, spriteTanqueRegular2, spriteTanqueRapido2, spriteTanqueBlindado2, spriteTanquePotente2;
     private Image spritePowerUpHelmet, spritePowerUpStar,spritePowerUpGranada;
@@ -47,8 +45,6 @@ public  class TableroView {
         ANCHO = 800;
         ALTO = 600;
         TAMANIO_TANQUE = 20;
-        TAMANIO_DISPARO = 6;
-        TAMANIO_BLOQUE=20;
         /*Media-Player, mover luego a otra vista*/
         try {
             String musicFile = "/music/loop-music.mp3";
@@ -77,6 +73,7 @@ public  class TableroView {
         spriteAgua=this.cargarImagen("/sprites/Water20x20.png");
         spriteBlanco=this.cargarImagen("/sprites/WhiteBlock20x20.png");
         spriteBase=this.cargarImagen("/sprites/Base20x20.png");
+        spriteTanqueDestruido=this.cargarImagen("/sprites/TankDestroyed_20x20.png");
         spriteDisparo=this.cargarImagen("/sprites/Shot.png");
         spritePrimerJugador=this.cargarImagen("/sprites/Player1Tank0_20x20.png");
         sprite2PrimerJugador=this.cargarImagen("/sprites/Player1Tank1_20x20.png");
@@ -127,6 +124,7 @@ public  class TableroView {
             case AGUA     -> spriteAgua;
             case BOSQUE   -> spriteBosque;
             case BASE     -> spriteBase;
+            case TANQUE_DESTRUIDO -> spriteTanqueDestruido;
             default -> spriteBlanco;
         };
     }
@@ -136,13 +134,13 @@ public  class TableroView {
             case CASCO -> spritePowerUpHelmet;
             case ESTRELLA -> spritePowerUpStar;
             case GRANADA -> spritePowerUpGranada;
-
+            default -> spriteBlanco;
         };
     }
 
 
     public Scene crearTableroView(){
-        Canvas canvas = new Canvas(ANCHO, ALTO);
+        Canvas canvas = new Canvas(this.juegoController.getCargadorDeNivel().getAnchoDeNivel(), this.juegoController.getCargadorDeNivel().getAltoDeNivel());
         GraphicsContext graphics = canvas.getGraphicsContext2D();
 
         BorderPane rootPane = new BorderPane();
@@ -236,26 +234,26 @@ public  class TableroView {
     private void dibujarDisparos(GraphicsContext graphics){
         graphics.setFill(Color.YELLOW);
         for(Disparo disparo: juegoController.obtenerDisparos()){
-            double xEsquina = disparo.obtenerCoordenadaX()-TAMANIO_DISPARO/2.0;
-            double yEsquina = disparo.obtenerCoordenadaY()-TAMANIO_DISPARO/2.0;
-            graphics.drawImage(spriteDisparo,xEsquina,yEsquina, TAMANIO_DISPARO, TAMANIO_DISPARO);
+            double xEsquina = disparo.obtenerCoordenadaX()-disparo.obtenerTamanio()/2.0;
+            double yEsquina = disparo.obtenerCoordenadaY()-disparo.obtenerTamanio()/2.0;
+            graphics.drawImage(spriteDisparo,xEsquina,yEsquina, disparo.obtenerTamanio(), disparo.obtenerTamanio());
 
         }
     }
     private void dibujarBloques(GraphicsContext graphicsContext){
         for (Bloque bloque : juegoController.obtenerBloques()) {
             Image sprite = obtenerSprite(bloque);
-            double xEsquina = bloque.obtenerCoordenadaX() - (TAMANIO_BLOQUE / 2.0);
-            double yEsquina = bloque.obtenerCoordenadaY() - (TAMANIO_BLOQUE / 2.0);
-            graphicsContext.drawImage(sprite,xEsquina,yEsquina,TAMANIO_BLOQUE,TAMANIO_BLOQUE);
+            double xEsquina = bloque.obtenerCoordenadaX() - (bloque.obtenerTamanio() / 2.0);
+            double yEsquina = bloque.obtenerCoordenadaY() - (bloque.obtenerTamanio() / 2.0);
+            graphicsContext.drawImage(sprite,xEsquina,yEsquina, bloque.obtenerTamanio(), bloque.obtenerTamanio());
         }
     }
     private void dibujarPowerUp(GraphicsContext graphicsContext){
         for(PowerUp powerUp: juegoController.obtenerPowerUps()){
             Image sprite = obtenerSprite(powerUp);
-            double xEsquina = powerUp.obtenerCoordenadaX()-TAMANIO_BLOQUE/2.0;
-            double yEsquina = powerUp.obtenerCoordenadaY()-TAMANIO_BLOQUE/2.0;
-            graphicsContext.drawImage(sprite,xEsquina,yEsquina,TAMANIO_BLOQUE,TAMANIO_BLOQUE);
+            double xEsquina = powerUp.obtenerCoordenadaX()- powerUp.obtenerTamanio()/2.0;
+            double yEsquina = powerUp.obtenerCoordenadaY()- powerUp.obtenerTamanio()/2.0;
+            graphicsContext.drawImage(sprite,xEsquina,yEsquina, powerUp.obtenerTamanio(), powerUp.obtenerTamanio());
         }
     }
 
@@ -283,7 +281,7 @@ public  class TableroView {
 
     private void actualizarPantalla(GraphicsContext graphics){
         graphics.setFill(Color.BLACK);
-        graphics.fillRect(0, 0, ANCHO, ALTO);
+        graphics.fillRect(0, 0, this.juegoController.getCargadorDeNivel().getAnchoDeNivel(), this.juegoController.getCargadorDeNivel().getAltoDeNivel());
         dibujarBloques(graphics);
         dibujarJugadores(graphics);
         dibujarEnemigos(graphics);

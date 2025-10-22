@@ -9,8 +9,8 @@ public class Jugador extends Tanque{
     private long tiempoInvulnerable;
     private boolean disparoMejorado;
 
-    public Jugador(String nombre, double x, double y, double velocidadMovBase) {
-        super(x, y, velocidadMovBase,3,5);
+    public Jugador(String nombre, double x, double y, double velocidadMovBase, int radioColision) {
+        super(x, y, velocidadMovBase,3, radioColision);
         this.nombre = nombre;
         this.congelado = false;
         this.tiemporDescongelacion = 0;

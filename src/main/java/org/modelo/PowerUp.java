@@ -4,7 +4,7 @@ public class PowerUp extends Bloque{
     private final TipoPowerUp tipoPowerUp;
     private AreaColisionable areaColisionable;
     public PowerUp(double coordenadaX, double coordenadaY, TipoPowerUp powerUp) {
-        super(coordenadaX, coordenadaY);
+        super(coordenadaX, coordenadaY,false,false);
         tipoPowerUp=powerUp;
         areaColisionable = new AreaColisionable(posicion, 10);
 
@@ -16,10 +16,6 @@ public class PowerUp extends Bloque{
         return TipoBloque.POWERUP;
     }
 
-    @Override
-    public boolean esColisionable() {
-        return false;
-    }
     public TipoPowerUp obtenerTipoPowerUp(){
         return tipoPowerUp;
     }
@@ -33,11 +29,6 @@ public class PowerUp extends Bloque{
 
 
         }
-    }
-
-    @Override
-    public boolean impideElPaso() {
-        return false;
     }
 
     public boolean esGranada(){

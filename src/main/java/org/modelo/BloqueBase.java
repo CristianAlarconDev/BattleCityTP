@@ -4,7 +4,7 @@ public class BloqueBase extends Bloque implements Colisionable {
     private int resistencia;
     private AreaColisionable areaColisionable;
     public BloqueBase(Vector2D posicion) {
-        super(posicion.obtenerCoordenadaX(), posicion.obtenerCoordenadaY());
+        super(posicion.obtenerCoordenadaX(), posicion.obtenerCoordenadaY(),false,true);
         this.resistencia = 1;
         areaColisionable = new AreaColisionable(posicion, 10);
     }
@@ -16,21 +16,6 @@ public class BloqueBase extends Bloque implements Colisionable {
             return ResultadoImpacto.BASE_DESTRUIDA;
     }
 
-    public double obtenerCoordenadaX(){
-        return posicion.obtenerCoordenadaX();
-    }
-    public double obtenerCoordenadaY(){
-        return posicion.obtenerCoordenadaY();
-    }
-
-
-    @Override
-    public boolean esColisionable() {
-        return true;
-    }
-    public boolean impideElPaso() {
-        return false;
-    }
     public AreaColisionable obtenerAreaColisionable(){
         return areaColisionable;
     }

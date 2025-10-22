@@ -9,6 +9,13 @@ import java.io.File;
 
 
 public class CargadorDeNivel {
+    private int altoDeNivel;
+    private int anchoDeNivel;
+
+    public CargadorDeNivel(){
+        this.altoDeNivel = ConstantesJuego.ALTO_MAPA;
+        this.anchoDeNivel = ConstantesJuego.ANCHO_MAPA;
+    }
 
     public NivelModel cargarNivel(String archivoxml, String archivoxsd, int cantidadDeJugadores, String nombre1, String nombre2) throws Exception{
         System.out.println("Cargando nivel: " + archivoxml);
@@ -33,7 +40,7 @@ public class CargadorDeNivel {
         Document document = builder.parse(xmlFile);
         document.getDocumentElement().normalize();
 
-        NivelModel nivel = new NivelModel(800, 600);
+        NivelModel nivel = new NivelModel(anchoDeNivel, altoDeNivel);
 
 
         Element root = document.getDocumentElement(); // <levelConfig>
@@ -53,11 +60,11 @@ public class CargadorDeNivel {
             int xPx = Integer.parseInt(elem.getAttribute("x"));
             int yPx = Integer.parseInt(elem.getAttribute("y"));
             if (i==0){
-                Jugador jugador = new Jugador(nombre1, xPx, yPx, 2);
+                Jugador jugador = new Jugador(nombre1, xPx, yPx, 2, ConstantesJuego.RADIO_AREA_COLISION_JUGADOR);
                 nivel.agregarJugador(jugador);
             }
             else {
-                Jugador jugador = new Jugador(nombre2, xPx, yPx, 2);
+                Jugador jugador = new Jugador(nombre2, xPx, yPx, 2, ConstantesJuego.RADIO_AREA_COLISION_JUGADOR);
                 nivel.agregarJugador(jugador);
             }
         }
@@ -97,5 +104,15 @@ public class CargadorDeNivel {
         validator.validate(new StreamSource(xml));
 
     }
+
+    public int getAltoDeNivel() {
+        return altoDeNivel;
+    }
+
+    public int getAnchoDeNivel() {
+        return anchoDeNivel;
+    }
+
+
 
 }
