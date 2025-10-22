@@ -53,6 +53,9 @@ public class JuegoController {
         return juego.obtenerPowerUps();
     }
 
+    public List<Integer> vidasJugadores(){
+        return juego.obtenerVidasDeJugadores();
+    }
     public void actualizarJuego() {
         juego.actualizar();
     }
