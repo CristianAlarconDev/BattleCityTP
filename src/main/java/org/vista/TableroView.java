@@ -175,11 +175,13 @@ public  class TableroView {
 
                 } else if (juegoController.terminoNivelEnVictoria()) {
                     stop();
+                    mediaPlayer.stop();
                     onNivelCompletado.run();
 
                 }
                 else if(juegoController.terminoJuegoEnVictoria()){
                     stop();
+                    mediaPlayer.stop();
                     onJuegoCompletado.run();
                 }
             }
