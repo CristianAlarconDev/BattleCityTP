@@ -13,6 +13,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.media.MediaPlayer;
 import org.modelo.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -167,6 +168,8 @@ public  class TableroView {
                 inputController.procesarInputs();
                 juegoController.actualizarJuego();
                 actualizarPantalla(graphics);
+                List<Integer> vidas = juegoController.vidasJugadores();
+                hudView.actualizarStats(vidas);
                 if (juegoController.terminoEnDerrota()) {
                     stop();
                     mediaPlayer.stop();
