@@ -1,0 +1,32 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="TP1">
+    <output-path>$PROJECT_DIR$/out/artifacts/TP1</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="org.vista.JuegoApp" />
+        <option name="description" value="" />
+        <option name="height" value="640" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="nativeBundle" value="exe" />
+        <option name="title" value="" />
+        <option name="vendor" value="" />
+        <option name="version" value="" />
+        <option name="width" value="800" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="TP1.jar">
+        <element id="module-output" name="TP1" />
+      </element>
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-media:win:21.0.2" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-graphics:win:21.0.2" />
+      <element id="library" level="project" name="Maven: org.jetbrains:annotations:26.0.2-1" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-base:win:21.0.2" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-controls:21.0.2" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-graphics:21.0.2" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-media:21.0.2" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-base:21.0.2" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-controls:win:21.0.2" />
+    </root>
+  </artifact>
+</component>
