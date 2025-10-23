@@ -1,42 +1,61 @@
-Universidad de Buenos Aires
-Facultad de Ingeniería (FIUBA)
-Carrera: Ingenieria Informatica
-Materia: Paradigmas de Programación (TB025)
+<p >
+  <img src="https://upload.wikimedia.org/wikipedia/commons/0/0d/FIUBA_gris_transparente.png" 
+width="200" alt="Logo-FIUBA"/>
+</p>
+
+<h1 >Universidad de Buenos Aires</h1>
+<h2 >Facultad de Ingeniería (FIUBA)</h2>
+
+### Carrera: Ingeniería Informática
+
+### Materia: 75.40 - Paradigmas de Programación (TB025)
 
 ---
 
-Docentes
-Diego Essaya
-Santiago Maraggi
+### Cátedra
+* **Docentes:** Diego Essaya, Santiago Maraggi
+* **Docente Corrector:** Alberto Alejandro Carmona
+---
 
-Docente corrector: Alberto Alejandro Carmona
+###  Grupo: "Instanciados"
+
+* **Alarcon, Cristian** - Padrón: 101803
+
+* **Martinez, Juan Ignacio** - Padrón: 94785
 
 ---
 
-Integrantes del Grupo "Instanciados"
-Alarcon Cristian - Padrón: 101803
-Martinez Juan Ignacio - Padrón: 94785
+### 👾 Yet Another Battle City 👾
+
+Este proyecto consiste en el desarrollo de una versión del videojuego **Battle City**, utilizando **Java** y **JavaFX** para la inrefaz gráfica.
+
+### Objetivos 
+
+El trabajo tiene como objetivo principal fortalecer conceptos de **Programación Orientada a Objetos (POO)**, tales como:
+
+* Herencia , polimorfismo, abstracción, encapsulamiento,etc.
+* Principios de diseño .
+* Separación en capas (Modelo y Vista).
+* Programación orientada a eventos.
+
+---
+**Requisitos:**
+* Java JDK (versión 24)
+* JavaFX (versión 21)
+* Maven (opcional, si lo usan)
 
 ---
 
-Proyecto: Yet Another Battle City
-Este proyecto consiste en el desarrollo de una versión del videojuego Battle City, utilizando Java y JavaFX.
+### Instrucciones de Ejecución
 
-El trabajo tiene como objetivo principal fortalecer conceptos de Programación Orientada a Objetos (POO), tales como:
-Herencia y polimorfismo
-Principios de diseño y buenas prácticas
-Separación en capas (modelo y vista)
-Programación orientada a eventos
+1 - Clonar el repositorio:
+```
+  git clone https://github.com/paradigmas-tb025-essaya/tp1-instanciados
+```
+2 - Abrir el proyecto con el IDE IntelliJ.
 
-
----
-
-Instrucciones de Ejecución
-Clonar el repositorio:```bash
-git clone https://github.com/paradigmas-tb025-essaya/tp1-instanciados
-``
-2- Abrir el proyecto con intellij
-3-dirigirse al simbolo de Maven que se encuentra situado arriba a la derecha de la pantalla -> plugins -> JavaFX -> JavaFX.run
+3 - Dirigirse al simbolo de Maven que se encuentra situado arriba a la derecha de la pantalla
+→ plugins →  JavaFX →  JavaFX.run
 
 ---
 
@@ -53,15 +72,15 @@ Todos los jugadores pierden todas sus vidas.
 ### Controles
 
 - **Jugador 1:**
-    - ↑ (W) → Mover arriba
-    - ↓ (S) → Mover abajo
-    - ← (A) → Mover izquierda
-    - → (D) → Mover derecha
-    - Espacio → Disparar
+    - ↑ (W) : Mover arriba
+    - ↓ (S) : Mover abajo
+    - ← (A) : Mover izquierda
+    - → (D) : Mover derecha
+    - Espacio :Disparar
 
 - **Jugador 2:**
-    - ↑ → Mover arriba
-    - ↓ → Mover abajo
-    - ← → Mover izquierda
-    - → → Mover derecha
-    - Enter` → Disparar
+    - ↑ : Mover arriba
+    - ↓ : Mover abajo
+    - ← : Mover izquierda
+    - → : Mover derecha
+    - Enter : Disparar
